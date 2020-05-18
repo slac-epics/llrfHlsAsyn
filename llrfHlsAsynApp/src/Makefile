@@ -24,7 +24,7 @@ DBD +=
 LIBRARY_IOC += llrfHlsAsyn
 
 llrfHlsAsyn_DBD  += 
-llrfHlsAsyn_SRCS += crossbarControl.cpp
+llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)

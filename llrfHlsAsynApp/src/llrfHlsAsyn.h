@@ -118,7 +118,7 @@ class llrfHlsAsynDriver
 #define P_FB_OFFSET_STR              "p_fb_offset"       // phase offset for feedback, in degree
 #define P_GAIN_STR                   "p_gain"            // gain for phase loop
 #define A_GAIN_STR                   "a_gain"            // gain for amplitude loop
-#define REF_SUBTRACTION_ENABLE_STR   "p_subtraction_enable"  // phase substraction contgrol enable/disable
+#define REF_SUBTRACTION_ENABLE_STR   "ref_subtraction_enable"  // phase substraction contgrol enable/disable
 #define FB_PHASE_ENABLE_STR          "fb_phase_enable"   // phase feedback control, enable/disable
 #define FB_AMPL_ENABLE_STR           "fb_ampl_enable"    // amplitude feedback control, enable/disable
 #define P_CORR_UPPER_STR             "p_corr_upper"      // phase correction upper limit

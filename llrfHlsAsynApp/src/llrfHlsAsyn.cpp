@@ -76,6 +76,17 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     status = (asynStatus) setIntegerParam(function, value);
 
+    if(function == p_ref_subtraction_enable) {  // reference subtraction control
+        llrfHls->setReferenceSubtractionEnable(value?true:false);
+    }
+    else if(function == p_fb_phase_enable) {    // phase loop control
+        llrfHls->setPhaseFeedbackEnable(value?true:false);
+    }
+    else if(function == p_fb_ampl_enable) {    // amplitude loop control
+        llrfHls->setAmplFeedbackEnable(value?true:false);
+    }
+    
+
     return status;
 }
 
@@ -87,6 +98,63 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
 
     status = (asynStatus) setDoubleParam(function, value);
 
+    if(function == p_p_ref_offset) {  // phase offset for reference
+        llrfHls->setPhaseReferenceOffset(value);
+    }
+    else if(function == p_p_fb_offset) {  // phase offset for feedback
+        llrfHls->setPhaseFeedbackOffset(value);
+    }
+    else if(function == p_p_gain) { // gain for phase loop
+        llrfHls->setPhaseGain(value);
+    }
+    else if(function == p_a_gain) { // gain for amplitude loop
+        llrfHls->setAmplGain(value);
+    }
+    else if(function == p_p_corr_upper) {  // phase correction upper limit
+        llrfHls->setPhaseCorrectionUpperLimit(value);
+    }
+    else if(function == p_p_corr_lower) {  // phase correction lower limit
+        llrfHls->setPhaseCorrectionLowerLimit(value);
+    }
+    else if(function == p_a_corr_upper) {  // amplitude correction upper limit
+        llrfHls->setAmplCorrectionUpperLimit(value);
+    }
+    else if(function == p_a_corr_lower) {  // amplitude correction lower limit
+        llrfHls->setAmplCorrectionLowerLimit(value);
+    }
+    else if(function == p_a_drv_upper) {  // amplitude correction upper limit
+        llrfHls->setAmplDriveUpperLimit(value);
+    }
+    else if(function == p_a_drv_lower) {  // amplitude corrrection lower limit
+        llrfHls->setAmplDriveLowerLimit(value);
+    }
+
+    for(int i = 0; i < NUM_CH; i++) {   // search for channel number
+        if(function == p_ref_weight_ch[i]) {    // channel weight for reference
+            llrfHls->setReferenceChannelWeight(value, i);
+            break;
+        }
+        else if(function == p_fb_weight_ch[i]) {  // channel weight for feedback
+            llrfHls->setFeedbackChannelWeight(value, i);
+            break;
+        }
+        else if(function == p_p_offset_ch[i]) {    // phase offset for channel
+            llrfHls->setPhaseOffset(value, i);
+            break;
+        }
+    }
+
+    for(int i = 0; i < NUM_TIMESLOT; i++) {    // search for timeslot
+         if(function == p_p_des_ts[i]) {  // desired phase for a specific timeslot
+             llrfHls->setDesiredPhase(value, i);
+             break;
+         }
+         else if(function == p_a_des_ts[i]) {  // desired amplitude for a specific timeslot
+             llrfHls->setDesiredAmpl(value, i);
+             break;
+         }
+    }
+    
 
     return status;
 }

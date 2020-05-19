@@ -159,6 +159,98 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     return status;
 }
 
+asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements)
+{
+    int        function      = pasynUser->reason;
+    asynStatus status        = asynSuccess;
+    const char *functionName = "writeFloat64Array";
+
+    if(function == p_avg_window && nElements == MAX_SAMPLES) {    // update average window
+        llrfHls->setAverageWindow(value);
+    }
+
+    return status;
+
+}
+
+
+void llrfHlsAsynDriver::poll(void)
+{
+    llrfHls->getPhaseAllChannels(phase_ch);
+    llrfHls->getAmplAllChannels(ampl_ch);
+    llrfHls->getFeedbackPhaseAllTimeslots(fb_phase_ts);
+    llrfHls->getFeedbackAmplAllTimeslots(fb_ampl_ts);
+    llrfHls->getReferencePhaseAllTimeslots(ref_phase_ts);
+    llrfHls->getReferenceAmplAllTimeslots(ref_ampl_ts);
+    llrfHls->getPhaseSetAllTimeslots(phase_set_ts);
+    llrfHls->getAmplSetAllTimeslots(ampl_set_ts);
+
+    for(int i = 0; i < NUM_CH; i++) {
+        llrfHls->getIWaveform(i_wf_ch[i], i);
+        llrfHls->getQWaveform(q_wf_ch[i], i);
+    }
+
+
+
+    updatePVs();
+    callParamCallbacks();
+}
+
+void llrfHlsAsynDriver::updatePVs(void)
+{
+    updatePhasePVsforAllChannels();
+    updateAmplPVsforAllChannels();
+    updateFeedbackPhasePVsforAllTimeslots();
+    updateFeedbackAmplPVsforAllTimeslots();
+    updateReferencePhasePVsforAllTimeslots();
+    updateReferenceAmplPVsforAllTimeslots();
+
+}
+
+
+void llrfHlsAsynDriver::updatePhasePVsforAllChannels(void)
+{
+    for(int i = 0; i < NUM_CH; i++) {
+        setDoubleParam(p_p_ch[i], phase_ch[i]);
+    }
+}
+
+void llrfHlsAsynDriver::updateAmplPVsforAllChannels(void)
+{
+    for(int i = 0; i < NUM_CH; i++) {
+        setDoubleParam(p_a_ch[i], ampl_ch[i]);
+    }
+}
+
+void llrfHlsAsynDriver::updateFeedbackPhasePVsforAllTimeslots(void)
+{
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_p_fb_ts[i], fb_phase_ts[i]);
+    }
+}
+
+
+void llrfHlsAsynDriver::updateFeedbackAmplPVsforAllTimeslots(void)
+{
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_a_fb_ts[i], fb_ampl_ts[i]);
+    }
+}
+
+
+void llrfHlsAsynDriver::updateReferencePhasePVsforAllTimeslots(void)
+{
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_p_ref_ts[i], ref_phase_ts[i]);
+    }
+}
+
+void llrfHlsAsynDriver::updateReferenceAmplPVsforAllTimeslots(void)
+{
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_a_ref_ts[i], ref_ampl_ts[i]);
+    }
+}
 
 
 void llrfHlsAsynDriver::ParameterSetup(void)

@@ -31,11 +31,34 @@ class llrfHlsAsynDriver
         ~llrfHlsAsynDriver();
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
+        asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
+        void poll(void);
+        void updatePVs(void);
+        void updatePhasePVsforAllChannels(void);
+        void updateAmplPVsforAllChannels(void);
+        void updateFeedbackPhasePVsforAllTimeslots(void);
+        void updateFeedbackAmplPVsforAllTimeslots(void);
+        void updateReferencePhasePVsforAllTimeslots(void);
+        void updateReferenceAmplPVsforAllTimeslots(void);
 
     private:
         char *port;
         char *path;
         llrfFw  llrfHls;
+
+        /* internal buffers */
+        epicsFloat64  phase_ch[NUM_CH];            // phase reading for all channels
+        epicsFloat64  ampl_ch[NUM_CH];             // amplitude reading for all channels
+        epicsFloat64  fb_phase_ts[NUM_TIMESLOT];   // phase for feedback loop for all timeslots
+        epicsFloat64  fb_ampl_ts[NUM_TIMESLOT];    // amplitude for feedback loop for all timeslots
+        epicsFloat64  ref_phase_ts[NUM_TIMESLOT];  // phase for reference for all timeslots
+        epicsFloat64  ref_ampl_ts[NUM_TIMESLOT];   // amplitude for reference for all timeslots
+        epicsFloat64  phase_set_ts[NUM_TIMESLOT];  // phase set values for all timeslots
+        epicsFloat64  ampl_set_ts[NUM_TIMESLOT];   // amplitude set values for all timeslots
+
+        epicsFloat64  i_wf_ch[NUM_CH][MAX_SAMPLES];    // i waveform for all channels
+        epicsFloat64  q_wf_ch[NUM_CH][MAX_SAMPLES];    // q waveform for all channels
+
         void ParameterSetup(void);
 
 

@@ -50,9 +50,46 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
                      0, /* Default priority */
                      0) /* Default stack size*/
 {
+    Path p_root;
+    Path p_llrfHls;
+    port = epicsStrDup(portName);
+    path = epicsStrDup(pathString);
+
+    try {
+        p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
+        p_llrfHls = p_root->findByName(pathString);
+    } catch (CPSWError &e) {
+        fprintf(stderr, "CPSW Error: %s, file %s, line %d\n", e.getInfo().c_str(), __FILE__, __LINE__);
+        throw e;
+    }
+
+    llrfHls = IllrfFw::create(p_llrfHls);
 }
 
 llrfHlsAsynDriver::~llrfHlsAsynDriver() {}
+
+asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+    int        function      = pasynUser->reason;
+    asynStatus status        = asynSuccess;
+    const char *functionName = "writeInt32";
+
+    status = (asynStatus) setIntegerParam(function, value);
+
+    return status;
+}
+
+asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
+{
+    int        function      = pasynUser->reason;
+    asynStatus status        = asynSuccess;
+    const char *functionName = "writeFloat64";
+
+    status = (asynStatus) setDoubleParam(function, value);
+
+
+    return status;
+}
 
 
 

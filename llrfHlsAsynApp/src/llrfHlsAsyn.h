@@ -8,7 +8,7 @@
 #include <epicsTime.h>
 
 #include <cpsw_api_user.h>
-#include <atcaCommon.h>
+#include <llrfFw.h>
 #include <vector>
 #include <string>
 #include <dlfcn.h>
@@ -29,11 +29,13 @@ class llrfHlsAsynDriver
     public:
         llrfHlsAsynDriver(const char *portName, const char *pathString, const char *named_root = NULL);
         ~llrfHlsAsynDriver();
+        asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
+        asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
 
     private:
         char *port;
         char *path;
-
+        llrfFw  llrfHls;
         void ParameterSetup(void);
 
 

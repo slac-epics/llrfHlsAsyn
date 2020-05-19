@@ -14,7 +14,7 @@ INCLUDES += $(addprefix -I,$(BOOST_INCLUDE))
 ## this part is just for yaml loader driver
 INCLUDES += $(addprefix -I,$(CPSW_FRAMEWORK_INCLUDE))
 
-INCLUDES += $(addprefix -I,$(COMMONATCA_INCLUDE))
+INCLUDES += $(addprefix -I,$(LLRFHLS_INCLUDE))
 
 INC +=
 
@@ -28,10 +28,10 @@ llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)
-commonATCA_DIR = $(COMMONATCA_LIB)
+llrfHls_DIR = $(LLRFHLS_LIB)
 
 llrfHlsAsyn_LIBS += cpsw
-llrfHlsAsyn_LIBS += commonATCA
+llrfHlsAsyn_LIBS += llrfHls
 llrfHlsAsyn_LIBS += asyn
 llrfHlsAsyn_LIBS += yamlLoader
 llrfHlsAsyn_LIBS += $(EPICS_BASE_IOC_LIBS)

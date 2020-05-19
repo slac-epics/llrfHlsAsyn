@@ -56,6 +56,8 @@ class llrfHlsAsynDriver
         epicsFloat64  phase_set_ts[NUM_TIMESLOT];  // phase set values for all timeslots
         epicsFloat64  ampl_set_ts[NUM_TIMESLOT];   // amplitude set values for all timeslots
 
+        epicsFloat64  avg_window[MAX_SAMPLES];     // average window
+
         epicsFloat64  i_wf_ch[NUM_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_CH][MAX_SAMPLES];    // q waveform for all channels
 

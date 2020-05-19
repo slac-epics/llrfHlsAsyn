@@ -167,6 +167,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
     if(function == p_avg_window && nElements == MAX_SAMPLES) {    // update average window
         llrfHls->setAverageWindow(value);
+        memcpy(avg_window, value, sizeof(avg_window));
     }
 
     return status;

@@ -16,6 +16,7 @@
 #include <cantProceed.h>
 #include <epicsTypes.h>
 #include <epicsTime.h>
+#include <epicsExit.h>
 #include <epicsThread.h>
 #include <epicsString.h>
 #include <epicsTimer.h>
@@ -36,6 +37,9 @@
 #include <asynOctetSyncIO.h>
 
 #include "llrfHlsAsyn.h"
+
+static bool          keep_stay_in_loop = true;
+static epicsEventId  shutdownEvent;
 
 static ELLLIST *pDrvEllList = NULL;
 
@@ -418,7 +422,7 @@ epicsExportRegistrar(llrfHlsAsynDriverRegister);
 
 static int llrfHlsAsynDriverPoll(void)
 {
-    while(1) {
+    while(keep_stay_in_loop) {
         pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
         while(p) {
             if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->poll();
@@ -427,9 +431,17 @@ static int llrfHlsAsynDriverPoll(void)
         epicsThreadSleep(1.);
     }
 
+    epicsEventSignal(shutdownEvent);
+
     return 0;
 }
 
+static void stopPollingThread(void *p)
+{
+    keep_stay_in_loop = false;
+    epicsEventWait(shutdownEvent);
+    epicsPrintf("llrfHlsAsynDriver: stop polling thread (%s)\n", (char *)p);
+}
 
 
 // EPICS driver support for llrfHlsAsynDriver
@@ -462,9 +474,15 @@ static int llrfHlsAsynDriverInitialization(void)
         return 0;
     }
 
-    epicsThreadCreate("llrfHlsPoll", epicsThreadPriorityMedium,
+    keep_stay_in_loop = true;
+    shutdownEvent     = epicsEventMustCreate(epicsEventEmpty);
+    const char *name  = "llrfHlsPoll";
+
+    epicsThreadCreate(name, epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackMedium),
                       (EPICSTHREADFUNC) llrfHlsAsynDriverPoll, 0);
+
+    epicsAtExit3((epicsExitFunc) stopPollingThread, (void *) epicsStrDup(name), epicsStrDup(name));
 
     return 0;
 }

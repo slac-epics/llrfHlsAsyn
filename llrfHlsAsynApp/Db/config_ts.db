@@ -1,0 +1,34 @@
+record(ao, "$(DEVICE):PDES$(TS_N)")
+{
+    field(PINI, "YES")
+    field(DESC, "desired phase for timeslot $(TS)")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) p_des_ts$(TS)")
+    field(OMSL, "superviaory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+
+record(ao, "$(DEVICE):ADES$(TS_N)")
+{
+    field(PINI, "YES")
+    field(DESC, "desired amplitude for timeslot $(TS)")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) a_des_ts$(TS)")
+    field(OMSL, "superviaory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+

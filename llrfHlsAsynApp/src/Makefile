@@ -16,14 +16,14 @@ INCLUDES += $(addprefix -I,$(CPSW_FRAMEWORK_INCLUDE))
 
 INCLUDES += $(addprefix -I,$(LLRFHLS_INCLUDE))
 
-INC +=
+INC += llrfHlsAsyn.h
 
-DBD += 
+DBD += llrfHlsAsynDriver.dbd
 
 
 LIBRARY_IOC += llrfHlsAsyn
 
-llrfHlsAsyn_DBD  += 
+llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
 
 

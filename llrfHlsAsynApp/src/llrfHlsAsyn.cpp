@@ -37,6 +37,55 @@
 
 #include "llrfHlsAsyn.h"
 
+static ELLLIST *pDrvEllList = NULL;
+
+typedef struct {
+    ELLNODE           node;
+    char              *named_root;
+    char              *port;
+    char              *regPath;
+    llrfHlsAsynDriver *pLlrfHlsAsyn;
+} pDrvList_t;
+
+
+static void init_drvList(void)
+{
+    if(!pDrvEllList) {
+        pDrvEllList = (ELLLIST *) mallocMustSucceed(sizeof(ELLLIST), "llrfHlsAsyn driver: init_drvList()");
+        ellInit(pDrvEllList);
+    }
+
+    return;
+}
+
+static pDrvList_t *find_drvByPort(const char *port)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+      if(p->port && strlen(p->port) && !strcmp(p->port, port)) break;
+      p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+static pDrvList_t *find_drvByNamedRoot(const char *named_root)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+        if(p->named_root && strlen(p->named_root) && !strcmp(p->named_root, named_root)) break;
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+
+
 llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathString, const char *named_root)
     : asynPortDriver(portName,
                      1, /* number of elements of this device */
@@ -312,3 +361,58 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     }
 }
+
+
+
+
+extern "C" {
+
+// driver configuration, C wrapper 
+int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *named_root)
+{
+    init_drvList();
+
+    pDrvList_t *p = find_drvByPort(portName);
+    if(p) {
+        printf("llrfHlsAsynDriver found that port name (%s) has been used.\n");
+        return 0;
+    }
+
+    p               = (pDrvList_t *) mallocMustSucceed(sizeof(pDrvList_t), "llrfHlsAsyn driver: llrfHlsAsynDriverConfigure()");
+    p->named_root   = (named_root && strlen(named_root))?epicsStrDup(named_root):cpswGetRootName();
+    p->port         = epicsStrDup(portName);
+    p->regPath      = epicsStrDup(regPathString);
+    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->named_root);
+
+    ellAdd(pDrvEllList, &p->node);
+
+    return 0;
+}
+
+
+
+// prepare iocsh commnand
+static const iocshArg initArg0 = {"port name",      iocshArgString};
+static const iocshArg initArg1 = {"register path",  iocshArgString};
+static const iocshArg initArg2 = {"named_root",     iocshArgString};
+static const iocshArg * const initArgs[] = { &initArg0,
+                                             &initArg1,
+                                             &initArg2 };
+static const iocshFuncDef initFuncDef = {"llrfHlsAsynDriverConfigure", 3, initArgs};
+static void  initCallFunc(const iocshArgBuf *args)
+{
+    llrfHlsAsynDriverConfigure(args[0].sval,     /* port name */
+                               args[1].sval,     /* register path */
+                               (args[2].sval && strlen(args[2].sval))?args[2].sval: NULL /* named_root */ );
+}
+
+
+static void llrfHlsAsynDriverRegister(void)
+{
+    iocshRegister(&initFuncDef,  initCallFunc);
+}
+
+
+epicsExportRegistrar(llrfHlsAsynDriverRegister);
+
+} /* end of extern C */

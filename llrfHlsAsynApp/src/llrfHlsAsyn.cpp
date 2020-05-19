@@ -415,4 +415,59 @@ static void llrfHlsAsynDriverRegister(void)
 
 epicsExportRegistrar(llrfHlsAsynDriverRegister);
 
+
+static int llrfHlsAsynDriverPoll(void)
+{
+    while(1) {
+        pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+        while(p) {
+            if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->poll();
+            p = (pDrvList_t *) ellNext(&p->node);
+        }
+        epicsThreadSleep(1.);
+    }
+
+    return 0;
+}
+
+
+
+// EPICS driver support for llrfHlsAsynDriver
+
+static int llrfHlsAsynDriverReport(int interest);
+static int llrfHlsAsynDriverInitialize(void);
+
+static struct drvet llrfHlsAsynDriver = {
+    2,
+    (DRVSUPFUN) llrfHlsAsynDriverReport,
+    (DRVSUPFUN) llrfHlsAsynDriverInitialize
+};
+
+epicsExportAddress(drvet, llrfHlsAsynDriver);
+
+
+
+static int llrfHlsAsynDriverReport(int interest)
+{
+    return 0;
+}
+
+static int llrfHlsAsynDriverInitialization(void)
+{
+
+    init_drvList();
+
+    if(!pDrvEllList) {
+        printf("llrfHlsAsynDriver never been configured\n");
+        return 0;
+    }
+
+    epicsThreadCreate("llrfHlsPoll", epicsThreadPriorityMedium,
+                      epicsThreadGetStackSize(epicsThreadStackMedium),
+                      (EPICSTHREADFUNC) llrfHlsAsynDriverPoll, 0);
+
+    return 0;
+}
+
+
 } /* end of extern C */

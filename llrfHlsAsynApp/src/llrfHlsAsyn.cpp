@@ -206,6 +206,8 @@ void llrfHlsAsynDriver::updatePVs(void)
     updateReferencePhasePVsforAllTimeslots();
     updateReferenceAmplPVsforAllTimeslots();
 
+    flushIQWaveformsforAllChannels();
+
 }
 
 
@@ -253,6 +255,15 @@ void llrfHlsAsynDriver::updateReferenceAmplPVsforAllTimeslots(void)
     }
 }
 
+
+void llrfHlsAsynDriver::flushIQWaveformsforAllChannels(void)
+{
+    for(int i = 0; i < NUM_CH; i++) {
+        doCallbacksFloat64Array(i_wf_ch[i], MAX_SAMPLES, p_i_wf_ch[i], 0);
+        doCallbacksFloat64Array(q_wf_ch[i], MAX_SAMPLES, p_q_wf_ch[i], 0);
+    }
+
+}
 
 void llrfHlsAsynDriver::ParameterSetup(void)
 {

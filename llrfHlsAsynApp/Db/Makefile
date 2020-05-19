@@ -13,7 +13,7 @@ include $(TOP)/configure/CONFIG
 # #
 #
 # llrfHlsAsyn
-# DB +=
+DB += llrfHlsAsyn.db
 
 
 # =======================================================================

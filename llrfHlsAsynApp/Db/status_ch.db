@@ -1,0 +1,29 @@
+record(ai, "$(DEVICE):PHASE$(CH_N)")
+{
+    field(DESC, "phase reading for channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) p_act_ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):AMPL$(CH_N)")
+{
+    field(DESC, "amplitude reading for channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) a_act_ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+

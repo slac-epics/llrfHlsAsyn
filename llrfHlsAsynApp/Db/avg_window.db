@@ -1,0 +1,12 @@
+record(waveform, "$(DEVICE):AVGWND")
+{
+    field(PINI, "YES")
+    field(DESC, "average window")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) ")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+    info(autosaveFields, "VAL")
+}
+

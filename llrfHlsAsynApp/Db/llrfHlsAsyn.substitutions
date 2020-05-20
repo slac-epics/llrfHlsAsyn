@@ -102,5 +102,11 @@ file iq_wf_ch.db
             {  9,   09, 4096 }
 }
 
+file avg_window.db
+{
+    pattern { NELM }
+            { 4096 }
+}
+
 
 

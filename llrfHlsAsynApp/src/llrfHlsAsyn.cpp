@@ -464,7 +464,7 @@ static int llrfHlsAsynDriverReport(int interest)
     return 0;
 }
 
-static int llrfHlsAsynDriverInitialization(void)
+static int llrfHlsAsynDriverInitialize(void)
 {
 
     init_drvList();

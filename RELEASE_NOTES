@@ -1,3 +1,7 @@
+R1.0.0      06-04-2020    Kukhee Kim (khkim)
+                        - first working version release
+                        - build with llrfHls R1.0.0
+                         
 
 R0.0.0      05-18-2020    Kukhee Kim (khkim)
                         - Initial release for llrfHlsAsyn epics driver

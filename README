@@ -1,3 +1,10 @@
 #
 #    llrfHlsAsyn epics driver
 #
+
+# driver configuration
+
+llrfHlsAsynDriverConfigure('port', 'register path', 'named_root')
+register path: /mmio/AppCore/AppLlrfCore/LlrfFeedbackWrapper
+
+# database template

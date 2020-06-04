@@ -1,10 +1,68 @@
 #
 #    llrfHlsAsyn epics driver
 #
+1. configure/CONFIG_SITE
+
+add LLRFHLS API as the folowings 
+remarks) the version will varies depends on release
+
+# LLRFHLS API
+LLRFHLS_PACKAGE_NAME=rf/llrfHls
+LLRFHLS_VERSION=llrfHls-git
+LLRFHLS_TOP=$(PACKAGE_SITE_TOP)/$(LLRFHLS_PACKAGE_NAME)/$(LLRFHLS_VERSION)
+LLRFHLS_LIB=$(LLRFHLS_TOP)/$(PKG_ARCH)/lib
+LLRFHLS_INCLUDE=$(LLRFHLS_TOP)/$(PKG_ARCH)/include
+
+
+2. configure/RELEASE.local
+
+add LLRFHLSASYN module as the followings
+remarks) the version will varies depends on release
+
+LLRFHLSASYN_MODULE_VERSION=llrfHlsAsyn-git
+LLRFHLSASYN=$(EPICS_MODULES)/llrfHlsAsyn/$(LLRFHLSASYN_MODULE_VERSION)
+
+
+3. <application>/src/Makefile
+
+add dbd and library for llrfHlsAsyn
+
+<application_name>_DBD += llrfHlsAsynDriver.dbd
+<application_name>_LIB += llrfHlsAsyn
+
+add llrfHls API 
+
+llrfHls_DIR = $(LLRFHLS_LIB)
+USR_LIB_Linux += llrfHls
+
+
+4. <application>/Db/Makefile
+
+add database template for llrfHlsAsy
+
+DB_INSTALLS += $(LLRFHLSASYN)/db/llrfHlsASyn.db
+
+
+
+5. iocBoot/<ioc_name>/st.cmd
 
 # driver configuration
+#################################################################
+#
+# llrfHlsAsynDriverConfigure('port', 'register path', 'named_root')
+#
+# port           : port name for asynPort driver, should be matched with dbLoadRecords
+# register path  : register path in hierarchy yaml, ex) mmio/AppTop/AppCore/Sysgen/LlrfFeedbackWrapper
+# named_root     : optional for multi-root system, ioc engineer can skip it for a single root system
 
-llrfHlsAsynDriverConfigure('port', 'register path', 'named_root')
-register path: /mmio/AppCore/AppLlrfCore/LlrfFeedbackWrapper
+llrfHlsAsynDriverConfigure("llrfHls0", "mmio/AppTop/AppCore/Sysgen/LlrfFeedbackWrapper")
+
+
 
 # database template
+#################################################################
+#
+# dbLoadRecord("db/llrfHlsAsyn.db", "DEV=${IOC_NAME}:$(INST),PORT=$(LLRFHLS_PORT)")
+
+dbLoadRecords("db/llrfHlsAsyn.db", "DEV=${IOC_NAME}:0,PORT=llrfHls0")
+

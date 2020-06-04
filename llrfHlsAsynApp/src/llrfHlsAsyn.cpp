@@ -117,6 +117,10 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     }
 
     llrfHls = IllrfFw::create(p_llrfHls);
+    ParameterSetup();
+
+
+    callParamCallbacks();
 }
 
 llrfHlsAsynDriver::~llrfHlsAsynDriver() {}
@@ -239,10 +243,12 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getPhaseSetAllTimeslots(phase_set_ts);
     llrfHls->getAmplSetAllTimeslots(ampl_set_ts);
 
+    /*
     for(int i = 0; i < NUM_CH; i++) {
         llrfHls->getIWaveform(i_wf_ch[i], i);
         llrfHls->getQWaveform(q_wf_ch[i], i);
     }
+    */
 
 
 

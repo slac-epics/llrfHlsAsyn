@@ -133,7 +133,13 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     status = (asynStatus) setIntegerParam(function, value);
 
-    if(function == p_ref_subtraction_enable) {  // reference subtraction control
+    if(function == p_stream_enable) { // stream enable/disable congtrol
+        llrfHls->setStreamEnable(value?true:false);
+    }
+    else if(function == p_mode_config) {  // trigger mode contgrol
+        llrfHls->setModeConfig((uint32_t) value);
+    }
+    else if(function == p_ref_subtraction_enable) {  // reference subtraction control
         llrfHls->setReferenceSubtractionEnable(value?true:false);
     }
     else if(function == p_fb_phase_enable) {    // phase loop control
@@ -327,6 +333,9 @@ void llrfHlsAsynDriver::flushIQWaveformsforAllChannels(void)
 void llrfHlsAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
+
+    sprintf(param_name, STREAM_ENABLE_STR);          createParam(param_name, asynParamInt32,   &p_stream_enable);
+    sprintf(param_name, MODE_CONFIG_STR);            createParam(param_name, asynParamInt32,   &p_mode_config);
 
     sprintf(param_name, P_REF_OFFSET_STR);           createParam(param_name, asynParamFloat64, &p_p_ref_offset);
     sprintf(param_name, P_FB_OFFSET_STR);            createParam(param_name, asynParamFloat64, &p_p_fb_offset);

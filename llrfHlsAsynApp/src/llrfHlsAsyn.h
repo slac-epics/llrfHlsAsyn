@@ -72,6 +72,9 @@ class llrfHlsAsynDriver
 #define FIRST_LLRFHLS_PARAM   firstLlrfHlsParam
 #endif /* ASYN VERSION CHECK under 4.32 */
 
+        int p_stream_enable;                  // steram enable: 1 , disable: 0
+        int p_mode_config;                    // trigger mode disable:0, accel: 1, stdby: 2, accel_or_stdby: 3
+
         int p_p_ref_offset;                   // phase offset of reference
         int p_p_fb_offset;                    // phase offset for feedback
         int p_p_gain;                         // gain for phase loop
@@ -114,6 +117,8 @@ class llrfHlsAsynDriver
 #define NUM_LLRFHLS_DET_PARAMS ((int)(&LAST_LLRFHLS_PARAM - &FIRST_LLRFHLS_PARAM-1))
 #endif /* asyn version check, under 4.32 */
 
+#define STREAM_ENABLE_STR            "stream_enable"     // stream enable, disable control
+#define MODE_CONFIG_STR              "mode_config"       // trigger mode configuraiton
 
 #define P_REF_OFFSET_STR             "p_ref_offset"      // phase offset for reference, in degree
 #define P_FB_OFFSET_STR              "p_fb_offset"       // phase offset for feedback, in degree

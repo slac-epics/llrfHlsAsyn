@@ -1,3 +1,37 @@
+record(bo, "$(DEVICE):STRMENB")
+{
+    field(PINI, "YES")
+    field(DESC, "BSA stream enable/disable")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) stream_enable")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    info(autosaveFields, "VAL")
+}
+
+
+record(mbbo, "$(DEVICE):MODECFG")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Mode Config")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) mode_config")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZRST, "Disable")
+    field(ONST, "Accel")
+    field(TWST, "StdBy")
+    field(THST, "AccelStdBy")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    info(autosaveFields, "VAL")
+}
+
+
 #
 record(ao, "$(DEVICE):REFPOC")
 {

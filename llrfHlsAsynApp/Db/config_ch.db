@@ -1,4 +1,4 @@
-record(ao, "$(DEVICE):REFWGT$(CH_N)")
+record(ao, "$(DEVICE):REFWGT$(CH)")
 {
     field(PINI, "YES")
     field(DESC, "reference weight for channel $(CH)")
@@ -14,7 +14,7 @@ record(ao, "$(DEVICE):REFWGT$(CH_N)")
     info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
 }
 
-record(ao, "$(DEVICE):FBWGT$(CH_N)")
+record(ao, "$(DEVICE):FBWGT$(CH)")
 {
     field(PINI, "YES")
     field(DESC, "feedback weight for channel $(CH)")
@@ -30,7 +30,7 @@ record(ao, "$(DEVICE):FBWGT$(CH_N)")
     info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
 }
 
-record(ao, "$(DEVICE):POC$(CH_N)")
+record(ao, "$(DEVICE):POC$(CH)")
 {
     field(PINI, "YES")
     field(DESC, "phase offset for channel $(CH)")

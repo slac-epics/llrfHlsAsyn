@@ -1,8 +1,8 @@
-record(ai, "$(DEVICE):PHASE$(CH_N)")
+record(ai, "$(DEVICE):PHASE_W$(WND)CH$(CH)")
 {
-    field(DESC, "phase reading for channel $(CH)")
+    field(DESC, "phase reading for windoe $(WND) channel $(CH)")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) p_act_ch$(CH)")
+    field(INP,  "@asyn($(PORT),0) p_act_w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(HHSV, "MAJOR")
@@ -12,11 +12,11 @@ record(ai, "$(DEVICE):PHASE$(CH_N)")
     info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
-record(ai, "$(DEVICE):AMPL$(CH_N)")
+record(ai, "$(DEVICE):AMPL_W$(WND)CH$(CH)")
 {
-    field(DESC, "amplitude reading for channel $(CH)")
+    field(DESC, "amplitude reading for window $(WND) channel $(CH)")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) a_act_ch$(CH)")
+    field(INP,  "@asyn($(PORT),0) a_act_w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(HHSV, "MAJOR")

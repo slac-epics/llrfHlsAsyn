@@ -1,4 +1,4 @@
-record(waveform, "$(DEVICE):IWF$(CH_N)")
+record(waveform, "$(DEVICE):IWF$(CH)")
 {
     field(DESC, "I waveform for channel $(CH)")
     field(DTYP, "asynFloat64ArrayIn")
@@ -8,7 +8,7 @@ record(waveform, "$(DEVICE):IWF$(CH_N)")
     field(NELM, "$(NELM)")
 }
 
-record(waveform, "$(DEVICE):QWF$(CH_N)")
+record(waveform, "$(DEVICE):QWF$(CH)")
 {
     field(DESC, "Q waveform for channel $(CH)")
     field(DTYP, "asynFloat64ArrayIn")

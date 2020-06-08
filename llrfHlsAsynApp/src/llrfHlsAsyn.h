@@ -18,7 +18,8 @@
 #include <fstream>
 
 
-#define NUM_CH           10        // number of channels
+#define NUM_FB_CH        10        // number of feedback channels
+#define NUM_WINDOW        3        // number of window
 #define NUM_TIMESLOT     18        // number of timeslot
 #define MAX_SAMPLES      4096      // number of samples in a waveform
 
@@ -48,8 +49,8 @@ class llrfHlsAsynDriver
         llrfFw  llrfHls;
 
         /* internal buffers */
-        epicsFloat64  phase_ch[NUM_CH];            // phase reading for all channels
-        epicsFloat64  ampl_ch[NUM_CH];             // amplitude reading for all channels
+        epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels
+        epicsFloat64  ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // amplitude reading for all channels
         epicsFloat64  fb_phase_ts[NUM_TIMESLOT];   // phase for feedback loop for all timeslots
         epicsFloat64  fb_ampl_ts[NUM_TIMESLOT];    // amplitude for feedback loop for all timeslots
         epicsFloat64  ref_phase_ts[NUM_TIMESLOT];  // phase for reference for all timeslots
@@ -57,10 +58,10 @@ class llrfHlsAsynDriver
         epicsFloat64  phase_set_ts[NUM_TIMESLOT];  // phase set values for all timeslots
         epicsFloat64  ampl_set_ts[NUM_TIMESLOT];   // amplitude set values for all timeslots
 
-        epicsFloat64  avg_window[MAX_SAMPLES];     // average window
+        // epicsFloat64  avg_window[NUM_WINDOW][MAX_SAMPLES];     // average window
 
-        epicsFloat64  i_wf_ch[NUM_CH][MAX_SAMPLES];    // i waveform for all channels
-        epicsFloat64  q_wf_ch[NUM_CH][MAX_SAMPLES];    // q waveform for all channels
+        epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
+        epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
 
         void ParameterSetup(void);
 
@@ -84,22 +85,22 @@ class llrfHlsAsynDriver
         int p_a_corr_lower;                   // amplitude correction lower limit
         int p_a_drv_upper;                    // amplitude drive upper limit
         int p_a_drv_lower;                    // amplitude drive lower limit
-        int p_ref_weight_ch[NUM_CH];          // channel weight for reference
-        int p_fb_weight_ch[NUM_CH];           // channel weight for feedback
-        int p_p_offset_ch[NUM_CH];            // phase offset for each channel
+        int p_ref_weight_ch[NUM_FB_CH];          // channel weight for reference
+        int p_fb_weight_ch[NUM_FB_CH];           // channel weight for feedback
+        int p_p_offset_ch[NUM_FB_CH];            // phase offset for each channel
         int p_p_des_ts[NUM_TIMESLOT];         // dessired phase for each timeslot
         int p_a_des_ts[NUM_TIMESLOT];         // desired amplitude for each timeslot
-        int p_p_ch[NUM_CH];                   // actual phase for each channel
-        int p_a_ch[NUM_CH];                   // actual amplitude for each channel
+        int p_p_wnd_ch[NUM_WINDOW][NUM_FB_CH];                   // actual phase for each channel
+        int p_a_wnd_ch[NUM_WINDOW][NUM_FB_CH];                   // actual amplitude for each channel
         int p_p_fb_ts[NUM_TIMESLOT];          // phase for feedback for each timeslot
         int p_a_fb_ts[NUM_TIMESLOT];          // amplitude for feedback for each timeslot
         int p_p_ref_ts[NUM_TIMESLOT];         // reference phase for each timeslot
         int p_a_ref_ts[NUM_TIMESLOT];         // reference amplitude for each timeslot
         int p_p_set_ts[NUM_TIMESLOT];         // phase ser value for each timeslot
         int p_a_set_ts[NUM_TIMESLOT];         // amplitude set value for each timeslot
-        int p_avg_window;                     // average window
-        int p_i_wf_ch[NUM_CH];                // i waveform for each channel
-        int p_q_wf_ch[NUM_CH];                // q waveform for each channel
+        int p_avg_window[NUM_WINDOW];                     // average window
+        int p_i_wf_ch[NUM_FB_CH];                // i waveform for each channel
+        int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
@@ -132,15 +133,15 @@ class llrfHlsAsynDriver
 #define P_OFFSET_STR                 "p_offset_ch%d"     // phase offset, for each channel, array[10]
 #define P_DES_STR                    "p_des_ts%d"        // desired phase, for each timeslot, array[18]
 #define A_DES_STR                    "a_des_ts%d"        // desired amplitude, for each timeslot, array[18]
-#define P_CH_STR                     "p_act_ch%d"        // actual phase, for each channel, array[10]
-#define A_CH_STR                     "a_act_ch%d"        // actual amplitude, for each channel, array[10]
+#define P_WND_CH_STR                 "p_act_w%dch%d"        // actual phase, for each channel, array[3][10]
+#define A_WND_CH_STR                 "a_act_w%dch%d"        // actual amplitude, for each channel, array[3][10]
 #define P_FB_STR                     "p_fb_ts%d"         // actual phase for feedback, for each timeslot, array[18]
 #define A_FB_STR                     "a_fb_ts%d"         // actual amplitude for feedback, for each timeslot, array[18]
 #define P_REF_STR                    "p_ref_ts%d"        // actual phase for reference, for each timeslot,  array[18]
 #define A_REF_STR                    "a_ref_ts%d"        // actual amplitude for reference, for each timeslot, array[18]
 #define P_SET_STR                    "p_set_ts%d"        // phase set value, for each timeslot, array[18]
 #define A_SET_STR                    "a_set_ts%d"        // amplitude set value, for each timeslot, array[18]
-#define AVG_WINDOW_STR               "avg_window"        // average window, length = 4096
+#define AVG_WINDOW_STR               "avg_window%d"      // average window, length = 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
 

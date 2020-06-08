@@ -186,7 +186,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         llrfHls->setAmplDriveLowerLimit(value);
     }
 
-    for(int i = 0; i < NUM_CH; i++) {   // search for channel number
+    for(int i = 0; i < NUM_FB_CH; i++) {   // search for channel number
         if(function == p_ref_weight_ch[i]) {    // channel weight for reference
             llrfHls->setReferenceChannelWeight(value, i);
             break;
@@ -222,9 +222,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
     asynStatus status        = asynSuccess;
     const char *functionName = "writeFloat64Array";
 
-    if(function == p_avg_window && nElements == MAX_SAMPLES) {    // update average window
-        llrfHls->setAverageWindow(value);
-        memcpy(avg_window, value, sizeof(avg_window));
+    for(int w = 0; w < NUM_WINDOW; w++) if(function == p_avg_window[w] && nElements == MAX_SAMPLES) {    // update average window
+        llrfHls->setAverageWindow(value, w);
+        break;
     }
 
     return status;
@@ -234,8 +234,8 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
 void llrfHlsAsynDriver::poll(void)
 {
-    llrfHls->getPhaseAllChannels(phase_ch);
-    llrfHls->getAmplAllChannels(ampl_ch);
+    llrfHls->getPhaseAllChannels((epicsFloat64 *) phase_wnd_ch);
+    llrfHls->getAmplAllChannels((epicsFloat64 *)  ampl_wnd_ch);
     llrfHls->getFeedbackPhaseAllTimeslots(fb_phase_ts);
     llrfHls->getFeedbackAmplAllTimeslots(fb_ampl_ts);
     llrfHls->getReferencePhaseAllTimeslots(ref_phase_ts);
@@ -244,7 +244,7 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getAmplSetAllTimeslots(ampl_set_ts);
 
     /*
-    for(int i = 0; i < NUM_CH; i++) {
+    for(int i = 0; i < NUM_FB_CH; i++) {
         llrfHls->getIWaveform(i_wf_ch[i], i);
         llrfHls->getQWaveform(q_wf_ch[i], i);
     }
@@ -272,15 +272,15 @@ void llrfHlsAsynDriver::updatePVs(void)
 
 void llrfHlsAsynDriver::updatePhasePVsforAllChannels(void)
 {
-    for(int i = 0; i < NUM_CH; i++) {
-        setDoubleParam(p_p_ch[i], phase_ch[i]);
+    for(int w = 0; w < NUM_WINDOW; w++) for(int i = 0; i < NUM_FB_CH; i++) {
+        setDoubleParam(p_p_wnd_ch[w][i], phase_wnd_ch[w][i]);
     }
 }
 
 void llrfHlsAsynDriver::updateAmplPVsforAllChannels(void)
 {
-    for(int i = 0; i < NUM_CH; i++) {
-        setDoubleParam(p_a_ch[i], ampl_ch[i]);
+    for(int w = 0; w < NUM_WINDOW; w++) for(int i = 0; i < NUM_FB_CH; i++) {
+        setDoubleParam(p_a_wnd_ch[w][i], ampl_wnd_ch[w][i]);
     }
 }
 
@@ -317,7 +317,7 @@ void llrfHlsAsynDriver::updateReferenceAmplPVsforAllTimeslots(void)
 
 void llrfHlsAsynDriver::flushIQWaveformsforAllChannels(void)
 {
-    for(int i = 0; i < NUM_CH; i++) {
+    for(int i = 0; i < NUM_FB_CH; i++) {
         doCallbacksFloat64Array(i_wf_ch[i], MAX_SAMPLES, p_i_wf_ch[i], 0);
         doCallbacksFloat64Array(q_wf_ch[i], MAX_SAMPLES, p_q_wf_ch[i], 0);
     }
@@ -342,15 +342,19 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, A_DRV_UPPER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_upper);
     sprintf(param_name, A_DRV_LOWER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_lower);
 
-    sprintf(param_name, AVG_WINDOW_STR);             createParam(param_name, asynParamFloat64Array, &p_avg_window);
+    for(int w = 0; w < NUM_WINDOW; w++) {
+        sprintf(param_name, AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));
+    }
 
-    for(int i = 0; i < NUM_CH; i++) {    // for loop for number of channels
+    for(int i = 0; i < NUM_FB_CH; i++) {    // for loop for number of channels
         sprintf(param_name, REF_WEIGHT_STR, i); createParam(param_name, asynParamFloat64, &(p_ref_weight_ch[i]));
         sprintf(param_name, FB_WEIGHT_STR,  i); createParam(param_name, asynParamFloat64, &(p_fb_weight_ch[i]));
         sprintf(param_name, P_OFFSET_STR,   i); createParam(param_name, asynParamFloat64, &(p_p_offset_ch[i]));
 
-        sprintf(param_name, P_CH_STR,       i); createParam(param_name, asynParamFloat64, &(p_p_ch[i]));
-        sprintf(param_name, A_CH_STR,       i); createParam(param_name, asynParamFloat64, &(p_a_ch[i]));
+        for(int w = 0; w < NUM_WINDOW; w++) {
+            sprintf(param_name, P_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_p_wnd_ch[w][i]));
+            sprintf(param_name, A_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_a_wnd_ch[w][i]));
+        }
 
         sprintf(param_name, I_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_i_wf_ch[i]));
         sprintf(param_name, Q_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_q_wf_ch[i]));

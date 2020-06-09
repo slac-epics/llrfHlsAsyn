@@ -150,6 +150,12 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
         llrfHls->setAmplFeedbackEnable(value?true:false);
     }
     
+    for(int i = 0; i < NUM_FB_CH; i++) {
+        if(function == p_get_iq_wf_ch[i] && value) {
+            getIQWaveform(i);
+            break;
+        }
+    }
 
     return status;
 }
@@ -294,6 +300,15 @@ void llrfHlsAsynDriver::updatePVs(void)
 
 }
 
+void llrfHlsAsynDriver::getIQWaveform(int channel)
+{
+    llrfHls->getIWaveform(i_wf_ch[channel], channel);
+    llrfHls->getQWaveform(q_wf_ch[channel], channel);
+
+
+    doCallbacksFloat64Array(i_wf_ch[channel], MAX_SAMPLES, p_i_wf_ch[channel], 0);
+    doCallbacksFloat64Array(q_wf_ch[channel], MAX_SAMPLES, p_q_wf_ch[channel], 0);
+}
 
 void llrfHlsAsynDriver::updatePhasePVsforAllChannels(void)
 {
@@ -417,6 +432,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
         sprintf(param_name, I_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_i_wf_ch[i]));
         sprintf(param_name, Q_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_q_wf_ch[i]));
+
+
+        sprintf(param_name, GET_IQ_WF_STR,  i); createParam(param_name, asynParamInt32, &(p_get_iq_wf_ch[i]));
        
     }
 

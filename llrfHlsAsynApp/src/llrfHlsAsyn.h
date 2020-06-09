@@ -44,6 +44,7 @@ class llrfHlsAsynDriver
         void updateReferenceAmplPVsforAllTimeslots(void);
         void updatePhaseSetPVsforAllTimeslots(void);
         void updateAmplSetPVsforAllTimeslots(void);
+        void getIQWaveform(int channel);
         void flushIQWaveformsforAllChannels(void);
         void getFirmwareInformation(void);
 
@@ -126,6 +127,8 @@ class llrfHlsAsynDriver
         int p_i_wf_ch[NUM_FB_CH];                // i waveform for each channel
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
 
+        int p_get_iq_wf_ch[NUM_FB_CH];        // get IQWaveform per channel
+
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
 #define LAST_LLRFHLS_PARAM   lastLlrfHlsParam
@@ -178,6 +181,8 @@ class llrfHlsAsynDriver
 #define AVG_WINDOW_STR               "avg_window%d"      // average window, length = 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
+
+#define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 
 
 #endif /* _LLRFHLSASYN_H */

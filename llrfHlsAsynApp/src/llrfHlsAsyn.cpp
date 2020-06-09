@@ -119,6 +119,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     llrfHls = IllrfFw::create(p_llrfHls);
     ParameterSetup();
 
+    getFirmwareInformation();
 
     callParamCallbacks();
 }
@@ -237,6 +238,20 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
 }
 
+void llrfHlsAsynDriver::report(int interest)
+{
+    if(!interest) return;
+
+    printf("\tfirmware viersion  : %u\n", version_);
+    printf("\tnumber of timeslots: %u\n", num_timeslot_);
+    printf("\tnumber of channels : %u\n", num_channel_);
+    printf("\tnumber of windows  : %u\n", num_window_);
+    printf("\tmax pulse length   : %u\n", max_pulse_len_);
+    printf("\tcounter            : %u\n", counter_);
+    printf("\tdrop counter       : %u\n", drop_counter_);
+
+
+}
 
 void llrfHlsAsynDriver::poll(void)
 {
@@ -248,6 +263,8 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getReferenceAmplAllTimeslots(ref_ampl_ts);
     llrfHls->getPhaseSetAllTimeslots(phase_set_ts);
     llrfHls->getAmplSetAllTimeslots(ampl_set_ts);
+    llrfHls->getCounter(&counter_);                setIntegerParam(p_counter,      counter_);
+    llrfHls->getDropCounter(&drop_counter_);       setIntegerParam(p_drop_counter, drop_counter_);
 
     /*
     for(int i = 0; i < NUM_FB_CH; i++) {
@@ -330,12 +347,29 @@ void llrfHlsAsynDriver::flushIQWaveformsforAllChannels(void)
 
 }
 
+void llrfHlsAsynDriver::getFirmwareInformation(void)
+{
+    llrfHls->getVersion(&version_);                   setIntegerParam(p_version,       version_);
+    llrfHls->getNumTimeslot(&num_timeslot_);          setIntegerParam(p_num_timeslot,  num_timeslot_);
+    llrfHls->getNumChannel(&num_channel_);            setIntegerParam(p_num_channel,   num_channel_);
+    llrfHls->getNumWindow(&num_window_);              setIntegerParam(p_num_window,    num_window_);
+    llrfHls->getMaxPulseLength(&max_pulse_len_);      setIntegerParam(p_max_pulse_len, max_pulse_len_);
+}
+
 void llrfHlsAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
 
     sprintf(param_name, STREAM_ENABLE_STR);          createParam(param_name, asynParamInt32,   &p_stream_enable);
     sprintf(param_name, MODE_CONFIG_STR);            createParam(param_name, asynParamInt32,   &p_mode_config);
+    
+    sprintf(param_name, VERSION_STR);                createParam(param_name, asynParamInt32,   &p_version);
+    sprintf(param_name, NUM_TIMESLOT_STR);           createParam(param_name, asynParamInt32,   &p_num_timeslot);
+    sprintf(param_name, NUM_CHANNEL_STR);            createParam(param_name, asynParamInt32,   &p_num_channel);
+    sprintf(param_name, NUM_WINDOW_STR);             createParam(param_name, asynParamInt32,   &p_num_window);
+    sprintf(param_name, MAX_PULSE_LEN_STR);          createParam(param_name, asynParamInt32,   &p_max_pulse_len);
+    sprintf(param_name, COUNTER_STR);                createParam(param_name, asynParamInt32,   &p_counter);
+    sprintf(param_name, DROP_COUNTER_STR);           createParam(param_name, asynParamInt32,   &p_drop_counter);
 
     sprintf(param_name, P_REF_OFFSET_STR);           createParam(param_name, asynParamFloat64, &p_p_ref_offset);
     sprintf(param_name, P_FB_OFFSET_STR);            createParam(param_name, asynParamFloat64, &p_p_fb_offset);
@@ -480,6 +514,20 @@ epicsExportAddress(drvet, llrfHlsAsynDriver);
 
 static int llrfHlsAsynDriverReport(int interest)
 {
+
+   init_drvList();
+    printf("Total %d of llrfHlsAsyn driver instance(s) is(are) registered\n", ellCount(pDrvEllList));
+
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+    while(p) {
+        printf("\tnamed root   : %s\n", p->named_root);
+        printf("\tport name    : %s\n", p->port);
+        printf("\tregoster path: %s\n", p->regPath);
+        printf("\tllrfHlsAsyn  : %p\n", p->pLlrfHlsAsyn);
+        if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->report(interest);
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
+
     return 0;
 }
 

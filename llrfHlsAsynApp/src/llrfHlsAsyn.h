@@ -33,6 +33,7 @@ class llrfHlsAsynDriver
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
         asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
+        void report(int interest);
         void poll(void);
         void updatePVs(void);
         void updatePhasePVsforAllChannels(void);
@@ -42,11 +43,20 @@ class llrfHlsAsynDriver
         void updateReferencePhasePVsforAllTimeslots(void);
         void updateReferenceAmplPVsforAllTimeslots(void);
         void flushIQWaveformsforAllChannels(void);
+        void getFirmwareInformation(void);
 
     private:
         char *port;
         char *path;
         llrfFw  llrfHls;
+
+        epicsUInt32 version_;
+        epicsUInt32 num_timeslot_;
+        epicsUInt32 num_channel_;
+        epicsUInt32 num_window_;
+        epicsUInt32 max_pulse_len_;
+        epicsUInt32 counter_;
+        epicsUInt32 drop_counter_;
 
         /* internal buffers */
         epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels
@@ -74,6 +84,15 @@ class llrfHlsAsynDriver
 
         int p_stream_enable;                  // steram enable: 1 , disable: 0
         int p_mode_config;                    // trigger mode disable:0, accel: 1, stdby: 2, accel_or_stdby: 3
+
+        int p_version;
+        int p_num_timeslot;
+        int p_num_channel;
+        int p_num_window;
+        int p_max_pulse_len;
+
+        int p_counter;
+        int p_drop_counter;
 
         int p_p_ref_offset;                   // phase offset of reference
         int p_p_fb_offset;                    // phase offset for feedback
@@ -119,6 +138,14 @@ class llrfHlsAsynDriver
 
 #define STREAM_ENABLE_STR            "stream_enable"     // stream enable, disable control
 #define MODE_CONFIG_STR              "mode_config"       // trigger mode configuraiton
+
+#define VERSION_STR                  "version"
+#define NUM_TIMESLOT_STR             "num_timeslot"
+#define NUM_CHANNEL_STR              "num_channel"
+#define NUM_WINDOW_STR               "num_window"
+#define MAX_PULSE_LEN_STR            "max_pulse_len"
+#define COUNTER_STR                  "counter"
+#define DROP_COUNTER_STR             "drop_counter"
 
 #define P_REF_OFFSET_STR             "p_ref_offset"      // phase offset for reference, in degree
 #define P_FB_OFFSET_STR              "p_fb_offset"       // phase offset for feedback, in degree

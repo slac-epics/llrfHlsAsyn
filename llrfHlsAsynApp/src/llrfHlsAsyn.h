@@ -42,6 +42,8 @@ class llrfHlsAsynDriver
         void updateFeedbackAmplPVsforAllTimeslots(void);
         void updateReferencePhasePVsforAllTimeslots(void);
         void updateReferenceAmplPVsforAllTimeslots(void);
+        void updatePhaseSetPVsforAllTimeslots(void);
+        void updateAmplSetPVsforAllTimeslots(void);
         void flushIQWaveformsforAllChannels(void);
         void getFirmwareInformation(void);
 

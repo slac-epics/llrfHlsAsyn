@@ -287,6 +287,8 @@ void llrfHlsAsynDriver::updatePVs(void)
     updateFeedbackAmplPVsforAllTimeslots();
     updateReferencePhasePVsforAllTimeslots();
     updateReferenceAmplPVsforAllTimeslots();
+    updatePhaseSetPVsforAllTimeslots();
+    updateAmplSetPVsforAllTimeslots();
 
     flushIQWaveformsforAllChannels();
 
@@ -334,6 +336,20 @@ void llrfHlsAsynDriver::updateReferenceAmplPVsforAllTimeslots(void)
 {
     for(int i = 0; i < NUM_TIMESLOT; i++) {
         setDoubleParam(p_a_ref_ts[i], ref_ampl_ts[i]);
+    }
+}
+
+void llrfHlsAsynDriver::updatePhaseSetPVsforAllTimeslots(void)
+{
+    for(int i = 0; i< NUM_TIMESLOT; i++) {
+        setDoubleParam(p_p_set_ts[i], phase_set_ts[i]);
+    }
+}
+
+void llrfHlsAsynDriver::updateAmplSetPVsforAllTimeslots(void)
+{
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_a_set_ts[i], ampl_set_ts[i]);
     }
 }
 

@@ -1,0 +1,15 @@
+record(longin, "$(DEVICE):LOOPCNT")
+{
+    field(DESC, "Formware Loop Counter")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) counter")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):DROPCNT")
+{
+    field(DESC, "Stream Drop Counter")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) drop_counter")
+    field(SCAN, "I/O Intr")
+}

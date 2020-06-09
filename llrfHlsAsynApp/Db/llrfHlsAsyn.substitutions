@@ -4,6 +4,12 @@ file config.db
             {  "$(DEV)" }
 }
 
+file status.db
+{
+    pattern {   DEVICE   }
+             { "$(DEV)"  }
+}
+
 file config_ch.db
 {
     pattern { CH,  DEVICE   }

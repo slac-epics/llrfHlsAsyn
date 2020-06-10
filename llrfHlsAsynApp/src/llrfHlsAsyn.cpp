@@ -48,6 +48,7 @@ typedef struct {
     char              *named_root;
     char              *port;
     char              *regPath;
+    char              *hlsStream;
     llrfHlsAsynDriver *pLlrfHlsAsyn;
 } pDrvList_t;
 
@@ -90,7 +91,7 @@ static pDrvList_t *find_drvByNamedRoot(const char *named_root)
 
 
 
-llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathString, const char *named_root)
+llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathString, const char *hlsStream, const char *named_root)
     : asynPortDriver(portName,
                      1, /* number of elements of this device */
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
@@ -107,16 +108,23 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     Path p_llrfHls;
     port = epicsStrDup(portName);
     path = epicsStrDup(pathString);
+    stream = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
+
+    stream_read_count = 0;
+    stream_read_size  = 0;
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
         p_llrfHls = p_root->findByName(pathString);
+        if(stream) hls_stream_ = IStream::create(p_root->findByName(stream));
+
     } catch (CPSWError &e) {
         fprintf(stderr, "CPSW Error: %s, file %s, line %d\n", e.getInfo().c_str(), __FILE__, __LINE__);
         throw e;
     }
 
     llrfHls = IllrfFw::create(p_llrfHls);
+
     ParameterSetup();
 
     getFirmwareInformation();
@@ -255,6 +263,29 @@ void llrfHlsAsynDriver::report(int interest)
     printf("\tmax pulse length   : %u\n", max_pulse_len_);
     printf("\tcounter            : %u\n", counter_);
     printf("\tdrop counter       : %u\n", drop_counter_);
+    printf("\tstream read count  : %u\n", stream_read_count);
+    printf("\tstream read size   : %u\n", stream_read_size);
+
+    if(interest < 5) return;
+
+    printf("\n\tStream data dump (16bit)");
+    unsigned short *u = (unsigned short *)p_buf;
+    for(int i = 0; i < stream_read_size / sizeof(unsigned short); i++) {
+        
+        if(!(i % 8)) printf("\n\t%4.4x: ", (unsigned short) (i*sizeof(unsigned short)));
+        printf("%4.4x ", *(u +i));
+
+    }
+
+    printf("\n\tStream data dump (32bit)");
+    unsigned *u1 = (unsigned *)p_buf;
+    for(int i = 0; i < stream_read_size / sizeof(unsigned); i++) {
+        
+        if(!(i % 4)) printf("\n\t%4.4x: ", (unsigned short) (i*sizeof(unsigned)));
+        printf("%8.8x ", *(u1 +i));
+
+    }
+    printf("\n");
 
 
 }
@@ -283,6 +314,17 @@ void llrfHlsAsynDriver::poll(void)
 
     updatePVs();
     callParamCallbacks();
+}
+
+void llrfHlsAsynDriver::pollStream(void)
+{
+    while(stream) {
+        stream_read_size = hls_stream_->read(p_buf, 512, CTimeout());
+
+        stream_read_count++;
+
+    }
+
 }
 
 void llrfHlsAsynDriver::updatePVs(void)
@@ -459,7 +501,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 extern "C" {
 
 // driver configuration, C wrapper 
-int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *named_root)
+int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *hlsStream, const char *named_root)
 {
     init_drvList();
 
@@ -473,7 +515,8 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
     p->named_root   = (named_root && strlen(named_root))?epicsStrDup(named_root):cpswGetRootName();
     p->port         = epicsStrDup(portName);
     p->regPath      = epicsStrDup(regPathString);
-    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->named_root);
+    p->hlsStream    = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
+    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->named_root);
 
     ellAdd(pDrvEllList, &p->node);
 
@@ -485,16 +528,19 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
 // prepare iocsh commnand
 static const iocshArg initArg0 = {"port name",      iocshArgString};
 static const iocshArg initArg1 = {"register path",  iocshArgString};
-static const iocshArg initArg2 = {"named_root",     iocshArgString};
+static const iocshArg initArg2 = {"hls stream",     iocshArgString};
+static const iocshArg initArg3 = {"named_root",     iocshArgString};
 static const iocshArg * const initArgs[] = { &initArg0,
                                              &initArg1,
-                                             &initArg2 };
-static const iocshFuncDef initFuncDef = {"llrfHlsAsynDriverConfigure", 3, initArgs};
+                                             &initArg2,
+                                             &initArg3 };
+static const iocshFuncDef initFuncDef = {"llrfHlsAsynDriverConfigure", 4, initArgs};
 static void  initCallFunc(const iocshArgBuf *args)
 {
     llrfHlsAsynDriverConfigure(args[0].sval,     /* port name */
                                args[1].sval,     /* register path */
-                               (args[2].sval && strlen(args[2].sval))?args[2].sval: NULL /* named_root */ );
+                               (args[2].sval && strlen(args[2].sval))?args[2].sval: NULL, /* hls stream */
+                               (args[3].sval && strlen(args[3].sval))?args[3].sval: NULL /* named_root */ );
 }
 
 
@@ -521,6 +567,13 @@ static int llrfHlsAsynDriverPoll(void)
     epicsEventSignal(shutdownEvent);
 
     return 0;
+}
+
+static int llrfHlsAsynDriverStreamPoll(void *p)
+{
+    ((llrfHlsAsynDriver*)p)->pollStream();
+
+     return 0;
 }
 
 static void stopPollingThread(void *p)
@@ -558,6 +611,7 @@ static int llrfHlsAsynDriverReport(int interest)
         printf("\tport name    : %s\n", p->port);
         printf("\tregoster path: %s\n", p->regPath);
         printf("\tllrfHlsAsyn  : %p\n", p->pLlrfHlsAsyn);
+        printf("\thlsStream    : %p\n", p->hlsStream);
         if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->report(interest);
         p = (pDrvList_t *) ellNext(&p->node);
     }
@@ -582,6 +636,15 @@ static int llrfHlsAsynDriverInitialize(void)
     epicsThreadCreate(name, epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackMedium),
                       (EPICSTHREADFUNC) llrfHlsAsynDriverPoll, 0);
+
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+    while(p) {
+        if(p->pLlrfHlsAsyn && p->hlsStream) epicsThreadCreate("llrfHlsStreamPoll", epicsThreadPriorityHigh,
+                                                               epicsThreadGetStackSize(epicsThreadStackMedium),
+                                                               (EPICSTHREADFUNC) llrfHlsAsynDriverStreamPoll, (void *) p->pLlrfHlsAsyn);
+         p = (pDrvList_t *) ellNext(&p->node);
+        }
+
 
     epicsAtExit3((epicsExitFunc) stopPollingThread, (void *) epicsStrDup(name), epicsStrDup(name));
 

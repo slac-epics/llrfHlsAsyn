@@ -28,13 +28,14 @@
 class llrfHlsAsynDriver
     :asynPortDriver {
     public:
-        llrfHlsAsynDriver(const char *portName, const char *pathString, const char *named_root = NULL);
+        llrfHlsAsynDriver(const char *portName, const char *pathString, const char *hlsStream, const char *named_root = NULL);
         ~llrfHlsAsynDriver();
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
         asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
         void report(int interest);
         void poll(void);
+        void pollStream(void);
         void updatePVs(void);
         void updatePhasePVsforAllChannels(void);
         void updateAmplPVsforAllChannels(void);
@@ -48,10 +49,13 @@ class llrfHlsAsynDriver
         void flushIQWaveformsforAllChannels(void);
         void getFirmwareInformation(void);
 
+
     private:
         char *port;
         char *path;
+        char *stream;
         llrfFw  llrfHls;
+        Stream hls_stream_;
 
         epicsUInt32 version_;
         epicsUInt32 num_timeslot_;
@@ -60,6 +64,11 @@ class llrfHlsAsynDriver
         epicsUInt32 max_pulse_len_;
         epicsUInt32 counter_;
         epicsUInt32 drop_counter_;
+
+        epicsUInt32 stream_read_count;
+        epicsUInt32 stream_read_size;
+
+        uint8_t p_buf[1024*4];
 
         /* internal buffers */
         epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels

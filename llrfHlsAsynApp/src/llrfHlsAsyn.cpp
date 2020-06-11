@@ -287,6 +287,12 @@ void llrfHlsAsynDriver::report(int interest)
     }
     printf("\n");
 
+    char ts_str[80];
+    epicsTimeStamp ts, ts_tmp = *(epicsTimeStamp *) (u1+1);
+    ts.nsec         = ts_tmp.secPastEpoch;
+    ts.secPastEpoch = ts_tmp.nsec;
+    epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &ts);
+    printf("\ttimestamp in stream : %s\n", ts_str);
 
 }
 
@@ -344,8 +350,10 @@ void llrfHlsAsynDriver::updatePVs(void)
 
 void llrfHlsAsynDriver::getIQWaveform(int channel)
 {
+    llrfHls->freezeWaveform(true);
     llrfHls->getIWaveform(i_wf_ch[channel], channel);
     llrfHls->getQWaveform(q_wf_ch[channel], channel);
+    llrfHls->freezeWaveform(false);
 
 
     doCallbacksFloat64Array(i_wf_ch[channel], MAX_SAMPLES, p_i_wf_ch[channel], 0);

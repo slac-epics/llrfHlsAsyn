@@ -288,9 +288,7 @@ void llrfHlsAsynDriver::report(int interest)
     printf("\n");
 
     char ts_str[80];
-    epicsTimeStamp ts, ts_tmp = *(epicsTimeStamp *) (u1+1);
-    ts.nsec         = ts_tmp.secPastEpoch;
-    ts.secPastEpoch = ts_tmp.nsec;
+    epicsTimeStamp ts = *(epicsTimeStamp *) (u1+1);
     epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &ts);
     printf("\ttimestamp in stream : %s\n", ts_str);
 
@@ -325,7 +323,7 @@ void llrfHlsAsynDriver::poll(void)
 void llrfHlsAsynDriver::pollStream(void)
 {
     while(stream) {
-        stream_read_size = hls_stream_->read(p_buf, 512, CTimeout());
+        stream_read_size = hls_stream_->read(p_buf, 4096, CTimeout());
 
         stream_read_count++;
 

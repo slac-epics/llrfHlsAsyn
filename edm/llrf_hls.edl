@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2004
-y 583
+x 2104
+y 321
 w 1500
 h 1200
 font "helvetica-medium-r-18.0"
@@ -3524,7 +3524,7 @@ release 1
 x 155
 y 791
 w 29
-h 13
+h 12
 font "helvetica-medium-r-10.0"
 fgColor index 14
 bgColor index 0
@@ -4517,5 +4517,281 @@ fastUpdate
 useHexPrefix
 newPos
 objType "monitors"
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 8
+release 0
+# Geometry
+x 991
+y 354
+w 320
+h 160
+# Appearance
+border
+fgColor index 14
+bgColor index 5
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+nPts 2
+# X axis properties
+showXAxis
+xAxisSrc "fromUser"
+xMin 0
+xMax 4096
+# Y axis properties
+showYAxis
+yAxisSrc "fromUser"
+yMin 0
+yMax 1
+# Y2 axis properties
+y2AxisSrc "AutoScale"
+y2Max 1
+# Trace Properties
+numTraces 1
+yPv {
+  0 "$(DEVICE):AVGWND0"
+}
+plotColor {
+  0 index 21
+}
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 8
+release 0
+# Geometry
+x 991
+y 548
+w 320
+h 160
+# Appearance
+border
+fgColor index 14
+bgColor index 5
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+nPts 2
+# X axis properties
+showXAxis
+xAxisSrc "fromUser"
+xMin 0
+xMax 4096
+# Y axis properties
+showYAxis
+yAxisSrc "fromUser"
+yMin 0
+yMax 1
+# Y2 axis properties
+y2AxisSrc "AutoScale"
+y2Max 1
+# Trace Properties
+numTraces 1
+yPv {
+  0 "$(DEVICE):AVGWND1"
+}
+plotColor {
+  0 index 21
+}
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 8
+release 0
+# Geometry
+x 991
+y 734
+w 320
+h 160
+# Appearance
+border
+fgColor index 14
+bgColor index 5
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+nPts 2
+# X axis properties
+showXAxis
+xAxisSrc "fromUser"
+xMin 0
+xMax 4096
+# Y axis properties
+showYAxis
+yAxisSrc "fromUser"
+yMin 0
+yMax 1
+# Y2 axis properties
+y2AxisSrc "AutoScale"
+y2Max 1
+# Trace Properties
+numTraces 1
+yPv {
+  0 "$(DEVICE):AVGWND2"
+}
+plotColor {
+  0 index 21
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 994
+y 336
+w 157
+h 12
+font "helvetica-medium-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Average Window 0 - for Feedback"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 992
+y 529
+w 168
+h 12
+font "helvetica-medium-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Average Window 1 - for Diagnostics"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 998
+y 718
+w 168
+h 12
+font "helvetica-medium-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Average Window 1 - for Diagnostics"
+}
+autoSize
+endObjectProperties
+
+# (X-Y Graph)
+object xyGraphClass
+beginObjectProperties
+major 4
+minor 8
+release 0
+# Geometry
+x 987
+y 932
+w 320
+h 230
+# Appearance
+border
+fgColor index 14
+bgColor index 5
+gridColor index 14
+font "helvetica-medium-r-10.0"
+# Operating Modes
+nPts 2
+# X axis properties
+showXAxis
+xAxisSrc "fromUser"
+xMin 0
+xMax 4096
+# Y axis properties
+showYAxis
+yAxisSrc "fromUser"
+yMin -1
+yMax 1
+# Y2 axis properties
+y2AxisSrc "AutoScale"
+y2Max 1
+# Trace Properties
+numTraces 2
+yPv {
+  0 "$(DEVICE):IWF9"
+  1 "$(DEVICE):QWF9"
+}
+plotColor {
+  0 index 21
+  1 index 26
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 997
+y 912
+w 141
+h 12
+font "helvetica-medium-r-10.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "IQ Waveform CH9 - Loopback"
+}
+autoSize
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 1155
+y 904
+w 102
+h 21
+fgColor index 14
+onColor index 15
+offColor index 5
+inconsistentColor index 14
+topShadowColor index 4
+botShadowColor index 9
+controlPv "$(DEVICE):GETIQWF9"
+onLabel "GET WAVEFORM"
+offLabel "Get Waveform"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-10.0"
+objType "controls"
 endObjectProperties
 

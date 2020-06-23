@@ -17,12 +17,31 @@
 #include <sstream>
 #include <fstream>
 
+#include "BsaApi.h"
+
 
 #define NUM_FB_CH        10        // number of feedback channels
 #define NUM_WINDOW        3        // number of window
 #define NUM_TIMESLOT     18        // number of timeslot
 #define MAX_SAMPLES      4096      // number of samples in a waveform
 
+
+#define MAX_BSABUF      36         // BSA buffer node
+
+typedef struct {
+    epicsUInt32     counter;
+    epicsTimeStamp  time;
+    epicsUInt32     time_slot;
+    epicsFloat32    phase[NUM_WINDOW][NUM_FB_CH];
+    epicsFloat32    ampl[NUM_WINDOW][NUM_FB_CH];
+    epicsFloat32    phase_fb;
+    epicsFloat32    ampl_fb;
+    epicsFloat32    phase_ref;
+    epicsFloat32    ampl_ref;
+    epicsFloat32    phase_set;
+    epicsFloat32    ampl_set;
+    epicsUInt32     terminator;
+} bsa_packet_t;
 
 
 class llrfHlsAsynDriver
@@ -68,7 +87,10 @@ class llrfHlsAsynDriver
         epicsUInt32 stream_read_count;
         epicsUInt32 stream_read_size;
 
-        uint8_t p_buf[1024*4];
+          
+        bsa_packet_t p_bsa_buf[MAX_BSABUF];
+        int          current_bsa;
+        uint8_t*     p_buf;
 
         /* internal buffers */
         epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels
@@ -85,7 +107,15 @@ class llrfHlsAsynDriver
         epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
 
+        BsaChannel BsaChn_pact;
+        BsaChannel BsaChn_aact;
+        BsaChannel BsaChn_phase[NUM_WINDOW][NUM_FB_CH];
+        BsaChannel BsaChn_amplitude[NUM_WINDOW][NUM_FB_CH];
+
         void ParameterSetup(void);
+        void bsaSetup(void);
+        void bsaProcessing(bsa_packet_t *p);
+        void fastPVProcessing(bsa_packet_t *p);
 
 
     protected:
@@ -137,6 +167,11 @@ class llrfHlsAsynDriver
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
 
         int p_get_iq_wf_ch[NUM_FB_CH];        // get IQWaveform per channel
+
+        int p_br_phase[NUM_WINDOW][NUM_FB_CH];
+        int p_br_amplitude[NUM_WINDOW][NUM_FB_CH];
+        int p_br_pact;
+        int p_br_aact;
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
@@ -190,6 +225,11 @@ class llrfHlsAsynDriver
 #define AVG_WINDOW_STR               "avg_window%d"      // average window, length = 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
+
+#define P_BR_WND_CH_STR              "p_br_w%dch%d"      // phase for beam rate PV,     for window and channel
+#define A_BR_WND_CH_STR              "a_br_w%dch%d"      // amplitude for beam rate PV, for window and channel
+#define P_BR_STR                     "p_br"              // phase for beam rate PV,     feedback input
+#define A_BR_STR                     "a_br"              // amplitude for beam rate PV, feedback input
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 

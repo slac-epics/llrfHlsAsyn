@@ -112,6 +112,8 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
 
     stream_read_count = 0;
     stream_read_size  = 0;
+    current_bsa       = -1;
+    p_buf             = (uint8_t *) &p_bsa_buf[0];
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
@@ -126,6 +128,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     llrfHls = IllrfFw::create(p_llrfHls);
 
     ParameterSetup();
+    bsaSetup();
 
     getFirmwareInformation();
 
@@ -256,6 +259,7 @@ void llrfHlsAsynDriver::report(int interest)
 {
     if(!interest) return;
 
+    printf("\tbuffer address     : %p\n", p_buf);
     printf("\tfirmware viersion  : %u\n", version_);
     printf("\tnumber of timeslots: %u\n", num_timeslot_);
     printf("\tnumber of channels : %u\n", num_channel_);
@@ -323,9 +327,14 @@ void llrfHlsAsynDriver::poll(void)
 void llrfHlsAsynDriver::pollStream(void)
 {
     while(stream) {
+        current_bsa ++;
+        current_bsa      = (current_bsa < MAX_BSABUF)? current_bsa: 0;
+        p_buf            = (uint8_t *) &p_bsa_buf[current_bsa];
         stream_read_size = hls_stream_->read(p_buf, 4096, CTimeout());
-
         stream_read_count++;
+
+        bsaProcessing(&p_bsa_buf[current_bsa]);
+        fastPVProcessing(&p_bsa_buf[current_bsa]);
 
     }
 
@@ -499,6 +508,61 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
 
     }
+
+    for(int w = 0; w < 1 /* NUM_WINDOW */; w++){        // w, window index
+        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
+            sprintf(param_name, P_BR_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_br_phase[w][i]));
+            sprintf(param_name, A_BR_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_br_amplitude[w][i]));
+        }
+    }
+    sprintf(param_name, P_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_pact));
+    sprintf(param_name, A_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_aact));
+}
+
+
+void llrfHlsAsynDriver::bsaSetup(void)
+{
+    char param_name[80];
+
+    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, window index
+        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
+            sprintf(param_name, P_BR_WND_CH_STR, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
+            sprintf(param_name, A_BR_WND_CH_STR, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
+        }
+    }
+    sprintf(param_name, P_BR_STR);  BsaChn_pact = BSA_CreateChannel(param_name);
+    sprintf(param_name, A_BR_STR);  BsaChn_aact = BSA_CreateChannel(param_name);
+}
+
+void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
+{
+    BSA_StoreData(BsaChn_pact, p->time, p->phase_fb, 0, 0);
+    BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
+
+    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, windw index
+        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
+            BSA_StoreData(BsaChn_phase[w][i],     p->time, p->phase[w][i], 0, 0);
+            BSA_StoreData(BsaChn_amplitude[w][i], p->time, p->ampl[w][i],  0, 0);
+        }
+    }
+}
+
+void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
+{
+
+    // todo, update timestamp for asyn Port driver
+
+    setDoubleParam(p_br_pact, p->phase_fb);
+    setDoubleParam(p_br_aact, p->ampl_fb);
+
+    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {
+        for(int i = 0; i < NUM_FB_CH; i++) {
+            setDoubleParam(p_br_phase[w][i], p->phase[w][i]);
+            setDoubleParam(p_br_amplitude[w][i], p->ampl[w][i]);
+        }
+    }
+
+    callParamCallbacks();
 }
 
 

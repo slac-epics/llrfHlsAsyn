@@ -110,6 +110,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     path = epicsStrDup(pathString);
     stream = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
 
+    need_to_read      = true;
     stream_read_count = 0;
     stream_read_size  = 0;
     current_bsa       = -1;
@@ -327,12 +328,15 @@ void llrfHlsAsynDriver::poll(void)
 void llrfHlsAsynDriver::pollStream(void)
 {
     while(stream) {
+        if(need_to_read) getFirmwareInformation();
+
         current_bsa ++;
         current_bsa      = (current_bsa < MAX_BSABUF)? current_bsa: 0;
         p_buf            = (uint8_t *) &p_bsa_buf[current_bsa];
         stream_read_size = hls_stream_->read(p_buf, 4096, CTimeout());
         stream_read_count++;
 
+        setTimeStamp(&((p_bsa_buf[current_bsa]).time));
         bsaProcessing(&p_bsa_buf[current_bsa]);
         fastPVProcessing(&p_bsa_buf[current_bsa]);
 
@@ -442,6 +446,8 @@ void llrfHlsAsynDriver::getFirmwareInformation(void)
     llrfHls->getNumChannel(&num_channel_);            setIntegerParam(p_num_channel,   num_channel_);
     llrfHls->getNumWindow(&num_window_);              setIntegerParam(p_num_window,    num_window_);
     llrfHls->getMaxPulseLength(&max_pulse_len_);      setIntegerParam(p_max_pulse_len, max_pulse_len_);
+
+    if(version_ || num_timeslot_ || num_channel_ || num_window_ || max_pulse_len_) need_to_read = false;
 }
 
 void llrfHlsAsynDriver::ParameterSetup(void)

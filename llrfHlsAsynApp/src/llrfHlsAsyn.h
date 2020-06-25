@@ -76,6 +76,7 @@ class llrfHlsAsynDriver
         llrfFw  llrfHls;
         Stream hls_stream_;
 
+        bool        need_to_read;
         epicsUInt32 version_;
         epicsUInt32 num_timeslot_;
         epicsUInt32 num_channel_;

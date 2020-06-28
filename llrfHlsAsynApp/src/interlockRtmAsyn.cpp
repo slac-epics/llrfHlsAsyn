@@ -90,10 +90,10 @@ static pDrvList_t *find_drvByNamedRoot(const char *named_root)
 }
 
 
-void callRtmProcessing(epicsTimeStamp time, void *pRtm)
+void callRtmProcessing(epicsTimeStamp time, epicsUInt32 timeslot, void *pRtm)
 {
     interlockRtmAsynDriver *p = ((pDrvList_t *) pRtm)->pInterlockRtmAsyn;
-    if(p) p->interlockProcess(time);
+    if(p) p->interlockProcess(time, (unsigned) timeslot);
 }
 
 
@@ -329,6 +329,8 @@ void interlockRtmAsynDriver::report(int interest)
     printf("      RTM subtype         : %s\n", rtmSubType);
     printf("      RTM firmware date   : %s\n", rtmFirmwareDate);
     printf("      interlock task cnt  : %u\n", count);
+    printf("      current pulse id    : %u\n", pulseid);
+    printf("      current timeslot    : %u\n", current_ts);
     char ts_str[80];
     epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &time);
     printf("      timestamp last proc : %s\n", ts_str);
@@ -336,9 +338,12 @@ void interlockRtmAsynDriver::report(int interest)
     if(interest) reportRtmWaveformBuffer();
 }
 
-void interlockRtmAsynDriver::interlockProcess(epicsTimeStamp time)
+void interlockRtmAsynDriver::interlockProcess(epicsTimeStamp time, unsigned timeslot)
 {
-    this->time = time;
+    this->time       = time;
+    this->current_ts = timeslot;
+    this->pulseid    = PULSEID(time);
+
     setTimeStamp(&(this->time));
     if(ready) pevent->signal();
 }
@@ -353,7 +358,6 @@ void interlockRtmAsynDriver::interlockTask(void *p)
    
     while(1) {
         pevent->wait(); 
-        pulseid = PULSEID(time);
         count++;
 
         fw->cmdRtmRearm();

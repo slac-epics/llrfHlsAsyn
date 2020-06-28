@@ -350,7 +350,7 @@ void llrfHlsAsynDriver::pollStream(void)
         stream_read_size = hls_stream_->read(p_buf, 4096, CTimeout());
         stream_read_count++;
 
-        if(((pDrvList_t *) pDrv)->pRtm) callRtmProcessing((p_bsa_buf[current_bsa]).time, ((pDrvList_t *)pDrv)->pRtm);  // asynchronous rtm processing
+        if(((pDrvList_t *) pDrv)->pRtm) callRtmProcessing((p_bsa_buf[current_bsa]).time, (p_bsa_buf[current_bsa]).time_slot, ((pDrvList_t *)pDrv)->pRtm);  // asynchronous rtm processing
 
         setTimeStamp(&((p_bsa_buf[current_bsa]).time));
         bsaProcessing(&p_bsa_buf[current_bsa]);

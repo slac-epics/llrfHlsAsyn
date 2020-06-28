@@ -352,7 +352,10 @@ void interlockRtmAsynDriver::interlockTask(void *p)
    
    
     while(1) {
-        pevent->wait(); count++;
+        pevent->wait(); 
+        pulseid = PULSEID(time);
+        count++;
+
         fw->cmdRtmRearm();
         
         fw->getRtmStatus(&st);              // read status register

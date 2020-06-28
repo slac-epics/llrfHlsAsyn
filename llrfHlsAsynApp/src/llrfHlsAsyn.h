@@ -108,6 +108,7 @@ class llrfHlsAsynDriver
         epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
 
+        char       bsa_macro[80];
         BsaChannel BsaChn_pact;
         BsaChannel BsaChn_aact;
         BsaChannel BsaChn_phase[NUM_WINDOW][NUM_FB_CH];
@@ -229,6 +230,10 @@ class llrfHlsAsynDriver
 
 #define P_BR_WND_CH_STR              "p_br_w%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_w%dch%d"      // amplitude for beam rate PV, for window and channel
+#define P_BSA_WND_CH_STR             "%s:W%dC%d:FAST_PACT"
+#define A_BSA_WND_CH_STR             "%s:W%dC%d:FAST_AACT"
+#define P_BSA_FB_STR                 "%s:FB:FAST_PACT"
+#define A_BSA_FB_STR                 "%s:FB:FAST_AACT"
 #define P_BR_STR                     "p_br"              // phase for beam rate PV,     feedback input
 #define A_BR_STR                     "a_br"              // amplitude for beam rate PV, feedback input
 

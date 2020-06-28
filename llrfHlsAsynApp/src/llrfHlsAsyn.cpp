@@ -115,6 +115,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     stream_read_size  = 0;
     current_bsa       = -1;
     p_buf             = (uint8_t *) &p_bsa_buf[0];
+    strcpy(bsa_macro, "default_bsa");
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
@@ -532,12 +533,12 @@ void llrfHlsAsynDriver::bsaSetup(void)
 
     for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            sprintf(param_name, P_BR_WND_CH_STR, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
-            sprintf(param_name, A_BR_WND_CH_STR, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
+            sprintf(param_name, P_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
+            sprintf(param_name, A_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
         }
     }
-    sprintf(param_name, P_BR_STR);  BsaChn_pact = BSA_CreateChannel(param_name);
-    sprintf(param_name, A_BR_STR);  BsaChn_aact = BSA_CreateChannel(param_name);
+    sprintf(param_name, P_BSA_FB_STR, bsa_macro);  BsaChn_pact = BSA_CreateChannel(param_name);
+    sprintf(param_name, A_BSA_FB_STR, bsa_macro);  BsaChn_aact = BSA_CreateChannel(param_name);
 }
 
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)

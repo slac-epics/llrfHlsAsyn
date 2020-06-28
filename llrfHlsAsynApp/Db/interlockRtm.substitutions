@@ -19,6 +19,15 @@ file rtmFaultHistoryWaveform.db
             {   "3",   "510" }
 }
 
+file waveformTimeAxis.db
+{
+    pattern {  WF  ,  DESC                          ,  SIZE ,  FREQ   }
+#            { "RAW", "Raw waveform time axis"       , "9000", "357"   }
+#            { "PA" , "Phase/Ampl waveform time axis", "160" , "17.85" }
+            { "RTM", "RTM waveform time axis"       , "510" , "59.5"  }
+}
+
+
 #file rtmFaultCounters.db
 #{
 #    pattern { FAULT           }
@@ -28,4 +37,12 @@ file rtmFaultHistoryWaveform.db
 #            { "RTM_SLED_SUMY" }
 #            { "RTM_MOD_FAULT" }
 #}
+
+
+file rfInterlockSeq.db
+{
+    pattern {  }
+            {  }
+}
+
 

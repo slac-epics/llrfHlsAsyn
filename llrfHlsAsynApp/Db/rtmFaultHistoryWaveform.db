@@ -38,7 +38,7 @@ record(longin, "$(PRIMARY):$(MICRO):$(UNIT):FAULTHIST$(HIST)_WFPULSEID")
 {
     field(DESC, "PulseID for fault history$(HIST) waveform")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),0) pulseId_beamCurrentHist$(HIST)")
+    field(INP,  "@asyn($(PORT),0) pId_beamCurrentHist$(HIST)")
     field(SCAN, "I/O Intr")
     field(TSE,  "-2")
 }

@@ -216,15 +216,15 @@ class interlockRtmAsynDriver
 #define rtmSetDivrRatioString              "rtmSetDivrRatio"
 #define rtmSetCurrRatioString              "rtmSetCurrRatio"
 
-#define rtmPulseIdBeamCurrentString        "pulseId_beamCurrent"
-#define rtmPulseIdBeamVoltageString        "pulseId_beamVoltage"
-#define rtmPulseIdFwdPowerString           "pulseId_fwdPower"
-#define rtmPulseIdRefPowerString           "pulseId_refPower"
+#define rtmPulseIdBeamCurrentString        "pId_beamCurrent"
+#define rtmPulseIdBeamVoltageString        "pId_beamVoltage"
+#define rtmPulseIdFwdPowerString           "pId_fwdPower"
+#define rtmPulseIdRefPowerString           "pId_refPower"
 
-#define rtmPulseIdBeamCurrentHistString    "pulseId_beamCurrentHist%d"
-#define rtmPulseIdBeamVoltageHistString    "pulseId_beamVoltageHist%d"
-#define rtmPulseIdFwdPowerHistString       "pulseId_fwdPowerHist%d"
-#define rtmPulseIdRefPowerHistString       "pulseId_refPowerHist%d"
+#define rtmPulseIdBeamCurrentHistString    "pId_beamCurrentHist%d"
+#define rtmPulseIdBeamVoltageHistString    "pId_beamVoltageHist%d"
+#define rtmPulseIdFwdPowerHistString       "pId_fwdPowerHist%d"
+#define rtmPulseIdRefPowerHistString       "pId_refPowerHist%d"
 
 #define rtmSetThresholdFwdPowerString            "rtmSetFwdPower"
 #define rtmSetThresholdRefPowerString            "rtmSetRefPower"

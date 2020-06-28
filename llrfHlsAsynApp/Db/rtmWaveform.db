@@ -160,7 +160,7 @@ record(longin, "$(PRIMARY):$(MICRO):$(UNIT):RTM_WFPULSEID")
 {
     field(DESC, "Pulse ID for RTM waveforms")
     field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),0) pulseId_beamCurrent")
+    field(INP,  "@asyn($(PORT),0) pId_beamCurrent")
     field(SCAN, "I/O Intr")
     field(TSE,  "-2")
 }

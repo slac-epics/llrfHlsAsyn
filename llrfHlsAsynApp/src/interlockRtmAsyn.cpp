@@ -130,6 +130,8 @@ interlockRtmAsynDriver::interlockRtmAsynDriver(const char *portName, const char 
 
 }
 
+interlockRtmAsynDriver::~interlockRtmAsynDriver() {}
+
 
 void interlockRtmAsynDriver::paramSetup(void)
 {
@@ -685,7 +687,7 @@ static int interlockRtmAsynDriverReport(int interest)
     return 0;
 }
 
-static int interlockRthmAsynDriverInitialize(void)
+static int interlockRtmAsynDriverInitialize(void)
 {
 
     return 0;

@@ -1,5 +1,3 @@
 registrar(llrfHlsAsynDriverRegister)
 driver(llrfHlsAsynDriver)
-registrar(interlockRtmAsynDriverRegister)
-driver(interlockRtmAsynDriver)
 

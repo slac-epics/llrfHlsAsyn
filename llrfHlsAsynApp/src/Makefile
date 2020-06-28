@@ -19,9 +19,6 @@ INCLUDES += $(addprefix -I,$(LLRFHLS_INCLUDE))
 INC += llrfHlsAsyn.h
 
 DBD += llrfHlsAsynDriver.dbd
-DBD += interlockRtmAsyn.dbd
-DBD += timeAxisGenerator.dbd
-
 
 LIBRARY_IOC += llrfHlsAsyn
 
@@ -29,9 +26,6 @@ llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
 
 llrfHlsAsyn_DBD  += interlockRtmAsyn.dbd
-llrfHlsAsyn_DBD  += timeAxisGenerator.c
-llrfHlsAsyn_SRCS += interlockRtmAsyn.cpp
-llrfHlsAsyn_SRCS += timeAxisGenerator.c
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)

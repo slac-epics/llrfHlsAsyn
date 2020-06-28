@@ -329,6 +329,9 @@ void interlockRtmAsynDriver::report(int interest)
     printf("      RTM subtype         : %s\n", rtmSubType);
     printf("      RTM firmware date   : %s\n", rtmFirmwareDate);
     printf("      interlock task cnt  : %u\n", count);
+    char ts_str[80];
+    epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &time);
+    printf("      timestamp last proc : %s\n", ts_str);
     
     if(interest) reportRtmWaveformBuffer();
 }

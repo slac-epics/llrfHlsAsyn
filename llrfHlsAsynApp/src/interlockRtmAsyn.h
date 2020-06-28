@@ -63,6 +63,8 @@ class interlockRtmAsynDriver
         void getRtmThresholdReadout(void);
 
     private:
+        const char*  port;
+        const char*  path;
         ELLLIST      faultSnapShot;
         ELLLIST      bufferList;
         epicsMutex*  pRtmLock;

@@ -52,6 +52,83 @@ typedef struct {
     interlockRtmAsynDriver   *pInterlockRtmAsyn;
 } pDrvList_t;
 
+static void init_drvList(void)
+{
+    if(!pDrvEllList) {
+        pDrvEllList = (ELLLIST *) mallocMustSucceed(sizeof(ELLLIST), "interlockRtmAsyn driver: init_drvList()");
+        ellInit(pDrvEllList);
+    }
+
+    return;
+}
+
+static pDrvList_t *find_drvByPort(const char *port)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+      if(p->port && strlen(p->port) && !strcmp(p->port, port)) break;
+      p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+static pDrvList_t *find_drvByNamedRoot(const char *named_root)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+        if(p->named_root && strlen(p->named_root) && !strcmp(p->named_root, named_root)) break;
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+
+
+interlockRtmAsynDriver::interlockRtmAsynDriver(const char *portName, const char *pathString, const char *named_root)
+    : asynPortDriver(portName,
+                     1, /* number of elements of this device */
+
+#if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
+                     NUM_LLRFHLS_DET_PARAMS, /* number of asyn params of be cleared for each device */
+#endif  /* asyn version check, under 4.32 */
+                     asynInt32Mask | asynFloat64Mask | asynOctetMask | asynDrvUserMask | asynInt16ArrayMask | asynInt32ArrayMask | asynFloat64ArrayMask, /* Interface mask */
+                     asynInt32Mask | asynFloat64Mask | asynOctetMask | asynEnumMask    | asynInt16ArrayMask | asynInt32ArrayMask | asynFloat64ArrayMask,  /* Interrupt mask */
+                     1, /* asynFlags.  This driver does block and it is not multi-device, so flag is 1 */
+                     1, /* Autoconnect */
+                     0, /* Default priority */
+                     0) /* Default stack size*/
+{
+    Path p_root;
+    Path p_interlockRtm;
+    port = epicsStrDup(portName);
+    path = epicsStrDup(pathString);
+
+    try {
+        p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
+        p_interlockRtm = p_root->findByName(strlen(pathString)? pathString: ".");
+    } catch (CPSWError &e) {
+        fprintf(stderr, "CPSW Error: %s, file %s, line %d\n", e.getInfo().c_str(), __FILE__, __LINE__);
+        throw e;
+    }
+
+    fw = IinterlockRtmFw::create(p_interlockRtm);
+    pRtmLock = new epicsMutex;
+    pevent   = new epicsEvent;
+    
+
+
+    paramSetup();
+    getRtmInfo();
+
+    callParamCallbacks();
+
+}
 
 
 void interlockRtmAsynDriver::paramSetup(void)
@@ -211,11 +288,11 @@ asynStatus interlockRtmAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat6
     
     if(status)
         epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
-                      "%s:%s: status=%d, function=%d, value=%d", 
+                      "%s:%s: status=%d, function=%d, value=%lf", 
                       getDriverName(), functionName, status, function, value);
     else
         asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
-                  "%s:%s: function=%d, value=%d\n",
+                  "%s:%s: function=%d, value=%lf\n",
                   getDriverName(), functionName, function, value);
 
     return status;
@@ -527,6 +604,96 @@ void interlockRtmAsynDriver::getRtmThresholdReadout(void)
     
 }
 
+
+
+
+extern "C" {
+
+int interlockRtmAsynDriverConfigure(const char *portName, const char *regPathString, const char *named_root)
+{
+    init_drvList();
+
+    pDrvList_t *p = find_drvByPort(portName);
+    if(p) {
+        printf("interlockRtmAsynDriver found that port name (%s) has been used.\n", portName);
+        return 0;
+    };
+
+    p             = (pDrvList_t *) mallocMustSucceed(sizeof(pDrvList_t), "interlockRtmAsyn driver: interlockRtmAsynDriverConfigure()");
+    p->named_root = (named_root && strlen(named_root))?epicsStrDup(named_root): cpswGetRootName();
+    p->regPath    = (regPathString && strlen(regPathString))? epicsStrDup(regPathString): (char *)".";
+    p->pInterlockRtmAsyn = new interlockRtmAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->named_root);
+
+    ellAdd(pDrvEllList, &p->node);
+
+    return 0;
+}
+
+
+static const iocshArg initArg0 = {"port name",        iocshArgString};
+static const iocshArg initArg1 = {"register path",    iocshArgString};
+static const iocshArg initArg2 = {"named_root",       iocshArgString};
+static const iocshArg * const initArgs[] = { &initArg0,
+                                             &initArg1,
+                                             &initArg2 };
+static const iocshFuncDef initFuncDef = {"interlockRtmAsynDriverConfigure", 3, initArgs};
+static void  initCallFunc(const iocshArgBuf *args)
+{
+    interlockRtmAsynDriverConfigure(args[0].sval,
+                                    (args[1].sval && strlen(args[1].sval))?args[1].sval: NULL,
+                                    (args[2].sval && strlen(args[2].sval))?args[2].sval: NULL);
+       
+}
+
+static void interlockRtmAsynDriverRegister(void)
+{
+    iocshRegister(&initFuncDef, initCallFunc);
+}
+
+
+epicsExportRegistrar(interlockRtmAsynDriverRegister);
+
+
+
+static int interlockRtmAsynDriverReport(int interest);
+static int interlockRtmAsynDriverInitialize(void);
+
+static struct drvet interlockRtmAsynDriver = {
+    2,
+    (DRVSUPFUN) interlockRtmAsynDriverReport,
+    (DRVSUPFUN) interlockRtmAsynDriverInitialize
+};
+
+epicsExportAddress(drvet, interlockRtmAsynDriver);
+
+
+static int interlockRtmAsynDriverReport(int interest)
+{
+    init_drvList();
+    printf("Total %d of interlockRtmAsyn driver instance(s) is(are) registered.\n", ellCount(pDrvEllList));
+
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+    while(p) {
+        printf("\tnamed_root       : %s\n", p->named_root);
+        printf("\tport name        : %s\n", p->port);
+        printf("\tregister path    : %s\n", p->regPath);
+        printf("\tinterlockRtmAsyn : %p\n", p->pInterlockRtmAsyn);
+        if(p->pInterlockRtmAsyn) p->pInterlockRtmAsyn->report(interest);
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return 0;
+}
+
+static int interlockRthmAsynDriverInitialize(void)
+{
+
+    return 0;
+}
+
+
+
+} /* extern C */
 
 
 

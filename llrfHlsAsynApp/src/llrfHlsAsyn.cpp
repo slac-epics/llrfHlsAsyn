@@ -37,6 +37,7 @@
 #include <asynOctetSyncIO.h>
 
 #include "llrfHlsAsyn.h"
+#include "rtmInterface.h"
 
 static bool          keep_stay_in_loop = true;
 static epicsEventId  shutdownEvent;
@@ -50,6 +51,7 @@ typedef struct {
     char              *regPath;
     char              *hlsStream;
     llrfHlsAsynDriver *pLlrfHlsAsyn;
+    void              *pRtm;
 } pDrvList_t;
 
 
@@ -90,8 +92,18 @@ static pDrvList_t *find_drvByNamedRoot(const char *named_root)
 }
 
 
+void registerRtm2llrfHlsAsyn(void *pRtm)
+{
+    init_drvList();
+    if(ellCount(pDrvEllList)) {
+        pDrvList_t *p = (pDrvList_t *) ellLast(pDrvEllList);
+        if(p) p->pRtm = pRtm;
+    }
 
-llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathString, const char *hlsStream, const char *named_root)
+}
+
+
+llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *named_root)
     : asynPortDriver(portName,
                      1, /* number of elements of this device */
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
@@ -109,6 +121,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(const char *portName, const char *pathStrin
     port = epicsStrDup(portName);
     path = epicsStrDup(pathString);
     stream = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
+    this->pDrv = pDrv;
 
     need_to_read      = true;
     stream_read_count = 0;
@@ -336,6 +349,8 @@ void llrfHlsAsynDriver::pollStream(void)
         p_buf            = (uint8_t *) &p_bsa_buf[current_bsa];
         stream_read_size = hls_stream_->read(p_buf, 4096, CTimeout());
         stream_read_count++;
+
+        if(((pDrvList_t *) pDrv)->pRtm) callRtmProcessing((p_bsa_buf[current_bsa]).time, ((pDrvList_t *)pDrv)->pRtm);  // asynchronous rtm processing
 
         setTimeStamp(&((p_bsa_buf[current_bsa]).time));
         bsaProcessing(&p_bsa_buf[current_bsa]);
@@ -593,7 +608,9 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
     p->port         = epicsStrDup(portName);
     p->regPath      = epicsStrDup(regPathString);
     p->hlsStream    = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
-    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->named_root);
+    p->pRtm         = (void *) NULL;
+    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((void *) p, (const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->named_root);
+
 
     ellAdd(pDrvEllList, &p->node);
 
@@ -689,6 +706,7 @@ static int llrfHlsAsynDriverReport(int interest)
         printf("\tregoster path: %s\n", p->regPath);
         printf("\tllrfHlsAsyn  : %p\n", p->pLlrfHlsAsyn);
         printf("\thlsStream    : %p\n", p->hlsStream);
+        printf("\trtm          : %p\n", p->pRtm);
         if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->report(interest);
         p = (pDrvList_t *) ellNext(&p->node);
     }

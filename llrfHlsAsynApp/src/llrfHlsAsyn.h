@@ -47,7 +47,7 @@ typedef struct {
 class llrfHlsAsynDriver
     :asynPortDriver {
     public:
-        llrfHlsAsynDriver(const char *portName, const char *pathString, const char *hlsStream, const char *named_root = NULL);
+        llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *named_root = NULL);
         ~llrfHlsAsynDriver();
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
@@ -70,6 +70,7 @@ class llrfHlsAsynDriver
 
 
     private:
+        void *pDrv;
         char *port;
         char *path;
         char *stream;

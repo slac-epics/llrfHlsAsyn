@@ -37,6 +37,7 @@
 #include <asynOctetSyncIO.h>
 
 #include "interlockRtmAsyn.h"
+#include "rtmInterface.h"
 
 
 static const char *driverName = "interlockRtmAsynDriver";
@@ -89,6 +90,12 @@ static pDrvList_t *find_drvByNamedRoot(const char *named_root)
 }
 
 
+void callRtmProcessing(epicsTimeStamp time, void *pRtm)
+{
+    interlockRtmAsynDriver *p = ((pDrvList_t *) pRtm)->pInterlockRtmAsyn;
+    if(p) p->interlockProcess(time);
+}
+
 
 interlockRtmAsynDriver::interlockRtmAsynDriver(const char *portName, const char *pathString, const char *named_root)
     : asynPortDriver(portName,
@@ -120,10 +127,12 @@ interlockRtmAsynDriver::interlockRtmAsynDriver(const char *portName, const char 
     fw = IinterlockRtmFw::create(p_interlockRtm);
     pRtmLock = new epicsMutex;
     pevent   = new epicsEvent;
-    
+    ready    = false;
+    count    = 0;
 
 
     paramSetup();
+    initRtmWaveforms();
     getRtmInfo();
 
     callParamCallbacks();
@@ -319,20 +328,28 @@ void interlockRtmAsynDriver::report(int interest)
     printf("      RTM system id       : %s\n", rtmSystemId);
     printf("      RTM subtype         : %s\n", rtmSubType);
     printf("      RTM firmware date   : %s\n", rtmFirmwareDate);
+    printf("      interlock task cnt  : %u\n", count);
     
     if(interest) reportRtmWaveformBuffer();
 }
 
+void interlockRtmAsynDriver::interlockProcess(epicsTimeStamp time)
+{
+    this->time = time;
+    setTimeStamp(&(this->time));
+    if(ready) pevent->signal();
+}
 
 void interlockRtmAsynDriver::interlockTask(void *p)
 {
    uint32_t st;
    rtmStatus = rtmFaultOutStatus = rtmAdcLockedStatus= rtmRFOffStatus = 0xffffffff;
+   ready     = true;
    
    
    
     while(1) {
-        pevent->wait();
+        pevent->wait(); count++;
         fw->cmdRtmRearm();
         
         fw->getRtmStatus(&st);              // read status register
@@ -611,6 +628,12 @@ void interlockRtmAsynDriver::getRtmThresholdReadout(void)
 
 extern "C" {
 
+static int interlockRtmThread(void *p)
+{
+    ((pDrvList_t *)p)->pInterlockRtmAsyn->interlockTask(p);
+    return 0;
+}
+
 int interlockRtmAsynDriverConfigure(const char *portName, const char *regPathString, const char *named_root)
 {
     init_drvList();
@@ -622,9 +645,13 @@ int interlockRtmAsynDriverConfigure(const char *portName, const char *regPathStr
     };
 
     p             = (pDrvList_t *) mallocMustSucceed(sizeof(pDrvList_t), "interlockRtmAsyn driver: interlockRtmAsynDriverConfigure()");
+    p->port       = epicsStrDup(portName);
+    p->regPath    = (regPathString && strlen(regPathString))? epicsStrDup(regPathString): epicsStrDup(".");
     p->named_root = (named_root && strlen(named_root))?epicsStrDup(named_root): cpswGetRootName();
-    p->regPath    = (regPathString && strlen(regPathString))? epicsStrDup(regPathString): (char *)".";
+    p->pInterlockRtmAsyn = (interlockRtmAsynDriver *) NULL;
     p->pInterlockRtmAsyn = new interlockRtmAsynDriver((const char *) p->port, (const char *) p->regPath, (const char *) p->named_root);
+
+    registerRtm2llrfHlsAsyn((void *) p);
 
     ellAdd(pDrvEllList, &p->node);
 
@@ -683,12 +710,21 @@ static int interlockRtmAsynDriverReport(int interest)
         if(p->pInterlockRtmAsyn) p->pInterlockRtmAsyn->report(interest);
         p = (pDrvList_t *) ellNext(&p->node);
     }
-
     return 0;
 }
 
 static int interlockRtmAsynDriverInitialize(void)
 {
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+    while(p) {
+        char name[80];
+        sprintf(name, "intTask_%s", p->port);
+        if(p->pInterlockRtmAsyn) epicsThreadCreate(name, epicsThreadPriorityHigh,
+                                                   epicsThreadGetStackSize(epicsThreadStackMedium),
+                                                   (EPICSTHREADFUNC) interlockRtmThread, (void *) p);
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
 
     return 0;
 }

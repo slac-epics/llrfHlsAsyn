@@ -48,6 +48,7 @@ class interlockRtmAsynDriver
         void paramSetup(void);
         void getRtmInfo(void);
         void report(int interest);
+        void interlockProcess(epicsTimeStamp time);
         void interlockTask(void *p);
         void initRtmWaveforms(void);
         void convertFastADCWaveform(uint32_t adc[], double v[]);
@@ -69,6 +70,8 @@ class interlockRtmAsynDriver
         ELLLIST      bufferList;
         epicsMutex*  pRtmLock;
         epicsEvent*  pevent;
+        bool         ready;
+        unsigned     count;
 
         interlockRtmFw fw;
 

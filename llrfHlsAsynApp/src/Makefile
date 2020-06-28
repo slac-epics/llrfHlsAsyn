@@ -25,6 +25,7 @@ LIBRARY_IOC += llrfHlsAsyn
 
 llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
+llrfHlsAsyn_SRCS += interlockRtmAsyn.cpp
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)

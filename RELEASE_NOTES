@@ -1,3 +1,13 @@
+R2.0.0      06-28-2020    Kukhee Kim (khkim)
+                        - build against llrfHls (API) R2.0.0
+                        - support interlock RTM
+                          available to work with interlockRtmAsyn module
+
+            06-08-2020    Kukhee Kim (khkim)
+                        - extend window number to 3
+                        - extend channels (10 for feedback, 20 for diagnostics)
+                        - add EDM screen
+
 R1.0.0      06-04-2020    Kukhee Kim (khkim)
                         - first working version release
                         - build with llrfHls R1.0.0

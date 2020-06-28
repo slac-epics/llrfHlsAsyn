@@ -529,7 +529,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
 void llrfHlsAsynDriver::bsaSetup(void)
 {
-    char param_name[80];
+    char param_name[128];
 
     for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
@@ -584,7 +584,7 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
 
     pDrvList_t *p = find_drvByPort(portName);
     if(p) {
-        printf("llrfHlsAsynDriver found that port name (%s) has been used.\n");
+        printf("llrfHlsAsynDriver found that port name (%s) has been used.\n", portName);
         return 0;
     }
 

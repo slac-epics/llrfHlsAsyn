@@ -1,0 +1,31 @@
+file rtmInterlock.db
+{
+    pattern { PORT }
+            { "cpswKlystronPort" }
+}
+
+file rtmWaveform.db
+{
+    pattern { PORT,                SIZE, SLOW_FACTOR }
+            { "cpswKlystronPort",  "510",   "10"     }
+}
+
+file rtmFaultHistoryWaveform.db
+{
+    pattern { PORT,                HIST,  SIZE  }
+            { "cpswKlystronPort",  "0",   "510" }
+            { "cpswKlystronPort",  "1",   "510" }
+            { "cpswKlystronPort",  "2",   "510" }
+            { "cpswKlystronPort",  "3",   "510" }
+}
+
+file rtmFaultCounters.db
+{
+    pattern { FAULT           }
+            { "RTM_VOLT_OVER" }
+            { "RTM_CURR_OVER" }
+            { "RTM_RP_OVER"   }
+            { "RTM_SLED_SUMY" }
+            { "RTM_MOD_FAULT" }
+}
+

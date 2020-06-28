@@ -14,7 +14,7 @@ include $(TOP)/configure/CONFIG
 #
 # llrfHlsAsyn
 DB += llrfHlsAsyn.db
-
+DB += interlockRtm.db
 
 # =======================================================================
 

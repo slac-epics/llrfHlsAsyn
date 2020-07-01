@@ -261,9 +261,19 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
     asynStatus status        = asynSuccess;
     const char *functionName = "writeFloat64Array";
 
-    for(int w = 0; w < NUM_WINDOW; w++) if(function == p_avg_window[w] && nElements == MAX_SAMPLES) {    // update average window
-        llrfHls->setAverageWindow(value, w);
-        break;
+    for(int w = 0; w < NUM_WINDOW; w++) {
+        if(function == p_avg_window[w] && nElements == MAX_SAMPLES) {    // update average window
+            llrfHls->setAverageWindow(value, w);
+            break;
+        }
+        else if(function == p_iwf_avg_window[w] && nElements == MAX_SAMPLES) {  // update complex waveform I
+            llrfHls->setIWaveformAverageWindow(value, w);
+            break;
+        }
+        else if(function == p_qwf_avg_window[w] && nElements == MAX_SAMPLES) { // update complex waveform Q
+            llrfHls->setQWaveformAverageWindow(value, w);
+            break;
+        }
     }
 
     return status;
@@ -496,7 +506,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, A_DRV_LOWER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_lower);
 
     for(int w = 0; w < NUM_WINDOW; w++) {
-        sprintf(param_name, AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));
+        sprintf(param_name, AVG_WINDOW_STR, w);     createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));
+        sprintf(param_name, IWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_iwf_avg_window[w]));
+        sprintf(param_name, QWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_qwf_avg_window[w]));
     }
 
     for(int i = 0; i < NUM_FB_CH; i++) {    // for loop for number of channels
@@ -591,6 +603,10 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
 
 extern "C" {
+
+extern int ComplexAvgWindow;
+epicsExportAddress(int, ComplexAvgWindow);
+
 
 // driver configuration, C wrapper 
 int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *hlsStream, const char *named_root)

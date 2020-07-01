@@ -166,6 +166,8 @@ class llrfHlsAsynDriver
         int p_p_set_ts[NUM_TIMESLOT];         // phase ser value for each timeslot
         int p_a_set_ts[NUM_TIMESLOT];         // amplitude set value for each timeslot
         int p_avg_window[NUM_WINDOW];                     // average window
+        int p_iwf_avg_window[NUM_WINDOW];     // complex average window, i waveform
+        int p_qwf_avg_window[NUM_WINDOW];     // complex average window, q waveform
         int p_i_wf_ch[NUM_FB_CH];                // i waveform for each channel
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
 
@@ -226,6 +228,8 @@ class llrfHlsAsynDriver
 #define P_SET_STR                    "p_set_ts%d"        // phase set value, for each timeslot, array[18]
 #define A_SET_STR                    "a_set_ts%d"        // amplitude set value, for each timeslot, array[18]
 #define AVG_WINDOW_STR               "avg_window%d"      // average window, length = 4096
+#define IWF_AVG_WINDOW_STR           "iwf_avg_window%d"  // i waveform for complex average window, legnth 4096
+#define QWF_AVG_WINDOW_STR           "qwf_avg_window%d"  // q waveform for complex average window, length 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
 

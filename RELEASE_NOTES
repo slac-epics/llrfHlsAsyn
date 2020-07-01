@@ -1,3 +1,7 @@
+R2.1.0      06-30-2020    Kukhee Kim (khkim)
+                        - build against llrfHls (API) R2.1.0
+                        - support complex average window to support PCAV application
+
 R2.0.0      06-28-2020    Kukhee Kim (khkim)
                         - build against llrfHls (API) R2.0.0
                         - support interlock RTM

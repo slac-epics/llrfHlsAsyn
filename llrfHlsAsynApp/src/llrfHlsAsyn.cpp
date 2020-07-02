@@ -255,23 +255,37 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     return status;
 }
 
+static epicsFloat64* __zero_pad(epicsFloat64 *value, epicsFloat64 *v, size_t nElements)
+{
+    if(nElements >= MAX_SAMPLES) return value;
+
+    int i;
+    for(i = 0; i < nElements;   i++)  *(v + i) = *(value + i);
+    for(     ; i < MAX_SAMPLES; i++)  *(v + i) = *(value + i);
+
+    return v;
+}
+
 asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements)
 {
     int        function      = pasynUser->reason;
     asynStatus status        = asynSuccess;
     const char *functionName = "writeFloat64Array";
 
+    epicsFloat64 v[MAX_SAMPLES];
+
+
     for(int w = 0; w < NUM_WINDOW; w++) {
-        if(function == p_avg_window[w] && nElements == MAX_SAMPLES) {    // update average window
-            llrfHls->setAverageWindow(value, w);
+        if(function == p_avg_window[w]) {    // update average window
+            llrfHls->setAverageWindow(__zero_pad(value, v, nElements), w);
             break;
         }
-        else if(function == p_iwf_avg_window[w] && nElements == MAX_SAMPLES) {  // update complex waveform I
-            llrfHls->setIWaveformAverageWindow(value, w);
+        else if(function == p_iwf_avg_window[w]) {  // update complex waveform I
+            llrfHls->setIWaveformAverageWindow(__zero_pad(value, v, nElements), w);
             break;
         }
-        else if(function == p_qwf_avg_window[w] && nElements == MAX_SAMPLES) { // update complex waveform Q
-            llrfHls->setQWaveformAverageWindow(value, w);
+        else if(function == p_qwf_avg_window[w]) { // update complex waveform Q
+            llrfHls->setQWaveformAverageWindow(__zero_pad(value, v, nElements), w);
             break;
         }
     }

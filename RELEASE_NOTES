@@ -1,3 +1,7 @@
+R2.1.1      07-02-2020    Kukhee Kim (khkim)
+                        - bug fix for average window and complex window
+                          if the input waveform is shorter than expected, put zero pad for the remaining part
+
 R2.1.0      06-30-2020    Kukhee Kim (khkim)
                         - build against llrfHls (API) R2.1.0
                         - support complex average window to support PCAV application

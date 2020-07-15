@@ -1,3 +1,7 @@
+R2.2.0      07-15-2020    Kukhee Kim (khkim)
+                        - build against ATCACommon R1.3.0-BR-R2, stream callback for Beam Voltage Peak
+                        - implement beam voltage peak calculation
+
 R2.1.1      07-02-2020    Kukhee Kim (khkim)
                         - bug fix for average window and complex window
                           if the input waveform is shorter than expected, put zero pad for the remaining part
@@ -8,7 +12,7 @@ R2.1.0      06-30-2020    Kukhee Kim (khkim)
 
 R2.0.0      06-28-2020    Kukhee Kim (khkim)
                         - build against llrfHls (API) R2.0.0
-                        - support interlock RTM
+                        - support interlock RR
                           available to work with interlockRtmAsyn module
 
             06-08-2020    Kukhee Kim (khkim)

@@ -38,6 +38,7 @@
 
 #include "llrfHlsAsyn.h"
 #include "rtmInterface.h"
+#include "debugStreamInterface.h"
 
 static bool          keep_stay_in_loop = true;
 static epicsEventId  shutdownEvent;

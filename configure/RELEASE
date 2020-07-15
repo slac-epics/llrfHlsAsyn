@@ -27,6 +27,8 @@ ASYN_MODULE_VERSION=R4.32-1.0.0
 TIMINGAPI_MODULE_VERSION=R0.6
 BSACORE_MODULE_VERSION=R1.5.3
 EVENT_MODULE_VERSION=R4.5.2
+ATCACOMMON_MODULE_VERSION=debug_stream
+
 
 # ==========================================================
 # Define module paths using pattern
@@ -41,6 +43,8 @@ ASYN=$(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
 TIMINGAPI=$(EPICS_MODULES)/timingApi/$(TIMINGAPI_MODULE_VERSION)
 BSACORE=$(EPICS_MODULES)/BsaCore/$(BSACORE_MODULE_VERSION)
 EVENT=$(EPICS_MODULES)/event/$(EVENT_MODULE_VERSION)
+ATCACOMMON=$(EPICS_MODULES)/ATCACommon/$(ATCACOMMON_MODULE_VERSION)
+
 
 
 # =====================================================================

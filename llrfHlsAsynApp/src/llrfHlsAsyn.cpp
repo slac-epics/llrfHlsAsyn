@@ -573,6 +573,8 @@ void llrfHlsAsynDriver::bsaSetup(void)
 {
     char param_name[128];
 
+    BSA_ConfigSetAllPriorites(90);
+
     for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
             sprintf(param_name, P_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);

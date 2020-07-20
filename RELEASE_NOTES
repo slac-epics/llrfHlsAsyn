@@ -1,3 +1,6 @@
+R2.2.1      07-18-2020    Kukhee Kim (khkim)
+                        - adjust BSA thread pool to RT prioity 90
+
 R2.2.0      07-15-2020    Kukhee Kim (khkim)
                         - build against ATCACommon R1.3.0-BR-R2, stream callback for Beam Voltage Peak
                         - implement beam voltage peak calculation

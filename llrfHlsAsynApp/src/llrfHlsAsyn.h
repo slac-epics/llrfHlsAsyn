@@ -9,6 +9,7 @@
 
 #include <cpsw_api_user.h>
 #include <llrfFw.h>
+#include <dacSigGenFw.h>
 #include <vector>
 #include <string>
 #include <dlfcn.h>
@@ -75,6 +76,7 @@ class llrfHlsAsynDriver
         char *path;
         char *stream;
         llrfFw  llrfHls;
+        dacSigGenFw dacSigGen;
         Stream hls_stream_;
 
         bool        need_to_read;
@@ -177,6 +179,8 @@ class llrfHlsAsynDriver
         int p_br_amplitude[NUM_WINDOW][NUM_FB_CH];
         int p_br_pact;
         int p_br_aact;
+        int i_baseband_wf;                       // baseband i waveform
+        int q_baseband_wf;                       // baseband q waveform
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
@@ -232,6 +236,9 @@ class llrfHlsAsynDriver
 #define QWF_AVG_WINDOW_STR           "qwf_avg_window%d"  // q waveform for complex average window, length 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
+
+#define I_BASEBAND_STR               "i_baseband_wf"     // i baseband waveform, length = 4096
+#define Q_BASEBAND_STR               "q_baseband_wf"     // q baseband waveform, length = 4096
 
 #define P_BR_WND_CH_STR              "p_br_w%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_w%dch%d"      // amplitude for beam rate PV, for window and channel

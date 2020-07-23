@@ -142,6 +142,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     }
 
     llrfHls = IllrfFw::create(p_llrfHls);
+    dacSigGen = IdacSigGenFw::create(p_root);
 
     ParameterSetup();
     bsaSetup();
@@ -275,6 +276,13 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
     epicsFloat64 v[MAX_SAMPLES];
 
+    if(function == i_baseband_wf) {
+        dacSigGen->setIWaveform(__zero_pad(value, v, nElements));
+    }
+    else if(function == q_baseband_wf) {
+        dacSigGen->setQWaveform(__zero_pad(value, v, nElements));
+    }
+    else
 
     for(int w = 0; w < NUM_WINDOW; w++) {
         if(function == p_avg_window[w]) {    // update average window
@@ -566,6 +574,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     }
     sprintf(param_name, P_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_pact));
     sprintf(param_name, A_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_aact));
+
+    sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64, &(i_baseband_wf));
+    sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64, &(q_baseband_wf));
 }
 
 

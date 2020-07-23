@@ -1,3 +1,6 @@
+R2.3.0      07-23-2020    Kukhee Kim (khkim)
+                        - implement baseband I&Q waveform inputs for DacSigGen
+
 R2.2.1      07-18-2020    Kukhee Kim (khkim)
                         - adjust BSA thread pool to RT prioity 90
 

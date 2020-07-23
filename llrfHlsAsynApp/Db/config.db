@@ -237,4 +237,26 @@ record(ao, "$(DEVICE):ADRVLOL")
     info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
 }
 
+record(waveform, "$(DEVICE):IBL")
+{
+    field(PINI, "YES")
+    field(DESC, "I baseline waveform")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) i_baseline_wf")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+    info(autosaveFields, "VAL")
+}
 
+record(waveform, "$(DEVICE):QBL")
+{
+    field(PINI, "YES")
+    field(DESC, "Q baseline waveform")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) q_baseline_wf")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+    info(autosaveFields, "VAL")
+}

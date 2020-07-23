@@ -1,7 +1,7 @@
 file config.db
 {
-    pattern {   DEVICE  }
-            {  "$(DEV)" }
+    pattern {   DEVICE,  NELM_BL  }
+            {  "$(DEV)",    4096  }
 }
 
 file status.db

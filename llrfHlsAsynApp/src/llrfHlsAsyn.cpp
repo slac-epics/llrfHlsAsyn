@@ -575,8 +575,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, P_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_pact));
     sprintf(param_name, A_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_aact));
 
-    sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64, &(i_baseband_wf));
-    sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64, &(q_baseband_wf));
+    sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(i_baseband_wf));
+    sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(q_baseband_wf));
 }
 
 

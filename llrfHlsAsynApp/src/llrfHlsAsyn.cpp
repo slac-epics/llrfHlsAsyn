@@ -142,7 +142,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     }
 
     llrfHls = IllrfFw::create(p_llrfHls);
-    dacSigGen = IdacSigGenFw::create(p_root);
+    dacSigGen = IdacSigGenFw::create(p_root->findByName("mmio"));
 
     ParameterSetup();
     bsaSetup();

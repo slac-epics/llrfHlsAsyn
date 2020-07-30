@@ -104,7 +104,7 @@ void registerRtm2llrfHlsAsyn(void *pRtm)
 }
 
 
-llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *named_root)
+llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *bsa_prefix, const char *named_root)
     : asynPortDriver(portName,
                      1, /* number of elements of this device */
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
@@ -129,7 +129,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     stream_read_size  = 0;
     current_bsa       = -1;
     p_buf             = (uint8_t *) &p_bsa_buf[0];
-    strcpy(bsa_macro, "default_bsa");
+    bsa_macro = (bsa_prefix && strlen(bsa_prefix))? epicsStrDup(bsa_prefix):epicsStrDup("default_bsa");
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
@@ -641,7 +641,7 @@ epicsExportAddress(int, ComplexAvgWindow);
 
 
 // driver configuration, C wrapper 
-int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *hlsStream, const char *named_root)
+int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *hlsStream, const char *bsa_prefix, const char *named_root)
 {
     init_drvList();
 
@@ -671,18 +671,21 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
 static const iocshArg initArg0 = {"port name",      iocshArgString};
 static const iocshArg initArg1 = {"register path",  iocshArgString};
 static const iocshArg initArg2 = {"hls stream",     iocshArgString};
-static const iocshArg initArg3 = {"named_root",     iocshArgString};
+static const iocshArg initArg3 = {"bsa prefix",     iocshArgString};
+static const iocshArg initArg4 = {"named_root",     iocshArgString};
 static const iocshArg * const initArgs[] = { &initArg0,
                                              &initArg1,
                                              &initArg2,
-                                             &initArg3 };
-static const iocshFuncDef initFuncDef = {"llrfHlsAsynDriverConfigure", 4, initArgs};
+                                             &initArg3,
+                                             &initArg4 };
+static const iocshFuncDef initFuncDef = {"llrfHlsAsynDriverConfigure", 5, initArgs};
 static void  initCallFunc(const iocshArgBuf *args)
 {
     llrfHlsAsynDriverConfigure(args[0].sval,     /* port name */
                                args[1].sval,     /* register path */
                                (args[2].sval && strlen(args[2].sval))?args[2].sval: NULL, /* hls stream */
-                               (args[3].sval && strlen(args[3].sval))?args[3].sval: NULL /* named_root */ );
+                               (args[3].sval && strlen(args[3].sval))?args[3].sval: NULL, /* bsa prefix*/
+                               (args[4].sval && strlen(args[4].sval))?args[4].sval: NULL /* named_root */ );
 }
 
 

@@ -48,7 +48,7 @@ typedef struct {
 class llrfHlsAsynDriver
     :asynPortDriver {
     public:
-        llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *named_root = NULL);
+        llrfHlsAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *hlsStream, const char *bsa_prefix,  const char *named_root = NULL);
         ~llrfHlsAsynDriver();
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
@@ -111,7 +111,7 @@ class llrfHlsAsynDriver
         epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
 
-        char       bsa_macro[80];
+        char       *bsa_macro;
         BsaChannel BsaChn_pact;
         BsaChannel BsaChn_aact;
         BsaChannel BsaChn_phase[NUM_WINDOW][NUM_FB_CH];

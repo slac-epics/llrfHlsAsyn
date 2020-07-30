@@ -1,0 +1,29 @@
+record(ai, "$(DEVICE):PACT_TS$(TS_N)")
+{
+    field(DESC, "actual phase for timeslot $(TS)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) p_act_br_t$(TS)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):AACT_TS$(TS_N)")
+{
+    field(DESC, "actual amplitude for timeslot $(TS)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) a_act_br_t$(TS)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+

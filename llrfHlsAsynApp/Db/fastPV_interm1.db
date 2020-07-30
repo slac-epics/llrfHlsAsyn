@@ -1,0 +1,29 @@
+record(ai, "$(DEVICE):PHASE_TS$(TS_N)W$(WND)CH$(CH)")
+{
+    field(DESC, "phase reading for TS$(TS_N) window $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) p_br_t$(TS)w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):AMPL_TS$(TS_N)W$(WND)CH$(CH)")
+{
+    field(DESC, "amplitude reading for TS$(TS_N) window $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) a_br_t$(TS)w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+

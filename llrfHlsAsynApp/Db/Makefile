@@ -13,6 +13,7 @@ include $(TOP)/configure/CONFIG
 # #
 #
 # llrfHlsAsyn
+DB += fastPV.db
 DB += llrfHlsAsyn.db
 
 

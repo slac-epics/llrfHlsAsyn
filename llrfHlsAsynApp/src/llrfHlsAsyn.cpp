@@ -566,14 +566,16 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     }
 
-    for(int w = 0; w < 1 /* NUM_WINDOW */; w++){        // w, window index
-        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            sprintf(param_name, P_BR_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_br_phase[w][i]));
-            sprintf(param_name, A_BR_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_br_amplitude[w][i]));
+    for(int t = 0; t < NUM_TIMESLOT; t++) {
+        for(int w = 0; w < 1 /* NUM_WINDOW */; w++){        // w, window index
+            for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
+                sprintf(param_name, P_BR_WND_CH_STR, t, w, i); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_phase[w][i]));
+                sprintf(param_name, A_BR_WND_CH_STR, t, w, i); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_amplitude[w][i]));
+            }
         }
+        sprintf(param_name, P_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_pact));
+        sprintf(param_name, A_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_aact));
     }
-    sprintf(param_name, P_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_pact));
-    sprintf(param_name, A_BR_STR); createParam(param_name, asynParamFloat64, &(p_br_aact));
 
     sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(i_baseband_wf));
     sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(q_baseband_wf));
@@ -614,13 +616,15 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
     // todo, update timestamp for asyn Port driver
 
-    setDoubleParam(p_br_pact, p->phase_fb);
-    setDoubleParam(p_br_aact, p->ampl_fb);
+    int t = p->time_slot;
+
+    setDoubleParam(p_br[t].p_br_pact, p->phase_fb);
+    setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
 
     for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
-            setDoubleParam(p_br_phase[w][i], p->phase[w][i]);
-            setDoubleParam(p_br_amplitude[w][i], p->ampl[w][i]);
+            setDoubleParam(p_br[t].p_br_phase[w][i], p->phase[w][i]);
+            setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ampl[w][i]);
         }
     }
 

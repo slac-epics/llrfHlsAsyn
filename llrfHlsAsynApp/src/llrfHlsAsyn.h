@@ -175,10 +175,12 @@ class llrfHlsAsynDriver
 
         int p_get_iq_wf_ch[NUM_FB_CH];        // get IQWaveform per channel
 
-        int p_br_phase[NUM_WINDOW][NUM_FB_CH];
-        int p_br_amplitude[NUM_WINDOW][NUM_FB_CH];
-        int p_br_pact;
-        int p_br_aact;
+        struct {
+            int p_br_phase[NUM_WINDOW][NUM_FB_CH];
+            int p_br_amplitude[NUM_WINDOW][NUM_FB_CH];
+            int p_br_pact;
+            int p_br_aact;
+        } p_br[NUM_TIMESLOT];
         int i_baseband_wf;                       // baseband i waveform
         int q_baseband_wf;                       // baseband q waveform
 
@@ -240,14 +242,14 @@ class llrfHlsAsynDriver
 #define I_BASEBAND_STR               "i_baseband_wf"     // i baseband waveform, length = 4096
 #define Q_BASEBAND_STR               "q_baseband_wf"     // q baseband waveform, length = 4096
 
-#define P_BR_WND_CH_STR              "p_br_w%dch%d"      // phase for beam rate PV,     for window and channel
-#define A_BR_WND_CH_STR              "a_br_w%dch%d"      // amplitude for beam rate PV, for window and channel
+#define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
+#define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel
 #define P_BSA_WND_CH_STR             "%s:W%dC%d:FAST_PACT"
 #define A_BSA_WND_CH_STR             "%s:W%dC%d:FAST_AACT"
 #define P_BSA_FB_STR                 "%s:FB:FAST_PACT"
 #define A_BSA_FB_STR                 "%s:FB:FAST_AACT"
-#define P_BR_STR                     "p_br"              // phase for beam rate PV,     feedback input
-#define A_BR_STR                     "a_br"              // amplitude for beam rate PV, feedback input
+#define P_BR_STR                     "p_br_t%d"              // phase for beam rate PV,     feedback input
+#define A_BR_STR                     "a_br_t%d"              // amplitude for beam rate PV, feedback input
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 

@@ -167,3 +167,13 @@ file fastPV.db
 }
 
 
+file Bsa.db
+{
+  pattern {  DEVICE      ,  ATRB       , LNK      ,  EGU     ,  HOPR,  LOPR  }
+          { "$(DEV):FB"  , "FAST_PACT" , ""       , "degrees", "180", "-180" }
+          { "$(DEV):FB"  , "FAST_AACT" , ""       , "norm"   ,   "1",    "0" }
+#          { "$(PRIMARY):$(MICRO):$(UNIT)"   , "BVOLT_PK_FAST", "kV"     , ""   , "0"    }
+}
+
+
+

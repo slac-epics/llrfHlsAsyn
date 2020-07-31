@@ -1,6 +1,6 @@
 record(waveform, "$(DEVICE):AVGWND$(WND)")
 {
-    field(PINI, "YES")
+#    field(PINI, "YES")
     field(DESC, "average window")
     field(DTYP, "asynFloat64ArrayOut")
     field(INP,  "@asyn($(PORT),0) avg_window$(WND)")
@@ -13,7 +13,7 @@ record(waveform, "$(DEVICE):AVGWND$(WND)")
 
 record(waveform, "$(DEVICE):ICPXWND$(WND)")
 {
-    field(PINI, "YES")
+#    field(PINI, "YES")
     field(DESC, "I complex window")
     field(DTYP, "asynFloat64ArrayOut")
     field(INP,  "@asyn($(PORT),0) iwf_avg_window$(WND)")
@@ -26,7 +26,7 @@ record(waveform, "$(DEVICE):ICPXWND$(WND)")
 
 record(waveform, "$(DEVICE):QCPXWND$(WND)")
 {
-    field(PINI, "YES")
+#    field(PINI, "YES")
     field(DESC, "Q complex window")
     field(DTYP, "asynFloat64ArrayOut")
     field(INP,  "@asyn($(PORT),0) qwf_avg_window$(WND)")

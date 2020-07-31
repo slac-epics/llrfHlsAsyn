@@ -51,6 +51,7 @@ typedef struct {
     char              *port;
     char              *regPath;
     char              *hlsStream;
+    char              *bsa_prefix;
     llrfHlsAsynDriver *pLlrfHlsAsyn;
     void              *pRtm;
 } pDrvList_t;
@@ -143,6 +144,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
 
     llrfHls = IllrfFw::create(p_llrfHls);
     dacSigGen = IdacSigGenFw::create(p_root->findByName("mmio"));
+
 
     ParameterSetup();
     bsaSetup();
@@ -263,7 +265,7 @@ static epicsFloat64* __zero_pad(epicsFloat64 *value, epicsFloat64 *v, size_t nEl
 
     int i;
     for(i = 0; i < nElements;   i++)  *(v + i) = *(value + i);
-    for(     ; i < MAX_SAMPLES; i++)  *(v + i) = *(value + i);
+    for(     ; i < MAX_SAMPLES; i++)  *(v + i) = 0.;
 
     return v;
 }
@@ -276,25 +278,31 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
     epicsFloat64 v[MAX_SAMPLES];
 
+
     if(function == i_baseband_wf) {
         dacSigGen->setIWaveform(__zero_pad(value, v, nElements));
+        // printf("baseband i waveform size: %d\n", nElements);
     }
     else if(function == q_baseband_wf) {
         dacSigGen->setQWaveform(__zero_pad(value, v, nElements));
+        // printf("baseband q waveform size: %d\n", nElements);
     }
     else
 
     for(int w = 0; w < NUM_WINDOW; w++) {
         if(function == p_avg_window[w]) {    // update average window
             llrfHls->setAverageWindow(__zero_pad(value, v, nElements), w);
+            // printf("avg window %d size:%d\n", w, nElements);
             break;
         }
         else if(function == p_iwf_avg_window[w]) {  // update complex waveform I
             llrfHls->setIWaveformAverageWindow(__zero_pad(value, v, nElements), w);
+            // printf("i window %d size: %d\n", w, nElements);
             break;
         }
         else if(function == p_qwf_avg_window[w]) { // update complex waveform Q
             llrfHls->setQWaveformAverageWindow(__zero_pad(value, v, nElements), w);
+            // printf("q window %d size: %d\n", w, nElements);
             break;
         }
     }
@@ -567,7 +575,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     }
 
     for(int t = 0; t < NUM_TIMESLOT; t++) {
-        for(int w = 0; w < 1 /* NUM_WINDOW */; w++){        // w, window index
+        for(int w = 0; w < NUM_WINDOW; w++){        // w, window index
             for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
                 sprintf(param_name, P_BR_WND_CH_STR, t, w, i); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_phase[w][i]));
                 sprintf(param_name, A_BR_WND_CH_STR, t, w, i); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_amplitude[w][i]));
@@ -587,13 +595,14 @@ void llrfHlsAsynDriver::bsaSetup(void)
     char param_name[128];
 
     BSA_ConfigSetAllPriorites(90);
-
-    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, window index
+    /*
+    for(int w = 0; w < NUM_WINDOW ; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
             sprintf(param_name, P_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
             sprintf(param_name, A_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
         }
-    }
+    } 
+    */
     sprintf(param_name, P_BSA_FB_STR, bsa_macro);  BsaChn_pact = BSA_CreateChannel(param_name);
     sprintf(param_name, A_BSA_FB_STR, bsa_macro);  BsaChn_aact = BSA_CreateChannel(param_name);
 }
@@ -602,13 +611,14 @@ void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
     BSA_StoreData(BsaChn_pact, p->time, p->phase_fb, 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
-
-    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {       // w, windw index
+    /*
+    for(int w = 0; w < NUM_WINDOW ; w++) {       // w, windw index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
             BSA_StoreData(BsaChn_phase[w][i],     p->time, p->phase[w][i], 0, 0);
             BSA_StoreData(BsaChn_amplitude[w][i], p->time, p->ampl[w][i],  0, 0);
         }
     }
+    */
 }
 
 void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
@@ -621,7 +631,7 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
     setDoubleParam(p_br[t].p_br_pact, p->phase_fb);
     setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
 
-    for(int w = 0; w < 1 /* NUM_WINDOW */; w++) {
+    for(int w = 0; w < NUM_WINDOW ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
             setDoubleParam(p_br[t].p_br_phase[w][i], p->phase[w][i]);
             setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ampl[w][i]);
@@ -656,8 +666,9 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
     p->port         = epicsStrDup(portName);
     p->regPath      = epicsStrDup(regPathString);
     p->hlsStream    = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
+    p->bsa_prefix   = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix): (char *) "Default_BSA";
     p->pRtm         = (void *) NULL;
-    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((void *) p, (const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->named_root);
+    p->pLlrfHlsAsyn = new llrfHlsAsynDriver((void *) p, (const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->bsa_prefix, (const char *) p->named_root);
 
 
     ellAdd(pDrvEllList, &p->node);
@@ -757,6 +768,7 @@ static int llrfHlsAsynDriverReport(int interest)
         printf("\tregoster path: %s\n", p->regPath);
         printf("\tllrfHlsAsyn  : %p\n", p->pLlrfHlsAsyn);
         printf("\thlsStream    : %p\n", p->hlsStream);
+        printf("\tbsa_prefix   : %s\n", p->bsa_prefix);
         printf("\trtm          : %p\n", p->pRtm);
         if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->report(interest);
         p = (pDrvList_t *) ellNext(&p->node);

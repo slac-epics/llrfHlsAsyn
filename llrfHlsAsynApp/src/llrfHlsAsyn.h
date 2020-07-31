@@ -65,6 +65,7 @@ class llrfHlsAsynDriver
         void updateReferenceAmplPVsforAllTimeslots(void);
         void updatePhaseSetPVsforAllTimeslots(void);
         void updateAmplSetPVsforAllTimeslots(void);
+        void getIQWaveform(void);
         void getIQWaveform(int channel);
         void flushIQWaveformsforAllChannels(void);
         void getFirmwareInformation(void);
@@ -174,6 +175,7 @@ class llrfHlsAsynDriver
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
 
         int p_get_iq_wf_ch[NUM_FB_CH];        // get IQWaveform per channel
+        int p_get_iq_wf_all;                  // get IQWaveform for all
 
         struct {
             int p_br_phase[NUM_WINDOW][NUM_FB_CH];
@@ -252,6 +254,7 @@ class llrfHlsAsynDriver
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
+#define GET_IQ_WF_ALL_STR            "get_iq_wf_all"     // get iq waveform for all channels
 
 
 #endif /* _LLRFHLSASYN_H */

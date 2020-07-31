@@ -9,7 +9,8 @@ record(ai, "$(DEVICE):PACT_TS$(TS_N)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    field(TSE,  "-2")
+#    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):AACT_TS$(TS_N)")
@@ -23,7 +24,8 @@ record(ai, "$(DEVICE):AACT_TS$(TS_N)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    field(TSE,  "-2")
+#    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 

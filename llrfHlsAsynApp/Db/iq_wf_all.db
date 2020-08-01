@@ -3,7 +3,7 @@
 record(bo, "$(DEVICE):GETIQWF")
 {
 #    field(PINI, "YES")
-    field(DESC, "get IQ waveform for channel $(CH)")
+    field(DESC, "get IQ waveform for all channel")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),0) get_iq_wf_all")
     field(SCAN, "Passive")

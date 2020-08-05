@@ -33,8 +33,10 @@ typedef struct {
     epicsUInt32     counter;
     epicsTimeStamp  time;
     epicsUInt32     time_slot;
-    epicsFloat32    phase[NUM_WINDOW][NUM_FB_CH];
-    epicsFloat32    ampl[NUM_WINDOW][NUM_FB_CH];
+    struct {
+        epicsFloat32    phase;
+        epicsFloat32    ampl;
+    } ap_wch [NUM_WINDOW][NUM_FB_CH];
     epicsFloat32    phase_fb;
     epicsFloat32    ampl_fb;
     epicsFloat32    phase_ref;

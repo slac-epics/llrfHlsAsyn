@@ -13,6 +13,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <math.h>
+
 #include <cantProceed.h>
 #include <epicsTypes.h>
 #include <epicsTime.h>
@@ -632,7 +634,7 @@ void llrfHlsAsynDriver::bsaSetup(void)
 
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
-    BSA_StoreData(BsaChn_pact, p->time, p->phase_fb, 0, 0);
+    BSA_StoreData(BsaChn_pact, p->time, p->phase_fb * 180./M_PI, 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
     /*
     for(int w = 0; w < NUM_WINDOW ; w++) {       // w, windw index
@@ -651,13 +653,13 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
     int t = p->time_slot;
 
-    setDoubleParam(p_br[t].p_br_pact, p->phase_fb);
+    setDoubleParam(p_br[t].p_br_pact, p->phase_fb * 180./M_PI);
     setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
 
     for(int w = 0; w < NUM_WINDOW ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
-            setDoubleParam(p_br[t].p_br_phase[w][i], p->phase[w][i]);
-            setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ampl[w][i]);
+            setDoubleParam(p_br[t].p_br_phase[w][i], p->ap_wch[w][i].phase * 180./M_PI);
+            setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ap_wch[w][i].ampl);
         }
     }
 

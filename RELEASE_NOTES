@@ -1,3 +1,7 @@
+R2.5.0      08-05-2020    Kukhee Kim (khkim)
+                         - fix data structure for hlsstream
+                         - fix phase calculation for bsa and fast PVs
+
 R2.4.0      07-31-2020    Kukhee Kim (khkim)
                          - implement get IQ waveforms for all channels at the same time
 

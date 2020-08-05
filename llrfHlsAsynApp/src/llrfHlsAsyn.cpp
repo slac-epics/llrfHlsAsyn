@@ -59,6 +59,19 @@ typedef struct {
 } pDrvList_t;
 
 
+static double n_angle(double a)
+{
+
+    if(a >= 180.) return (a - 360.);
+    if(a < -180.) return (a + 360.);
+
+    return a;
+
+}
+
+
+
+
 static void init_drvList(void)
 {
     if(!pDrvEllList) {
@@ -454,7 +467,7 @@ void llrfHlsAsynDriver::getIQWaveform(int channel)
 void llrfHlsAsynDriver::updatePhasePVsforAllChannels(void)
 {
     for(int w = 0; w < NUM_WINDOW; w++) for(int i = 0; i < NUM_FB_CH; i++) {
-        setDoubleParam(p_p_wnd_ch[w][i], phase_wnd_ch[w][i]);
+        setDoubleParam(p_p_wnd_ch[w][i], n_angle(phase_wnd_ch[w][i]));
     }
 }
 
@@ -468,7 +481,7 @@ void llrfHlsAsynDriver::updateAmplPVsforAllChannels(void)
 void llrfHlsAsynDriver::updateFeedbackPhasePVsforAllTimeslots(void)
 {
     for(int i = 0; i < NUM_TIMESLOT; i++) {
-        setDoubleParam(p_p_fb_ts[i], fb_phase_ts[i]);
+        setDoubleParam(p_p_fb_ts[i], n_angle(fb_phase_ts[i]));
     }
 }
 
@@ -484,7 +497,7 @@ void llrfHlsAsynDriver::updateFeedbackAmplPVsforAllTimeslots(void)
 void llrfHlsAsynDriver::updateReferencePhasePVsforAllTimeslots(void)
 {
     for(int i = 0; i < NUM_TIMESLOT; i++) {
-        setDoubleParam(p_p_ref_ts[i], ref_phase_ts[i]);
+        setDoubleParam(p_p_ref_ts[i], n_angle(ref_phase_ts[i]));
     }
 }
 
@@ -498,7 +511,7 @@ void llrfHlsAsynDriver::updateReferenceAmplPVsforAllTimeslots(void)
 void llrfHlsAsynDriver::updatePhaseSetPVsforAllTimeslots(void)
 {
     for(int i = 0; i< NUM_TIMESLOT; i++) {
-        setDoubleParam(p_p_set_ts[i], phase_set_ts[i]);
+        setDoubleParam(p_p_set_ts[i], n_angle(phase_set_ts[i]));
     }
 }
 
@@ -634,7 +647,7 @@ void llrfHlsAsynDriver::bsaSetup(void)
 
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
-    BSA_StoreData(BsaChn_pact, p->time, p->phase_fb * 180./M_PI, 0, 0);
+    BSA_StoreData(BsaChn_pact, p->time, n_angle(p->phase_fb * 180./M_PI), 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
     /*
     for(int w = 0; w < NUM_WINDOW ; w++) {       // w, windw index
@@ -653,12 +666,12 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
     int t = p->time_slot;
 
-    setDoubleParam(p_br[t].p_br_pact, p->phase_fb * 180./M_PI);
+    setDoubleParam(p_br[t].p_br_pact, n_angle(p->phase_fb * 180./M_PI));
     setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
 
     for(int w = 0; w < NUM_WINDOW ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
-            setDoubleParam(p_br[t].p_br_phase[w][i], p->ap_wch[w][i].phase * 180./M_PI);
+            setDoubleParam(p_br[t].p_br_phase[w][i], n_angle(p->ap_wch[w][i].phase * 180./M_PI));
             setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ap_wch[w][i].ampl);
         }
     }

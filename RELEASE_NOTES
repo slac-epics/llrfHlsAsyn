@@ -1,3 +1,6 @@
+R2.6.0      08-05-2020    Kukhee Kim (khkim)
+                          - add phase wrap round for bsa PVs and fast PVs
+
 R2.5.0      08-05-2020    Kukhee Kim (khkim)
                          - fix data structure for hlsstream
                          - fix phase calculation for bsa and fast PVs

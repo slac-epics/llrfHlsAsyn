@@ -1,5 +1,6 @@
 R2.7.0      08-12-2020    Kukhee Kim (khkim)
                           - add timing abstraction PVs
+                          - add abstraction layer for PDES and ADES (timeslot aware configuration)
 
 R2.6.0      08-05-2020    Kukhee Kim (khkim)
                           - add phase wrap round for bsa PVs and fast PVs

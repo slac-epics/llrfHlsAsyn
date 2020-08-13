@@ -1,0 +1,435 @@
+record(ao, "$(DEVICE):PDES")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES master")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):PDES_FANOUT PP")
+    field(DRVL, "-180")
+    field(DRVH, "180")
+    field(LOPR, "-180")
+    field(HOPR, "180")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(fanout, "$(DEVICE):PDES_FANOUT")
+{
+    field(DESC, "fanout for PDES")
+    field(LNK1, "$(DEVICE):T4:PDES_CALC PP")
+    field(LNK2, "$(DEVICE):T1:PDES_CALC PP")
+    field(LNK3, "$(DEVICE):T2:PDES_CALC PP")
+    field(LNK4, "$(DEVICE):T3:PDES_CALC PP")
+    field(LNK5, "$(DEVICE):T5:PDES_CALC PP")
+    field(LNK6, "$(DEVICE):T6:PDES_CALC PP")
+    field(FLNK, "$(DEVICE):PDESTS PP")
+    field(ASG, "Internal")
+}
+
+record(stringin, "$(DEVICE):PDESTS")
+{
+  field(DESC, "PDES Time Stamp")
+  field(PINI, "YES")
+  field(DTYP, "Soft Timestamp")
+  field(VAL, "Unknown")
+  field(INP, "@%m/%d/%y %H:%M:%S")
+  field(ASG, "Internal")
+  info(autosaveFields, "VAL")
+}
+
+record(ai, "$(DEVICE):T4:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T4")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):T4:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T1:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T1")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU, "degrees")
+    field(FLNK, "$(DEVICE):T1:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T2:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T2")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):T2:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T3:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T3")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):T3:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T5:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T5")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):T5:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T6:PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for T6")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):T6:PDES_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+
+
+record(calcout, "$(DEVICE):T4:PDES_CALC")
+{
+    field(DESC, "Calculation for T4 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T4:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES04 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T1:PDES_CALC")
+{
+    field(DESC, "Calculation for T1 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T1:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES01 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T2:PDES_CALC")
+{
+    field(DESC, "Calculation for T2 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T2:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES02 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T3:PDES_CALC")
+{
+    field(DESC, "Calculation for T3 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T3:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES03 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T5:PDES_CALC")
+{
+    field(DESC, "Calculation for T5 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T5:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES05 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T6:PDES_CALC")
+{
+    field(DESC, "Calculation for T6 PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):T6:PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES06 PP")
+    field(ASG,  "Internal")
+}
+
+#-------------------
+
+record(ao, "$(DEVICE):ADES")
+{
+    field(PINI, "YES")
+    field(DESC, "AD SLED Amplitude Desired")
+    field(EGU,  "%")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(FLNK, "$(DEVICE):ADESTS PP")
+    field(DRVL, "0")
+    field(DRVH, "100")
+    field(LOPR, "0")
+    field(HOPR, "100")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(stringin, "$(DEVICE):ADESTS")
+{
+    field(DESC, "ADES Time Stamp")
+    field(PINI, "YES")
+    field(DTYP, "Soft Timestamp")
+    field(VAL, "Unknown")
+    field(INP, "@%m/%d/%y %H:%M:%S")
+    field(ASG, "Internal")
+    info(autosaveFields, "VAL")
+}
+
+#-------------------
+
+record(ao, "$(DEVICE):AREQ")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ master")
+    field(EGU,  "%")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(FLNK, "$(DEVICE):AREQ_FANOUT PP")
+    field(DRVL, "0")
+    field(DRVH, "100")
+    field(LOPR, "0")
+    field(HOPR, "100")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(fanout, "$(DEVICE):AREQ_FANOUT")
+{
+    field(DESC, "fanout for AREQ")
+    field(LNK1, "$(DEVICE):T4:AREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T1:AREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T2:AREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T3:AREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T5:AREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T6:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):AREQTS PP")
+    field(ASG, "Internal")
+}
+
+record(stringin, "$(DEVICE):AREQTS")
+{
+  field(DESC, "AREQ Time Stamp")
+  field(PINI, "YES")
+  field(DTYP, "Soft Timestamp")
+  field(VAL, "Unknown")
+  field(INP, "@%m/%d/%y %H:%M:%S")
+  field(ASG, "Internal")
+  info(autosaveFields, "VAL")
+}
+
+record(ai, "$(DEVICE):T4:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T4")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T4:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T1:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T1")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T1:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T2:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T2")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T2:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T3:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T3")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T3:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T5:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T5")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T5:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):T6:AREQ_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "AREQ offset for T6")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "%")
+    field(FLNK, "$(DEVICE):T6:AREQ_CALC PP")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+record(calcout, "$(DEVICE):T4:AREQ_CALC")
+{
+    field(DESC, "Calculation for T4 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T4:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES04 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T1:AREQ_CALC")
+{
+    field(DESC, "Calculation for T1 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T1:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES01 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T2:AREQ_CALC")
+{
+    field(DESC, "Calculation for T2 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T2:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES02 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T3:AREQ_CALC")
+{
+    field(DESC, "Calculation for T3 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T3:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES03 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T5:AREQ_CALC")
+{
+    field(DESC, "Calculation for T5 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T5:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES05 PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):T6:AREQ_CALC")
+{
+    field(DESC, "Calculation for T6 AREQ")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):AREQ")
+    field(INPB, "$(DEVICE):T6:AREQ_OFFSET")
+    field(OUT,  "$(DEVICE):ADES06 PP")
+    field(ASG,  "Internal")
+}
+
+
+#--------------------------------------
+
+record(calcout, "$(DEVICE):T4:REFPHASESP_CALC")
+{
+    field(DESC, "RefPhaseSP for T4")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):T4:PDES CPP")
+    field(INPB, "$(DEVICE):POC_FIRMWARE CPP")
+    field(OUT,  "$(DEVICE):REFPHASESP PP")
+    field(ASG, "Internal")
+}
+

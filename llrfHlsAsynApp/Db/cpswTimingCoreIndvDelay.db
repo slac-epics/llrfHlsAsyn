@@ -1,0 +1,7 @@
+record(longout, "$(DEVICE):$(TRIG)_DELAY")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Delay for $(TRIG)")
+    info(autosaveFields, "VAL")
+}
+

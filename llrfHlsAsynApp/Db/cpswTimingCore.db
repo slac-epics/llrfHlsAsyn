@@ -1,0 +1,54 @@
+record(longout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_EVCODE")
+{
+    field(PINI, "YES")
+    field(DESC, "Event Code for $(TRIG) $(TRIGMODE)")
+    field(OUT,  "$(DEVICE):CH$(CHANNEL)_EVCODE PP")
+    info(autosaveFields, "VAL")
+}
+
+record(longout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGWIDTH")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Width for $(TRIG) $(TRIGMODE)")
+    field(OUT,  "$(DEVICE):TRG$(CHANNEL)_SYS0_TWID PP")
+    info(autosaveFields, "VAL")
+}
+
+record(calcout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGDELAY")
+{
+    field(PINI, "YES")
+    field(DESC, "Actual Delay for $(TRIG) $(TRIGMODE)")
+    field(INPA, "$(DEVICE):$(TRIG)_DELAY CPP")
+    field(INPB, "$(DEVICE):$(TRIGMODE)DELAY CPP")
+    field(CALC, "A+B")
+    field(OUT,  "$(DEVICE):TRG$(CHANNEL)_SYS0_TDES PP")
+}
+
+record(bo, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGPOLARITY")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Polarity for $(TRIG) $(TRIGMODE)")
+    field(VAL,  "1")
+    field(ZNAM, "Falling")
+    field(ONAM, "Rising")
+    field(OUT,  "$(DEVICE):TRG$(CHANNEL)_TPOL PP")
+    info(autosaveFields, "VAL")
+}
+
+record(bo, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGENABLE")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Enable for $(TRIG) $(TRIGMODE)")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(FLNK, "$(DEVICE):$(TRIG)_$(TRIGMODE)_DFAN")
+    info(autosaveFields, "VAL")
+}
+
+record(dfanout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_DFAN")
+{
+    field(DOL,  "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGENABLE")
+    field(OMSL, "closed_loop")
+    field(OUTA, "$(DEVICE):CH$(CHANNEL)_SYS0_TCTL  PP")
+    field(OUTB, "$(DEVICE):TRG$(CHANNEL)_SYS0_TCTL PP")
+}

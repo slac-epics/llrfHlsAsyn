@@ -420,16 +420,3 @@ record(calcout, "$(DEVICE):T6:AREQ_CALC")
     field(ASG,  "Internal")
 }
 
-
-#--------------------------------------
-
-record(calcout, "$(DEVICE):T4:REFPHASESP_CALC")
-{
-    field(DESC, "RefPhaseSP for T4")
-    field(CALC, "A+B")
-    field(INPA, "$(DEVICE):T4:PDES CPP")
-    field(INPB, "$(DEVICE):POC_FIRMWARE CPP")
-    field(OUT,  "$(DEVICE):REFPHASESP PP")
-    field(ASG, "Internal")
-}
-

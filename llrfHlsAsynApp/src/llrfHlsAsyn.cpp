@@ -442,8 +442,7 @@ void llrfHlsAsynDriver::getIQWaveform(void)
     llrfHls->freezeWaveform(true);
 
     for(channel = 0; channel < NUM_FB_CH; channel++) {
-        llrfHls->getIWaveform(i_wf_ch[channel], channel);
-        llrfHls->getQWaveform(q_wf_ch[channel], channel);
+        llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
     }
 
     llrfHls->freezeWaveform(false);
@@ -455,8 +454,7 @@ void llrfHlsAsynDriver::getIQWaveform(void)
 void llrfHlsAsynDriver::getIQWaveform(int channel)
 {
     llrfHls->freezeWaveform(true);
-    llrfHls->getIWaveform(i_wf_ch[channel], channel);
-    llrfHls->getQWaveform(q_wf_ch[channel], channel);
+    llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
     llrfHls->freezeWaveform(false);
 
 

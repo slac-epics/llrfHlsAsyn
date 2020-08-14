@@ -133,6 +133,7 @@ class llrfHlsAsynDriver
 #endif /* ASYN VERSION CHECK under 4.32 */
 
         int p_stream_enable;                  // steram enable: 1 , disable: 0
+        int p_timeslot_enable;                // timeslot feedback enable:1, disable: 0
         int p_mode_config;                    // trigger mode disable:0, accel: 1, stdby: 2, accel_or_stdby: 3
 
         int p_version;
@@ -201,6 +202,7 @@ class llrfHlsAsynDriver
 #endif /* asyn version check, under 4.32 */
 
 #define STREAM_ENABLE_STR            "stream_enable"     // stream enable, disable control
+#define TIMESLOT_ENABLE_STR          "timeslot_enable"   // timeslot feedback enable, disable control
 #define MODE_CONFIG_STR              "mode_config"       // trigger mode configuraiton
 
 #define VERSION_STR                  "version"

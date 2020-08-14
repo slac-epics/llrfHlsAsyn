@@ -182,6 +182,9 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     if(function == p_stream_enable) { // stream enable/disable congtrol
         llrfHls->setStreamEnable(value?true:false);
     }
+    else if(function == p_timeslot_enable) {  // timeslot feedback enable/disable control
+        llrfHls->setTimeslotFeedback(value?true:false);
+    }
     else if(function == p_mode_config) {  // trigger mode contgrol
         llrfHls->setModeConfig((uint32_t) value);
     }
@@ -546,6 +549,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     char param_name[80];
 
     sprintf(param_name, STREAM_ENABLE_STR);          createParam(param_name, asynParamInt32,   &p_stream_enable);
+    sprintf(param_name, TIMESLOT_ENABLE_STR);        createParam(param_name, asynParamInt32,   &p_timeslot_enable);
     sprintf(param_name, MODE_CONFIG_STR);            createParam(param_name, asynParamInt32,   &p_mode_config);
     
     sprintf(param_name, VERSION_STR);                createParam(param_name, asynParamInt32,   &p_version);

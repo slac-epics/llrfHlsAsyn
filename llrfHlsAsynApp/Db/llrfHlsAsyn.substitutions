@@ -187,8 +187,8 @@ file Bsa.db
 ###########################
 file rfTSmux.db
 {
-    pattern {  }
-            {  }
+    pattern {  DEVICE  }
+            { "$(DEV)" }
 }
 
 
@@ -198,24 +198,26 @@ file rfTSmux.db
 
 file cpswTimingCore.db
 {
-    pattern {   TRIG, TRIGMODE, CHANNEL  }
-            { "LLRF",  "ACCEL",   "00"   }
-            { "LLRF",  "STDBY",   "01"   }
-            {  "MOD",  "ACCEL",   "02"   }
-            {  "MOD",  "STDBY",   "03"   }
-            { "SSSB",  "ACCEL",   "04"   }
-            { "SSSB",  "STDBY",   "05"   }
-            {  "RTM",  "ACCEL",   "06"   }
-            {  "RTM",  "STDBY",   "07"   }
+    pattern {   TRIG, TRIGMODE, CHANNEL,  DEVICE  }
+            { "LLRF",  "ACCEL",   "00" , "$(DEV)" }
+            { "LLRF",  "STDBY",   "01" , "$(DEV)" }
+            {  "MOD",  "ACCEL",   "02" , "$(DEV)" }
+            {  "MOD",  "STDBY",   "03" , "$(DEV)" }
+            { "SSSB",  "ACCEL",   "04" , "$(DEV)" }
+            { "SSSB",  "STDBY",   "05" , "$(DEV)" }
+            {  "RTM",  "ACCEL",   "06" , "$(DEV)" }
+            {  "RTM",  "STDBY",   "07" , "$(DEV)" }
+           {"DAQMUX",  "ACCEL",   "08" , "$(DEV)" }
+           {"DAQMUX",  "STDBY",   "09" , "$(DEV)" }
 }
 
 file cpswTimingCoreIndvDelay.db
 {
-    pattern {  TRIG  }
-            { "LLRF" }
-            {  "MOD" }
-            { "SSSB" }
-            {  "RTM" }
+    pattern {  TRIG ,  DEVICE  }
+            { "LLRF", "$(DEV)" }
+            {  "MOD", "$(DEV)" }
+            { "SSSB", "$(DEV)" }
+            {  "RTM", "$(DEV)" }
 }
 
 

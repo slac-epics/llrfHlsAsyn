@@ -12,6 +12,21 @@ record(bo, "$(DEVICE):STRMENB")
 }
 
 
+record(bo, "$(DEVICE):TSENB")
+{
+    field(PINI, "YES")
+    field(DESC, "Timeslot feedback enable/disable")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) timeslot_enable")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(VAL,  "1")
+    info(autosaveFields, "VAL")
+}
+
+
 record(mbbo, "$(DEVICE):MODECFG")
 {
     field(PINI, "YES")

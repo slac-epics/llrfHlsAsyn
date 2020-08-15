@@ -1,0 +1,13 @@
+record(longout, "$(DEVICE):ACCELDELAY")
+{
+    field(PINI, "YES")
+    field(DESC, "Accel Delay (master delay)")
+    info(autosaveFields, "VAL")
+}
+record(longout, "$(DEVICE):STDBYDELAY")
+{
+   field(PINI, "YES")
+   field(DESC, "Stdby Delay (master delay)")
+   info(autosaveFields, "VAL")
+}
+

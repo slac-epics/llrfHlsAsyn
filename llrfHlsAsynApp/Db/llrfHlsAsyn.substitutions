@@ -218,7 +218,15 @@ file cpswTimingCoreIndvDelay.db
             {  "MOD", "$(DEV)" }
             { "SSSB", "$(DEV)" }
             {  "RTM", "$(DEV)" }
+           {"DAQMUX", "$(DEV)" }
 }
+
+file cpswTimingCoreDelay.db
+{
+    pattern {  DEVICE  }
+            { "$(DEV)" }
+}
+
 
 
 

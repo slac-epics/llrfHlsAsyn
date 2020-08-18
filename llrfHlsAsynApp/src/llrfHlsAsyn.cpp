@@ -145,7 +145,8 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     stream_read_size  = 0;
     current_bsa       = -1;
     p_buf             = (uint8_t *) &p_bsa_buf[0];
-    bsa_macro = (bsa_prefix && strlen(bsa_prefix))? epicsStrDup(bsa_prefix):epicsStrDup("default_bsa");
+    bsa_name = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix):(char *)"default_bsa";
+
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
@@ -159,6 +160,13 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
 
     llrfHls = IllrfFw::create(p_llrfHls);
     dacSigGen = IdacSigGenFw::create(p_root->findByName("mmio"));
+
+
+    convBeamPeakVolt = 1.;
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        beam_peak_volt[i].raw = 0;
+        beam_peak_volt[i].val = 0.;
+    }
 
 
     ParameterSetup();
@@ -249,6 +257,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_a_drv_lower) {  // amplitude corrrection lower limit
         llrfHls->setAmplDriveLowerLimit(value);
     }
+    else if(function == p_bvolt_conv) {  // beam voltage conversion factor 
+        convBeamPeakVolt = value;
+    }
 
     for(int i = 0; i < NUM_FB_CH; i++) {   // search for channel number
         if(function == p_ref_weight_ch[i]) {    // channel weight for reference
@@ -300,11 +311,11 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
     epicsFloat64 v[MAX_SAMPLES];
 
 
-    if(function == i_baseband_wf) {
+    if(function == p_i_baseband_wf) {
         dacSigGen->setIWaveform(__zero_pad(value, v, nElements));
         // printf("baseband i waveform size: %d\n", nElements);
     }
-    else if(function == q_baseband_wf) {
+    else if(function == p_q_baseband_wf) {
         dacSigGen->setQWaveform(__zero_pad(value, v, nElements));
         // printf("baseband q waveform size: %d\n", nElements);
     }
@@ -367,7 +378,10 @@ void llrfHlsAsynDriver::report(int interest)
 
     }
     printf("\n");
+    bsa_packet_t *p = (bsa_packet_t *) p_buf;
+    printf("\tbeam peak voltage: %4.4x\n", p->terminator.u16u16_terminator.u16upper);
 
+    printf("\n");
     char ts_str[80];
     epicsTimeStamp ts = *(epicsTimeStamp *) (u1+1);
     epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &ts);
@@ -415,6 +429,7 @@ void llrfHlsAsynDriver::pollStream(void)
         if(((pDrvList_t *) pDrv)->pRtm) callRtmProcessing((p_bsa_buf[current_bsa]).time, (p_bsa_buf[current_bsa]).time_slot, ((pDrvList_t *)pDrv)->pRtm);  // asynchronous rtm processing
 
         setTimeStamp(&((p_bsa_buf[current_bsa]).time));
+        beamPeakVoltageProcessing(&p_bsa_buf[current_bsa]);
         bsaProcessing(&p_bsa_buf[current_bsa]);
         fastPVProcessing(&p_bsa_buf[current_bsa]);
 
@@ -610,8 +625,6 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, A_REF_STR, i); createParam(param_name, asynParamFloat64, &(p_a_ref_ts[i]));
         sprintf(param_name, P_SET_STR, i); createParam(param_name, asynParamFloat64, &(p_p_set_ts[i]));
         sprintf(param_name, A_SET_STR, i); createParam(param_name, asynParamFloat64, &(p_a_set_ts[i]));
-
-
     }
 
     for(int t = 0; t < NUM_TIMESLOT; t++) {
@@ -623,10 +636,14 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         }
         sprintf(param_name, P_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_pact));
         sprintf(param_name, A_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_aact));
+
+        sprintf(param_name, BVOLT_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_bvolt));
     }
 
-    sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(i_baseband_wf));
-    sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(q_baseband_wf));
+    sprintf(param_name, BVOLT_CONV_STR); createParam(param_name, asynParamFloat64,      &p_bvolt_conv);
+
+    sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_i_baseband_wf));
+    sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_q_baseband_wf));
 }
 
 
@@ -634,23 +651,43 @@ void llrfHlsAsynDriver::bsaSetup(void)
 {
     char param_name[128];
 
-    BSA_ConfigSetAllPriorites(90);
     /*
     for(int w = 0; w < NUM_WINDOW ; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            sprintf(param_name, P_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
-            sprintf(param_name, A_BSA_WND_CH_STR, bsa_macro, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
+            sprintf(param_name, P_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
+            sprintf(param_name, A_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
         }
     } 
     */
-    sprintf(param_name, P_BSA_FB_STR, bsa_macro);  BsaChn_pact = BSA_CreateChannel(param_name);
-    sprintf(param_name, A_BSA_FB_STR, bsa_macro);  BsaChn_aact = BSA_CreateChannel(param_name);
+
+    sprintf(param_name, P_BSA_FB_STR,  bsa_name);  BsaChn_pact  = BSA_CreateChannel(param_name);
+    sprintf(param_name, A_BSA_FB_STR,  bsa_name);  BsaChn_aact  = BSA_CreateChannel(param_name);
+    sprintf(param_name, BVOLT_BSA_STR, bsa_name);  BsaChn_bvolt = BSA_CreateChannel(param_name);
+
+
+   BSA_ConfigSetAllPriorites(90);
+}
+
+
+void llrfHlsAsynDriver::beamPeakVoltageProcessing(bsa_packet_t  *p)
+{
+    int t   = p->time_slot;
+    int raw = p->terminator.u16u16_terminator.u16upper;
+
+    beam_peak_volt[t].raw = raw;
+    beam_peak_volt[t].val = convBeamPeakVolt * raw;
+
+   if(t) {
+       beam_peak_volt[0].raw = beam_peak_volt[t].raw;
+       beam_peak_volt[0].val = beam_peak_volt[t].val;
+   }
 }
 
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
     BSA_StoreData(BsaChn_pact, p->time, n_angle(p->phase_fb * 180./M_PI), 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
+    BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[0].val, 0, 0);
     /*
     for(int w = 0; w < NUM_WINDOW ; w++) {       // w, windw index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
@@ -670,6 +707,7 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
     setDoubleParam(p_br[t].p_br_pact, n_angle(p->phase_fb * 180./M_PI));
     setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
+    setDoubleParam(p_br[t].p_br_bvolt, beam_peak_volt[t].val);
 
     for(int w = 0; w < NUM_WINDOW ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {

@@ -275,3 +275,19 @@ record(waveform, "$(DEVICE):QBL")
     field(NELM, "$(NELM_BL)")
     info(autosaveFields, "VAL")
 }
+
+
+record(ao, "$(DEVICE):BVOLTCONV")
+{
+    field(PINI, "YES")
+    field(DESC, "Conversion Factor for Beam Voltage")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) bvolt_conv")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "kV/Count")
+    field(PREC, "5")
+    field(VAL, "1.")
+    info(autosaveFields, "VAL")
+}
+

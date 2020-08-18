@@ -43,7 +43,13 @@ typedef struct {
     epicsFloat32    ampl_ref;
     epicsFloat32    phase_set;
     epicsFloat32    ampl_set;
-    epicsUInt32     terminator;
+    union {
+        epicsUInt32     u32_terminator;
+        struct {
+            uint16_t u16lower;
+            uint16_t u16upper;
+        } u16u16_terminator;
+    } terminator;
 } bsa_packet_t;
 
 
@@ -114,14 +120,24 @@ class llrfHlsAsynDriver
         epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
 
-        char       *bsa_macro;
+        epicsFloat64  convBeamPeakVolt;
+        struct {
+            epicsUInt32     raw;
+            epicsFloat64    val;
+        } beam_peak_volt[NUM_TIMESLOT];
+
+
+        char*      bsa_name;
         BsaChannel BsaChn_pact;
         BsaChannel BsaChn_aact;
+        BsaChannel BsaChn_bvolt;
         BsaChannel BsaChn_phase[NUM_WINDOW][NUM_FB_CH];
         BsaChannel BsaChn_amplitude[NUM_WINDOW][NUM_FB_CH];
 
+
         void ParameterSetup(void);
         void bsaSetup(void);
+        void beamPeakVoltageProcessing(bsa_packet_t *p);
         void bsaProcessing(bsa_packet_t *p);
         void fastPVProcessing(bsa_packet_t *p);
 
@@ -185,9 +201,13 @@ class llrfHlsAsynDriver
             int p_br_amplitude[NUM_WINDOW][NUM_FB_CH];
             int p_br_pact;
             int p_br_aact;
+            int p_br_bvolt;
         } p_br[NUM_TIMESLOT];
-        int i_baseband_wf;                       // baseband i waveform
-        int q_baseband_wf;                       // baseband q waveform
+
+        int p_bvolt_conv;
+        int p_i_baseband_wf;                       // baseband i waveform
+        int p_q_baseband_wf;                       // baseband q waveform
+
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
@@ -254,8 +274,11 @@ class llrfHlsAsynDriver
 #define A_BSA_WND_CH_STR             "%s:W%dC%d:FAST_AACT"
 #define P_BSA_FB_STR                 "%s:FB:FAST_PACT"
 #define A_BSA_FB_STR                 "%s:FB:FAST_AACT"
+#define BVOLT_BSA_STR                "%s:BVOLT_PK_FAST"
 #define P_BR_STR                     "p_act_br_t%d"              // phase for beam rate PV,     feedback input
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input
+#define BVOLT_BR_STR                 "bvolt_pk_br_t%d"
+#define BVOLT_CONV_STR               "bvolt_conv"
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 #define GET_IQ_WF_ALL_STR            "get_iq_wf_all"     // get iq waveform for all channels

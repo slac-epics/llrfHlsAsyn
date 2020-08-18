@@ -83,3 +83,27 @@ record(ai, "$(DEVICE):ASET$(TS_N)")
 }
 
 
+
+record(ai, "$(DEVICE):BVOLT_PK$(TS_N)")
+{
+    field(DESC, "Peak Beam Voltage for timeslot $(TS)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) bvolt_pk_br_t$(TS)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "kV")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):BVOLT_PK_SLOW$(TS_N)")
+{
+    field(DESC, "Peak Beam Voltage for timeslot $(TS)")
+    field(INP,  "$(DEVICE):BVOLT_PK$(TS_N) NPP MS")
+    field(SCAN, "1 second")
+    field(PREC, "3")
+    field(EGU,  "kV")
+}

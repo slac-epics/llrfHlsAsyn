@@ -1,3 +1,6 @@
+R2.7.1      08-20-2020    Kukhee Kim (khkim)
+                          - PV name change for PREQ (delegate PV) from PDES
+
 R2.7.0      08-18-2020    Kukhee Kim (khkim)
                           - build against llrfHls API R2.3.0
                           - use new API for IQ waveform (merge 2 of 16bit register array access to 1 of 32bit register array access)

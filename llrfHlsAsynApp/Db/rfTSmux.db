@@ -139,7 +139,7 @@ record(calcout, "$(DEVICE):T4:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T4:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ04 PP")
+    field(OUT,  "$(DEVICE):PDES04 PP")
     field(ASG,  "Internal")
 }
 
@@ -149,7 +149,7 @@ record(calcout, "$(DEVICE):T1:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T1:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ01 PP")
+    field(OUT,  "$(DEVICE):PDES01 PP")
     field(ASG,  "Internal")
 }
 
@@ -159,7 +159,7 @@ record(calcout, "$(DEVICE):T2:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T2:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ02 PP")
+    field(OUT,  "$(DEVICE):PDES02 PP")
     field(ASG,  "Internal")
 }
 
@@ -169,7 +169,7 @@ record(calcout, "$(DEVICE):T3:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T3:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ03 PP")
+    field(OUT,  "$(DEVICE):PDES03 PP")
     field(ASG,  "Internal")
 }
 
@@ -179,7 +179,7 @@ record(calcout, "$(DEVICE):T5:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T5:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ05 PP")
+    field(OUT,  "$(DEVICE):PDES05 PP")
     field(ASG,  "Internal")
 }
 
@@ -189,7 +189,7 @@ record(calcout, "$(DEVICE):T6:PREQ_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
     field(INPB, "$(DEVICE):T6:PREQ_OFFSET")
-    field(OUT,  "$(DEVICE):PREQ06 PP")
+    field(OUT,  "$(DEVICE):PDES06 PP")
     field(ASG,  "Internal")
 }
 

@@ -78,6 +78,10 @@ class llrfHlsAsynDriver
         void flushIQWaveformsforAllChannels(void);
         void getFirmwareInformation(void);
 
+        void getPhaseJitterforAllTimeslots(void);
+        void getAmplJitterforAllTimeslots(void);
+        void getBeamPkVoltforAllTimeslots(void);
+
 
     private:
         void *pDrv;
@@ -208,6 +212,16 @@ class llrfHlsAsynDriver
         int p_i_baseband_wf;                       // baseband i waveform
         int p_q_baseband_wf;                       // baseband q waveform
 
+        int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
+        int p_ampl_norm;                           // normalization factor for amplitude feedback
+        int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware
+        int p_rms_phase[NUM_TIMESLOT];             // rms phase, phase jitter
+        int p_rms_ampl[NUM_TIMESLOT];              // rms amplitude, amplitude jitter 
+        int p_rms_bv[NUM_TIMESLOT];                // rms beam voltage, jitter for beam voltage
+        int p_mean_phase[NUM_TIMESLOT];            // mean value for phase
+        int p_mean_ampl[NUM_TIMESLOT];             // mean value for amplitude
+        int p_mean_bv[NUM_TIMESLOT];               // mean value for beam voltage
+
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
@@ -282,6 +296,16 @@ class llrfHlsAsynDriver
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 #define GET_IQ_WF_ALL_STR            "get_iq_wf_all"     // get iq waveform for all channels
+
+#define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
+#define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
+#define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation
+#define PHASE_JITTER_STR             "phase_jitter_ts%d" // phase jitter (RMS) per timeslot
+#define AMPL_JITTER_STR              "ampl_jitter_ts%d"  // amplitude jitter (RMS) per timeslot
+#define BV_JITTER_STR                "bv_jitter_ts%d"    // beam voltage jitter (RMS) per timeslot
+#define PHASE_MEAN_STR               "phase_mean_ts%d"   // mean value for phase per timeslot
+#define AMPL_MEAN_STR                "ampl_mean_ts%d"    // mean value for amplitude per timeslot
+#define BV_MEAN_STR                  "bv_mean_ts%d"      // mean value for beam peak voltage per timeslot
 
 
 #endif /* _LLRFHLSASYN_H */

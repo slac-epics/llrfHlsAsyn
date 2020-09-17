@@ -260,6 +260,12 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_bvolt_conv) {  // beam voltage conversion factor 
         convBeamPeakVolt = value;
     }
+    else if(function == p_ampl_norm) {  // normalization factor for amplitude
+        if(value != 0.) llrfHls->setAmplNorm(1. / value);   // pass the receiprocal of the factor to the firmware
+    }
+    else if(function == p_var_gain) {   // gain for variance / mean calculation, single pole algorithm
+        llrfHls->setVarGain(value);
+    }
 
     for(int i = 0; i < NUM_FB_CH; i++) {   // search for channel number
         if(function == p_ref_weight_ch[i]) {    // channel weight for reference
@@ -273,6 +279,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         else if(function == p_p_offset_ch[i]) {    // phase offset for channel
             llrfHls->setPhaseOffset(value, i);
             break;
+        }
+        else if(function == p_ampl_coeff[i]) { // amplitude conversion coefficientfor channel
+            llrfHls->setAmplCoeff(value, i);
         }
     }
 
@@ -409,7 +418,9 @@ void llrfHlsAsynDriver::poll(void)
     }
     */
 
-
+    getPhaseJitterforAllTimeslots();
+    getAmplJitterforAllTimeslots();
+    getBeamPkVoltforAllTimeslots();
 
     updatePVs();
     callParamCallbacks();
@@ -559,6 +570,48 @@ void llrfHlsAsynDriver::getFirmwareInformation(void)
     if(version_ || num_timeslot_ || num_channel_ || num_window_ || max_pulse_len_) need_to_read = false;
 }
 
+void llrfHlsAsynDriver::getPhaseJitterforAllTimeslots(void)
+{
+    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+
+    llrfHls->getVarPhaseAllTimeslots(var);
+    llrfHls->getAvgPhaseAllTimeslots(mean);
+
+
+    for(int i = 0; i < NUM_TIMESLOT; i++) {
+        setDoubleParam(p_rms_phase[i], sqrt(var[i]) * 180./M_PI);
+        setDoubleParam(p_mean_phase[i], mean[i] * 180./M_PI);
+    }
+}
+
+void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
+{
+    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+
+    llrfHls->getVarAmplAllTimeslots(var);
+    llrfHls->getAvgAmplAllTimeslots(mean);
+
+    for(int i = 0; i< NUM_TIMESLOT; i++) {
+        setDoubleParam(p_rms_ampl[i], sqrt(var[i]));
+        setDoubleParam(p_mean_ampl[i], mean[i]);
+
+    }
+}
+
+void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
+{
+    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+
+    llrfHls->getVarBeamVoltageAllTimeslots(var);
+    llrfHls->getAvgBeamVoltageAllTimeslots(var);
+
+    for(int i = 0; i< NUM_TIMESLOT; i++) {
+        setDoubleParam(p_rms_bv[i], sqrt(var[i]) * convBeamPeakVolt);
+        setDoubleParam(p_mean_bv[i], mean[i] * convBeamPeakVolt);
+    }
+}
+
+
 void llrfHlsAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
@@ -589,6 +642,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, A_DRV_UPPER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_upper);
     sprintf(param_name, A_DRV_LOWER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_lower);
 
+    sprintf(param_name, AMPL_NORM_STR);              createParam(param_name, asynParamFloat64, &p_ampl_norm);
+    sprintf(param_name, VAR_GAIN_STR);               createParam(param_name, asynParamFloat64, &p_var_gain);
+
     for(int w = 0; w < NUM_WINDOW; w++) {
         sprintf(param_name, AVG_WINDOW_STR, w);     createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));
         sprintf(param_name, IWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_iwf_avg_window[w]));
@@ -610,6 +666,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
 
         sprintf(param_name, GET_IQ_WF_STR,  i); createParam(param_name, asynParamInt32, &(p_get_iq_wf_ch[i]));
+
+        sprintf(param_name, AMPL_COEFF_STR, i); createParam(param_name, asynParamFloat64, &(p_ampl_coeff[i]));
        
     }
 
@@ -625,6 +683,13 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, A_REF_STR, i); createParam(param_name, asynParamFloat64, &(p_a_ref_ts[i]));
         sprintf(param_name, P_SET_STR, i); createParam(param_name, asynParamFloat64, &(p_p_set_ts[i]));
         sprintf(param_name, A_SET_STR, i); createParam(param_name, asynParamFloat64, &(p_a_set_ts[i]));
+
+        sprintf(param_name, PHASE_JITTER_STR, i); createParam(param_name, asynParamFloat64, &(p_rms_phase[i])); 
+        sprintf(param_name, AMPL_JITTER_STR,  i); createParam(param_name, asynParamFloat64, &(p_rms_ampl[i]));
+        sprintf(param_name, BV_JITTER_STR,    i); createParam(param_name, asynParamFloat64, &(p_rms_bv[i]));
+        sprintf(param_name, PHASE_MEAN_STR,   i); createParam(param_name, asynParamFloat64, &(p_mean_phase[i]));
+        sprintf(param_name, AMPL_MEAN_STR,    i); createParam(param_name, asynParamFloat64, &(p_mean_ampl[i]));
+        sprintf(param_name, BV_MEAN_STR,      i); createParam(param_name, asynParamFloat64, &(p_mean_bv[i]));
     }
 
     for(int t = 0; t < NUM_TIMESLOT; t++) {

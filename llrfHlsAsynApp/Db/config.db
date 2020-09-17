@@ -291,3 +291,33 @@ record(ao, "$(DEVICE):BVOLTCONV")
     info(autosaveFields, "VAL")
 }
 
+
+record(ao, "$(DEVICE):VARGAIN")
+{
+    field(PINI, "YES")
+    field(DESC, "Gain for RMS Jitter Calculation")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) var_gain")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "gain")
+    field(PREC, "5")
+    field(VAL, "0.004")
+    info(autosaveFields, "VAL")
+}
+
+
+record(ao, "$(DEVICE):AMPLNORM")
+{
+    field(PINI, "YES")
+    field(DESC, "Normalization Factor for Amplitude")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) ampl_norm")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(VAL, "1.")
+    info(autosaveFields, "VAL")
+}
+

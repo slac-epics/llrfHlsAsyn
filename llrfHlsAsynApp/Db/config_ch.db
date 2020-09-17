@@ -47,3 +47,20 @@ record(ao, "$(DEVICE):POC$(CH)")
 }
 
 
+record(ao, "$(DEVICE):AMPLSCL$(CH)")
+{
+    field(PINI, "YES")
+    field(DESC, "amplitude scale for channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) ampl_coeff_ch$(CH)")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    field(VAL,  "1.")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+

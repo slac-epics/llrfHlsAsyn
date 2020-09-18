@@ -606,8 +606,8 @@ void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
     llrfHls->getAvgBeamVoltageAllTimeslots(var);
 
     for(int i = 0; i< NUM_TIMESLOT; i++) {
-        setDoubleParam(p_rms_bv[i], sqrt(var[i]) * convBeamPeakVolt);
-        setDoubleParam(p_mean_bv[i], mean[i] * convBeamPeakVolt);
+        setDoubleParam(p_rms_bv[i], sqrt(var[i]) * 32768. * convBeamPeakVolt);
+        setDoubleParam(p_mean_bv[i], mean[i] * 32768. * convBeamPeakVolt);
     }
 }
 

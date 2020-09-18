@@ -50,6 +50,7 @@ typedef struct {
             uint16_t u16upper;
         } u16u16_terminator;
     } terminator;
+    char dummy_buf[128];
 } bsa_packet_t;
 
 

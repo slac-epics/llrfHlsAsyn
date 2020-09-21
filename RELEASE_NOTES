@@ -1,3 +1,6 @@
+R2.9.0      09-20-2020    Kukhee Kim (khkim)
+                          - build with llrfHls R3.1.0, support firmware based jitter calculation and amplitude conversion
+                           
 R2.8.0      08-25.2020    Kukhee Kim (khkim)
                           - build with llrfHls R3.0.0
 

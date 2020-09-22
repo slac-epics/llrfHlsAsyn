@@ -1,3 +1,6 @@
+R2.10.0     09-22-2020    Jesus Vasquez (jvasquez)
+                          - Add a new waveform PV for the X axis values expressed in time (us)
+
 R2.9.0      09-20-2020    Kukhee Kim (khkim)
                           - build with llrfHls R3.1.0, support firmware based jitter calculation and amplitude conversion
                            

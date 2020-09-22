@@ -19,11 +19,14 @@ INCLUDES += $(addprefix -I,$(LLRFHLS_INCLUDE))
 INC += llrfHlsAsyn.h
 
 DBD += llrfHlsAsynDriver.dbd
+DBD += timeAxisGenerator.dbd
 
 LIBRARY_IOC += llrfHlsAsyn
 
 llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
+llrfHlsAsyn_DBD  += timeAxisGenerator.c
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
+llrfHlsAsyn_DBD  += timeAxisGenerator.c
 
 llrfHlsAsyn_DBD  += interlockRtmAsyn.dbd
 

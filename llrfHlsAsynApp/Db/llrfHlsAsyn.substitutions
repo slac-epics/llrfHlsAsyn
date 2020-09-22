@@ -227,8 +227,9 @@ file cpswTimingCoreDelay.db
             { "$(DEV)" }
 }
 
-
-
-
-
+file waveformTimeAxis.db
+{
+    pattern {   DEVICE  , DESC                         ,  SIZE ,  FREQ   }
+            {  "$(DEV)" , "HLS waveform time axis"     , "4096" , "357"  }
+}
 

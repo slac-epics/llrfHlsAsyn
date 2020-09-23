@@ -1,3 +1,6 @@
+R2.10.1     09-23-2020    Kukhee Kim (khkim)
+                          - add drive limit [0, 1] for the firmware based jitter calculation
+
 R2.10.0     09-22-2020    Jesus Vasquez (jvasquez)
                           - Add a new waveform PV for the X axis values expressed in time (us)
 

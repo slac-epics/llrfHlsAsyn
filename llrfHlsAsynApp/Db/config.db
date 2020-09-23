@@ -302,6 +302,8 @@ record(ao, "$(DEVICE):VARGAIN")
     field(SCAN, "Passive")
     field(EGU,  "gain")
     field(PREC, "5")
+    field(DRVH, "1.")
+    field(DRVL, "0.")
     field(VAL, "0.004")
     info(autosaveFields, "VAL")
 }

@@ -271,15 +271,25 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     }
     else if(function == p_p_adaptive_gain) {    // phase gain for adaptive feedback
         llrfHls->setPhaseAdaptiveGain(value);
+        double g;
+        getDoubleParam(p_p_distb_gain, &g);
+        llrfHls->setPhaseDistbGain(value * g);
     }
     else if(function == p_a_adaptive_gain) {    // amplitude gain for adaptive feedback
         llrfHls->setAmplAdaptiveGain(value);
+        double g;
+        getDoubleParam(p_a_distb_gain, &g);
+        llrfHls->setAmplDistbGain(value * g);
     }
     else if(function == p_p_distb_gain) {       // disturbance gain for phase feedback
-        llrfHls->setPhaseDistbGain(value);
+        double g;
+        getDoubleParam(p_p_adaptive_gain, &g);
+        llrfHls->setPhaseDistbGain(value * g);
     }
     else if(function == p_a_distb_gain) {    // disturbance gain for amplitude feedback
-        llrfHls->setAmplDistbGain(value);
+        double g;
+        getDoubleParam(p_a_adaptive_gain, &g);
+        llrfHls->setAmplDistbGain(value * g);
     }
 
 

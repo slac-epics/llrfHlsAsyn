@@ -187,7 +187,10 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     status = (asynStatus) setIntegerParam(function, value);
 
-    if(function == p_stream_enable) { // stream enable/disable congtrol
+    if(function == p_op_mode) {  // adaptive mode enable/disable
+        llrfHls->setOpMode(value?true:false);
+    } 
+    else if(function == p_stream_enable) { // stream enable/disable congtrol
         llrfHls->setStreamEnable(value?true:false);
     }
     else if(function == p_timeslot_enable) {  // timeslot feedback enable/disable control
@@ -266,6 +269,19 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_var_gain) {   // gain for variance / mean calculation, single pole algorithm
         llrfHls->setVarGain(value);
     }
+    else if(function == p_p_adaptive_gain) {    // phase gain for adaptive feedback
+        llrfHls->setPhaseAdaptiveGain(value);
+    }
+    else if(function == p_a_adaptive_gain) {    // amplitude gain for adaptive feedback
+        llrfHls->setAmplAdaptiveGain(value);
+    }
+    else if(function == p_p_distb_gain) {       // disturbance gain for phase feedback
+        llrfHls->setPhaseDistbGain(value);
+    }
+    else if(function == p_a_distb_gain) {    // disturbance gain for amplitude feedback
+        llrfHls->setAmplDistbGain(value);
+    }
+
 
     for(int i = 0; i < NUM_FB_CH; i++) {   // search for channel number
         if(function == p_ref_weight_ch[i]) {    // channel weight for reference
@@ -300,13 +316,13 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     return status;
 }
 
-static epicsFloat64* __zero_pad(epicsFloat64 *value, epicsFloat64 *v, size_t nElements)
+static epicsFloat64* __zero_pad(epicsFloat64 *value, epicsFloat64 *v, size_t nElements, int len)
 {
     if(nElements >= MAX_SAMPLES) return value;
 
     int i;
     for(i = 0; i < nElements;   i++)  *(v + i) = *(value + i);
-    for(     ; i < MAX_SAMPLES; i++)  *(v + i) = 0.;
+    for(     ; i < len; i++)  *(v + i) = 0.;
 
     return v;
 }
@@ -321,29 +337,40 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
 
     if(function == p_i_baseband_wf) {
-        dacSigGen->setIWaveform(__zero_pad(value, v, nElements));
+        dacSigGen->setIWaveform(__zero_pad(value, v, nElements, MAX_SAMPLES));
         // printf("baseband i waveform size: %d\n", nElements);
     }
     else if(function == p_q_baseband_wf) {
-        dacSigGen->setQWaveform(__zero_pad(value, v, nElements));
+        dacSigGen->setQWaveform(__zero_pad(value, v, nElements, MAX_SAMPLES));
         // printf("baseband q waveform size: %d\n", nElements);
     }
     else
 
     for(int w = 0; w < NUM_WINDOW; w++) {
         if(function == p_avg_window[w]) {    // update average window
-            llrfHls->setAverageWindow(__zero_pad(value, v, nElements), w);
+            llrfHls->setAverageWindow(__zero_pad(value, v, nElements, MAX_SAMPLES), w);
             // printf("avg window %d size:%d\n", w, nElements);
             break;
         }
         else if(function == p_iwf_avg_window[w]) {  // update complex waveform I
-            llrfHls->setIWaveformAverageWindow(__zero_pad(value, v, nElements), w);
+            llrfHls->setIWaveformAverageWindow(__zero_pad(value, v, nElements, MAX_SAMPLES), w);
             // printf("i window %d size: %d\n", w, nElements);
             break;
         }
         else if(function == p_qwf_avg_window[w]) { // update complex waveform Q
-            llrfHls->setQWaveformAverageWindow(__zero_pad(value, v, nElements), w);
+            llrfHls->setQWaveformAverageWindow(__zero_pad(value, v, nElements, MAX_SAMPLES), w);
             // printf("q window %d size: %d\n", w, nElements);
+            break;
+        }
+    }
+
+    for(int i = 0; i < NUM_HARMONICS; i++) {
+        if(function == p_harmo_cs[i]) {
+            llrfHls->setHarmonicsCs(__zero_pad(value, v, nElements, ALPHA_DIM), i + 1);
+            break;
+        }
+        else if(function == p_harmo_sn[i]) {
+            llrfHls->setHarmonicsSn(__zero_pad(value, v, nElements, ALPHA_DIM), i + 1);
             break;
         }
     }
@@ -709,6 +736,23 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_i_baseband_wf));
     sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_q_baseband_wf));
+
+
+
+    sprintf(param_name, OP_MODE_STR);              createParam(param_name, asynParamInt32,   &p_op_mode);
+    sprintf(param_name, PHASE_ADAPTIVE_GAIN_STR);  createParam(param_name, asynParamFloat64, &p_p_adaptive_gain);
+    sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_adaptive_gain);
+    sprintf(param_name, PHASE_DISTB_GAIN_STR);     createParam(param_name, asynParamFloat64, &p_p_distb_gain);
+    sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_distb_gain);
+
+    for(int i = 0; i < NUM_HARMONICS; i++) {
+        sprintf(param_name, HARMO_CS_STR, i);      createParam(param_name, asynParamFloat64, &p_harmo_cs[i]);
+        sprintf(param_name, HARMO_SN_STR, i);      createParam(param_name, asynParamFloat64, &p_harmo_sn[i]);
+    }
+
+    sprintf(param_name, PHASE_ALPHA_STR);          createParam(param_name, asynParamFloat64, &p_p_alpha);
+    sprintf(param_name, AMPL_ALPHA_STR);           createParam(param_name, asynParamFloat64, &p_a_alpha);
+
 }
 
 

@@ -29,6 +29,15 @@
 
 #define MAX_BSABUF      36         // BSA buffer node
 
+#define NUM_HARMONICS          3
+#define HARMONICS_DIX_CS(X)    ((X) * NUM_HARMONICS)
+#define HARMONICS_IDX_SN(X)    ((X) * NUM_HARMONICS + 1)
+#define ALPHA_DIM              (NUM_HARMONICS*2 + 1)
+#define ALPHA_HARMO            (ALPHA_DIM -1)
+#define ALPHA_IDX_DC           (ALPHA_DIM -1)
+
+
+
 typedef struct {
     epicsUInt32     counter;
     epicsTimeStamp  time;
@@ -224,6 +233,17 @@ class llrfHlsAsynDriver
         int p_mean_bv[NUM_TIMESLOT];               // mean value for beam voltage
 
 
+        int p_op_mode;
+        int p_p_adaptive_gain;
+        int p_a_adaptive_gain;
+        int p_p_distb_gain;
+        int p_a_distb_gain;
+        int p_harmo_cs[NUM_HARMONICS];
+        int p_harmo_sn[NUM_HARMONICS];
+        int p_p_alpha;
+        int p_a_alpha;
+
+
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastLlrfHlsParam;
 #define LAST_LLRFHLS_PARAM   lastLlrfHlsParam
@@ -307,6 +327,16 @@ class llrfHlsAsynDriver
 #define PHASE_MEAN_STR               "phase_mean_ts%d"   // mean value for phase per timeslot
 #define AMPL_MEAN_STR                "ampl_mean_ts%d"    // mean value for amplitude per timeslot
 #define BV_MEAN_STR                  "bv_mean_ts%d"      // mean value for beam peak voltage per timeslot
+
+#define OP_MODE_STR                  "op_mode"           // enable adaptive mode
+#define PHASE_ADAPTIVE_GAIN_STR      "p_adaptive_gain"   // phase gain for adaptive mode
+#define AMPL_ADAPTIVE_GAIN_STR       "a_adaptive_gain"   // amplitude gain for adaptive mode
+#define PHASE_DISTB_GAIN_STR         "p_distb_gain"      // disturbance gain for phase
+#define AMPL_DISTB_GAIN_STR          "a_distp_gain"      // disturbance gain for amplitude
+#define HARMO_CS_STR                 "harmo_cs%d"        // CS harmonics 
+#define HARMO_SN_STR                 "harmo_sn%d"        // SN harmonics
+#define PHASE_ALPHA_STR              "p_alpha"           // alpha values for phase
+#define AMPL_ALPHA_STR               "a_alpha"           // alpha values for amplitude
 
 
 #endif /* _LLRFHLSASYN_H */

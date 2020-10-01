@@ -448,6 +448,15 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getCounter(&counter_);                setIntegerParam(p_counter,      counter_);
     llrfHls->getDropCounter(&drop_counter_);       setIntegerParam(p_drop_counter, drop_counter_);
 
+    {
+        double phase_alpha[ALPHA_DIM], ampl_alpha[ALPHA_DIM];
+
+        llrfHls->getPhaseAlpha(phase_alpha);
+        llrfHls->getAmplAlpha(ampl_alpha);
+        doCallbacksFloat64Array(phase_alpha, ALPHA_DIM, p_p_alpha, 0);
+        doCallbacksFloat64Array(ampl_alpha,  ALPHA_DIM, p_a_alpha, 0);
+    }
+
     /*
     for(int i = 0; i < NUM_FB_CH; i++) {
         llrfHls->getIWaveform(i_wf_ch[i], i);

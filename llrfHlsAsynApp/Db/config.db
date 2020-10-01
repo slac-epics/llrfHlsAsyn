@@ -286,7 +286,7 @@ record(bo, "$(DEVICE):REFSUBENB")
 
 record(bo, "$(DEVICE):PFBENB")
 {
-    field(PINI, "YES")
+#    field(PINI, "YES")
     field(DESC, "phase feedback enable")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),0) fb_phase_enable")
@@ -294,12 +294,12 @@ record(bo, "$(DEVICE):PFBENB")
     field(OMSL, "supervisory")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
-    info(autosaveFields, "VAL")
+#    info(autosaveFields, "VAL")
 }
 
 record(bo, "$(DEVICE):AFBENB")
 {
-    field(PINI, "YES")
+#    field(PINI, "YES")
     field(DESC, "amplitude feedback enable")
     field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),0) fb_ampl_enable")
@@ -307,7 +307,7 @@ record(bo, "$(DEVICE):AFBENB")
     field(OMSL, "supervisory")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
-    info(autosaveFields, "VAL")
+#    info(autosaveFields, "VAL")
 }
 
 

@@ -765,8 +765,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_distb_gain);
 
     for(int i = 0; i < NUM_HARMONICS; i++) {
-        sprintf(param_name, HARMO_CS_STR, i);      createParam(param_name, asynParamFloat64, &p_harmo_cs[i]);
-        sprintf(param_name, HARMO_SN_STR, i);      createParam(param_name, asynParamFloat64, &p_harmo_sn[i]);
+        sprintf(param_name, HARMO_CS_STR, i + 1);      createParam(param_name, asynParamFloat64, &p_harmo_cs[i]);
+        sprintf(param_name, HARMO_SN_STR, i + 1);      createParam(param_name, asynParamFloat64, &p_harmo_sn[i]);
     }
 
     sprintf(param_name, PHASE_ALPHA_STR);          createParam(param_name, asynParamFloat64, &p_p_alpha);

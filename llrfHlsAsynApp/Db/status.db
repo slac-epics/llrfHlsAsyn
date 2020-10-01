@@ -13,3 +13,23 @@ record(longin, "$(DEVICE):DROPCNT")
     field(INP,  "@asyn($(PORT),0) drop_counter")
     field(SCAN, "I/O Intr")
 }
+
+record(waveform, "$(DEVICE):PALPHA")
+{
+    field(DESC, "Phase Alpha vector")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) p_alpha")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_ALPHA)")
+}
+
+record(waveform, "$(DEVICE):AALPHA")
+{
+    field(DESC, "Amplitude Alpha vector")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) a_alpha")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_ALPHA)")
+}

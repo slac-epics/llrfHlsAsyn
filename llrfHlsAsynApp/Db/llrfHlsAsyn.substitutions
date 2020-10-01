@@ -1,13 +1,13 @@
 file config.db
 {
-    pattern {   DEVICE,  NELM_BL  }
-            {  "$(DEV)",    4096  }
+    pattern {   DEVICE,  NELM_BL, NELM_HARMO  }
+            {  "$(DEV)",    4096,         18  }
 }
 
 file status.db
 {
-    pattern {   DEVICE   }
-             { "$(DEV)"  }
+    pattern {   DEVICE,  NELM_ALPHA  }
+             { "$(DEV)",          7  }
 }
 
 file config_ch.db

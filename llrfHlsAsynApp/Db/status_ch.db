@@ -27,3 +27,72 @@ record(ai, "$(DEVICE):AMPL_W$(WND)CH$(CH)")
 }
 
 
+
+##
+# Jitter PVs
+#
+
+
+record(ai, "$(DEVICE):PHASE_JITT_W$(WND)CH$(CH)")
+{
+    field(DESC, "rms phase for windoe $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) p_jitter_w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):AMPL_JITT_W$(WND)CH$(CH)")
+{
+    field(DESC, "rms amplitude for window $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) a_jitter_w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+
+
+##
+# Average PVs
+#
+
+record(ai, "$(DEVICE):PHASE_AVG_W$(WND)CH$(CH)")
+{
+    field(DESC, "phase average for windoe $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) p_mean_w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+record(ai, "$(DEVICE):AMPL_AVG_W$(WND)CH$(CH)")
+{
+    field(DESC, "amplitude average for window $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) a_mean_w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI")
+}
+
+

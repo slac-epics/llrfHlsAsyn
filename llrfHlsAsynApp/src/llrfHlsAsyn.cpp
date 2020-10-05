@@ -467,6 +467,8 @@ void llrfHlsAsynDriver::poll(void)
     getPhaseJitterforAllTimeslots();
     getAmplJitterforAllTimeslots();
     getBeamPkVoltforAllTimeslots();
+    getPhaseJitterforAllChannels();
+    getAmplitudeJitterforAllChannels();
 
     updatePVs();
     callParamCallbacks();
@@ -644,6 +646,39 @@ void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
     }
 }
 
+void llrfHlsAsynDriver::getPhaseJitterforAllChannels(void)
+{
+    double var[NUM_WINDOW][NUM_FB_CH];
+    double mean[NUM_WINDOW][NUM_FB_CH];
+
+    llrfHls->getVarPhaseAllChannels((double*) var);
+    llrfHls->getAvgPhaseAllChannels((double*) mean);
+
+    for(int w = 0; w < NUM_WINDOW; w++) {
+        for(int c = 0; c < NUM_FB_CH; c++) {
+            setDoubleParam(p_rms_phase_wnd_ch[w][c], sqrt(var[w][c]) * 180./M_PI);
+            setDoubleParam(p_mean_phase_wnd_ch[w][c], mean[w][c] * 180./M_PI);
+        }
+    }
+}
+
+void llrfHlsAsynDriver::getAmplitudeJitterforAllChannels(void)
+{
+    double var[NUM_WINDOW][NUM_FB_CH];
+    double mean[NUM_WINDOW][NUM_FB_CH];
+
+    llrfHls->getVarAmplAllChannels((double*) var);
+    llrfHls->getAvgAmplAllChannels((double*) mean);
+
+    for(int w = 0; w < NUM_WINDOW; w++) {
+        for(int c = 0; c < NUM_FB_CH; c++) {
+            setDoubleParam(p_rms_ampl_wnd_ch[w][c], sqrt(var[w][c]));
+            setDoubleParam(p_mean_ampl_wnd_ch[w][c], mean[w][c]);
+        }
+    }
+
+}
+
 void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
 {
     double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
@@ -705,6 +740,11 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         for(int w = 0; w < NUM_WINDOW; w++) {
             sprintf(param_name, P_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_p_wnd_ch[w][i]));
             sprintf(param_name, A_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_a_wnd_ch[w][i]));
+
+            sprintf(param_name, P_JITTER_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_rms_phase_wnd_ch[w][i]));
+            sprintf(param_name, A_JITTER_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_rms_ampl_wnd_ch[w][i]));
+            sprintf(param_name, P_MEAN_WND_CH_STR, w, i);   createParam(param_name, asynParamFloat64, &(p_mean_phase_wnd_ch[w][i]));
+            sprintf(param_name, A_MEAN_WND_CH_STR, w, i);   createParam(param_name, asynParamFloat64, &(p_mean_ampl_wnd_ch[w][i]));
         }
 
         sprintf(param_name, I_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_i_wf_ch[i]));
@@ -762,7 +802,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, PHASE_ADAPTIVE_GAIN_STR);  createParam(param_name, asynParamFloat64, &p_p_adaptive_gain);
     sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_adaptive_gain);
     sprintf(param_name, PHASE_DISTB_GAIN_STR);     createParam(param_name, asynParamFloat64, &p_p_distb_gain);
-    sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_distb_gain);
+    sprintf(param_name, AMPL_DISTB_GAIN_STR);      createParam(param_name, asynParamFloat64, &p_a_distb_gain);
 
     for(int i = 0; i < NUM_HARMONICS; i++) {
         sprintf(param_name, HARMO_CS_STR, i + 1);      createParam(param_name, asynParamFloat64, &p_harmo_cs[i]);

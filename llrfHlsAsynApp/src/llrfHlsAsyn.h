@@ -91,6 +91,8 @@ class llrfHlsAsynDriver
         void getPhaseJitterforAllTimeslots(void);
         void getAmplJitterforAllTimeslots(void);
         void getBeamPkVoltforAllTimeslots(void);
+        void getPhaseJitterforAllChannels(void);
+        void getAmplitudeJitterforAllChannels(void);
 
 
     private:
@@ -232,6 +234,11 @@ class llrfHlsAsynDriver
         int p_mean_ampl[NUM_TIMESLOT];             // mean value for amplitude
         int p_mean_bv[NUM_TIMESLOT];               // mean value for beam voltage
 
+        int p_rms_phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];      // rms phase for each channel and each window
+        int p_rms_ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];       // rms amplitude for each channel and each window
+        int p_mean_phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // mean value of phase for each channel and each window
+        int p_mean_ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];      // mean value of amplitude for each channel and each window
+
 
         int p_op_mode;
         int p_p_adaptive_gain;
@@ -327,6 +334,11 @@ class llrfHlsAsynDriver
 #define PHASE_MEAN_STR               "phase_mean_ts%d"   // mean value for phase per timeslot
 #define AMPL_MEAN_STR                "ampl_mean_ts%d"    // mean value for amplitude per timeslot
 #define BV_MEAN_STR                  "bv_mean_ts%d"      // mean value for beam peak voltage per timeslot
+
+#define P_JITTER_WND_CH_STR          "p_jitter_w%dch%d"  // phase jitter (RMS) per each channel and each window
+#define A_JITTER_WND_CH_STR          "a_jitter_w%dch%d"  // amplitude jitter (RMS) per each channel and each window
+#define P_MEAN_WND_CH_STR            "p_mean_w%dch%d"    // mean value of phase per each channel and each window
+#define A_MEAN_WND_CH_STR            "a_mean_w%dch%d"    // mean value of amplitude per each channel and each window
 
 #define OP_MODE_STR                  "op_mode"           // enable adaptive mode
 #define PHASE_ADAPTIVE_GAIN_STR      "p_adaptive_gain"   // phase gain for adaptive mode

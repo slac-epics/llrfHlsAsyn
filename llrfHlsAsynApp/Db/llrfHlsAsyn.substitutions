@@ -191,27 +191,27 @@ file Bsa.db
           {"$(DEV):W0C8" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
           {"$(DEV):W0C9" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
 #
-          {"$(DEV):W1C0" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C1" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C2" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C3" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C4" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C5" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C6" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C7" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C8" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W1C9" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C0" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C1" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C2" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C3" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C4" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C5" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C6" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C7" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C8" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W1C9" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
 #
-          {"$(DEV):W2C0" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C1" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C2" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C3" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C4" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C5" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C6" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C7" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C8" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          {"$(DEV):W2C9" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C0" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C1" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C2" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C3" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C4" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C5" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C6" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C7" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C8" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
+#          {"$(DEV):W2C9" , "FAST_PACT"    , ""       , "degrees", "180", "-180" }
 #
           { "$(DEV):W0C0", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
           { "$(DEV):W0C1", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
@@ -224,27 +224,27 @@ file Bsa.db
           { "$(DEV):W0C8", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
           { "$(DEV):W0C9", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
 #
-          { "$(DEV):W1C0", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C1", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C2", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C3", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C4", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C5", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C6", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C7", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C8", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W1C9", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C0", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C1", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C2", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C3", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C4", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C5", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C6", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C7", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C8", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W1C9", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
 #
-          { "$(DEV):W2C0", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C1", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C2", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C3", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C4", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C5", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C6", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C7", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C8", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
-          { "$(DEV):W2C9", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C0", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C1", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C2", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C3", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C4", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C5", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C6", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C7", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C8", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+#          { "$(DEV):W2C9", "FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
 }
 
 

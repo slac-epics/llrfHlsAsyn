@@ -1,3 +1,8 @@
+R3.3.0      10-05-2020    Kukhee Kim (khkim)
+                          - reduce down the number of BSA channels to 23 channels
+                            pact/aact/beam_volt/feedback window 10 channels of phase and amplitude
+                          - reduce down the number of fast PVs to 23
+
 R3.2.0      10-05-2020    Kukhee Kim (khkim)
                           - resore back all of BSA channels
 

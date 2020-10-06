@@ -820,7 +820,7 @@ void llrfHlsAsynDriver::bsaSetup(void)
     char param_name[128];
 
 
-    for(int w = 0; w < NUM_WINDOW ; w++) {       // w, window index
+    for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, window index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
             sprintf(param_name, P_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
             sprintf(param_name, A_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
@@ -857,7 +857,7 @@ void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
     BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[0].val, 0, 0);
 
-    for(int w = 0; w < NUM_WINDOW ; w++) {       // w, windw index
+    for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, windw index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
             BSA_StoreData(BsaChn_phase[w][i],     p->time, p->ap_wch[w][i].phase * 180./M_PI, 0, 0);
             BSA_StoreData(BsaChn_amplitude[w][i], p->time, p->ap_wch[w][i].ampl,  0, 0);
@@ -878,7 +878,7 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
     setDoubleParam(p_br[t].p_br_bvolt, beam_peak_volt[t].val);
 
 
-    for(int w = 0; w < NUM_WINDOW ; w++) {
+    for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
             setDoubleParam(p_br[t].p_br_phase[w][i], n_angle(p->ap_wch[w][i].phase * 180./M_PI));
             setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ap_wch[w][i].ampl);

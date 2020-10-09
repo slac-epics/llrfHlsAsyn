@@ -1,6 +1,10 @@
+R3.3.2      10-09-2020    Kukhee Kim (khkim)
+                          - add recursion gain for rms/mean calculations for non-timeslot aware variables
+                          - build with llrfHls R4.1.2
+
 R3.3.1      10-08-2020    Kukhee Kim (khkim)
                           - add amplitude threshold for amplitude feeedback
-                          - build with llrfHls R4.4.1
+                          - build with llrfHls R4.1.1
 
 R3.3.0      10-05-2020    Kukhee Kim (khkim)
                           - reduce down the number of BSA channels to 23 channels

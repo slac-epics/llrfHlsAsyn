@@ -227,7 +227,8 @@ class llrfHlsAsynDriver
 
         int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
         int p_ampl_norm;                           // normalization factor for amplitude feedback
-        int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware
+        int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware, for timeslot aware variables
+        int p_var_gain_nt;                         // gain for variance/mean calculation, for non-timeslot aware variables
         int p_rms_phase[NUM_TIMESLOT];             // rms phase, phase jitter
         int p_rms_ampl[NUM_TIMESLOT];              // rms amplitude, amplitude jitter 
         int p_rms_bv[NUM_TIMESLOT];                // rms beam voltage, jitter for beam voltage
@@ -329,7 +330,8 @@ class llrfHlsAsynDriver
 
 #define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
 #define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
-#define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation
+#define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
+#define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables
 #define PHASE_JITTER_STR             "phase_jitter_ts%d" // phase jitter (RMS) per timeslot
 #define AMPL_JITTER_STR              "ampl_jitter_ts%d"  // amplitude jitter (RMS) per timeslot
 #define BV_JITTER_STR                "bv_jitter_ts%d"    // beam voltage jitter (RMS) per timeslot

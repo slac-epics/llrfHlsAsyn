@@ -272,6 +272,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_var_gain) {   // gain for variance / mean calculation, single pole algorithm
         llrfHls->setVarGain(value);
     }
+    else if(function == p_var_gain_nt) {  // gain for ariance / mean calculation for non-timeslot aware variables
+        llrfHls->setVarNtGain(value);
+    }
     else if(function == p_p_adaptive_gain) {    // phase gain for adaptive feedback
         llrfHls->setPhaseAdaptiveGain(value);
         double g;
@@ -729,6 +732,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     sprintf(param_name, AMPL_NORM_STR);              createParam(param_name, asynParamFloat64, &p_ampl_norm);
     sprintf(param_name, VAR_GAIN_STR);               createParam(param_name, asynParamFloat64, &p_var_gain);
+    sprintf(param_name, VAR_GAIN_NT_STR);            createParam(param_name, asynParamFloat64, &p_var_gain_nt);
 
     for(int w = 0; w < NUM_WINDOW; w++) {
         sprintf(param_name, AVG_WINDOW_STR, w);     createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));

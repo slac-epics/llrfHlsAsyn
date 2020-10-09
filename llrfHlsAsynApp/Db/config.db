@@ -486,6 +486,22 @@ record(ao, "$(DEVICE):VARGAIN")
     info(autosaveFields, "VAL")
 }
 
+record(ao, "$(DEVICE):VARGAIN_NT")
+{
+    field(PINI, "YES")
+    field(DESC, "Gain for RMS Jitter Calculation for Non-Timeslot")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) var_gain_nt")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "gain")
+    field(PREC, "5")
+    field(DRVH, "1.")
+    field(DRVL, "0.")
+    field(VAL, "0.004")
+    info(autosaveFields, "VAL")
+}
+
 
 record(ao, "$(DEVICE):AMPLNORM")
 {

@@ -411,6 +411,25 @@ record(ao, "$(DEVICE):ADRVLOL")
     info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
 }
 
+
+record(ao, "$(DEVICE):ATHRED")
+{
+    field(PINI, "YES")
+    field(DESC, "amplitude threshold")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) a_threshold")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+}
+
+
+
 record(waveform, "$(DEVICE):IBL")
 {
 #    field(PINI, "YES")

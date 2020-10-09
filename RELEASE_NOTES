@@ -1,3 +1,7 @@
+R3.3.1      10-08-2020    Kukhee Kim (khkim)
+                          - add amplitude threshold for amplitude feeedback
+                          - build with llrfHls R4.4.1
+
 R3.3.0      10-05-2020    Kukhee Kim (khkim)
                           - reduce down the number of BSA channels to 23 channels
                             pact/aact/beam_volt/feedback window 10 channels of phase and amplitude

@@ -260,6 +260,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_a_drv_lower) {  // amplitude corrrection lower limit
         llrfHls->setAmplDriveLowerLimit(value);
     }
+    else if(function == p_a_threshold) { // amplitude threshold
+        llrfHls->setAmplThreshold(value);
+    }
     else if(function == p_bvolt_conv) {  // beam voltage conversion factor 
         convBeamPeakVolt = value;
     }
@@ -722,6 +725,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, A_CORR_LOWER_STR);           createParam(param_name, asynParamFloat64, &p_a_corr_lower);
     sprintf(param_name, A_DRV_UPPER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_upper);
     sprintf(param_name, A_DRV_LOWER_STR);            createParam(param_name, asynParamFloat64, &p_a_drv_lower);
+    sprintf(param_name, A_THRED_STR);                createParam(param_name, asynParamFloat64, &p_a_threshold);
 
     sprintf(param_name, AMPL_NORM_STR);              createParam(param_name, asynParamFloat64, &p_ampl_norm);
     sprintf(param_name, VAR_GAIN_STR);               createParam(param_name, asynParamFloat64, &p_var_gain);

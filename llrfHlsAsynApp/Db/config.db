@@ -489,7 +489,7 @@ record(ao, "$(DEVICE):VARGAIN")
 record(ao, "$(DEVICE):VARGAIN_NT")
 {
     field(PINI, "YES")
-    field(DESC, "Gain for RMS Jitter Calculation for Non-Timeslot")
+    field(DESC, "Gain for RMS Jitter Calculation")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),0) var_gain_nt")
     field(OMSL, "supervisory")

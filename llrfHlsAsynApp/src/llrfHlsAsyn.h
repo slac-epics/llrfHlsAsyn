@@ -135,6 +135,8 @@ class llrfHlsAsynDriver
 
         epicsFloat64  i_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // i waveform for all channels
         epicsFloat64  q_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // q waveform for all channels
+        epicsFloat64  p_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // phase waveform for all channels
+        epicsFloat64  a_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // amplitude waveform for all channels
 
         epicsFloat64  convBeamPeakVolt;
         struct {
@@ -209,6 +211,8 @@ class llrfHlsAsynDriver
         int p_qwf_avg_window[NUM_WINDOW];     // complex average window, q waveform
         int p_i_wf_ch[NUM_FB_CH];                // i waveform for each channel
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
+        int p_p_wf_ch[NUM_FB_CH];                // phase waveform for each channel
+        int p_a_wf_ch[NUM_FB_CH];                // amplitude waveform for each channel
 
         int p_get_iq_wf_ch[NUM_FB_CH];        // get IQWaveform per channel
         int p_get_iq_wf_all;                  // get IQWaveform for all
@@ -309,6 +313,8 @@ class llrfHlsAsynDriver
 #define QWF_AVG_WINDOW_STR           "qwf_avg_window%d"  // q waveform for complex average window, length 4096
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
+#define P_WF_STR                     "p_wf_ch%d"         // phase waveform for each channe, array[10], length = 4096
+#define A_WF_STR                     "a_wf_ch%d"         // amplitude waveform for each channel, array[10], length = 4096
 
 #define I_BASEBAND_STR               "i_baseband_wf"     // i baseband waveform, length = 4096
 #define Q_BASEBAND_STR               "q_baseband_wf"     // q baseband waveform, length = 4096

@@ -526,6 +526,13 @@ void llrfHlsAsynDriver::getIQWaveform(void)
 
     for(channel = 0; channel < NUM_FB_CH; channel++) {
         llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
+
+        for(int k = 0; k < MAX_SAMPLES; k++) {
+            double i = i_wf_ch[channel][k];
+            double q = q_wf_ch[channel][k];
+            p_wf_ch[channel][k] = (i == 0.)? NAN:(atan2(q, i) * 180./M_PI);
+            a_wf_ch[channel][k] = sqrt(i*i + q*q);
+        }
     }
 
     llrfHls->freezeWaveform(false);
@@ -540,9 +547,20 @@ void llrfHlsAsynDriver::getIQWaveform(int channel)
     llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
     llrfHls->freezeWaveform(false);
 
+    for(int k = 0; k < MAX_SAMPLES; k++) {
+        double i = i_wf_ch[channel][k];
+        double q = q_wf_ch[channel][k];
+
+        p_wf_ch[channel][k] = (i == 0.)? NAN: (atan2(q, i) * 180./M_PI);
+        a_wf_ch[channel][k] = sqrt(i*i + q*q);
+    }
+
 
     doCallbacksFloat64Array(i_wf_ch[channel], MAX_SAMPLES, p_i_wf_ch[channel], 0);
     doCallbacksFloat64Array(q_wf_ch[channel], MAX_SAMPLES, p_q_wf_ch[channel], 0);
+
+    doCallbacksFloat64Array(p_wf_ch[channel], MAX_SAMPLES, p_p_wf_ch[channel], 0);
+    doCallbacksFloat64Array(a_wf_ch[channel], MAX_SAMPLES, p_a_wf_ch[channel], 0);
 }
 
 void llrfHlsAsynDriver::updatePhasePVsforAllChannels(void)
@@ -609,6 +627,8 @@ void llrfHlsAsynDriver::flushIQWaveformsforAllChannels(void)
     for(int i = 0; i < NUM_FB_CH; i++) {
         doCallbacksFloat64Array(i_wf_ch[i], MAX_SAMPLES, p_i_wf_ch[i], 0);
         doCallbacksFloat64Array(q_wf_ch[i], MAX_SAMPLES, p_q_wf_ch[i], 0);
+        doCallbacksFloat64Array(p_wf_ch[i], MAX_SAMPLES, p_p_wf_ch[i], 0);
+        doCallbacksFloat64Array(a_wf_ch[i], MAX_SAMPLES, p_a_wf_ch[i], 0);
     }
 
 }
@@ -757,6 +777,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
         sprintf(param_name, I_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_i_wf_ch[i]));
         sprintf(param_name, Q_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_q_wf_ch[i]));
+        sprintf(param_name, P_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_p_wf_ch[i]));
+        sprintf(param_name, A_WF_STR,       i); createParam(param_name, asynParamFloat64Array, &(p_a_wf_ch[i]));
 
 
         sprintf(param_name, GET_IQ_WF_STR,  i); createParam(param_name, asynParamInt32, &(p_get_iq_wf_ch[i]));

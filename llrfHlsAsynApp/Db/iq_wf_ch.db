@@ -1,3 +1,26 @@
+record(waveform, "$(DEVICE):PWF$(CH)")
+{
+    field(DESC, "P waveform for channel $(CH)")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) p_wf_ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}
+
+record(waveform, "$(DEVICE):AWF$(CH)")
+{
+    field(DESC, "A waveform for channel $(CH)")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) a_wf_ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}
+
+
+
+
 record(waveform, "$(DEVICE):IWF$(CH)")
 {
     field(DESC, "I waveform for channel $(CH)")

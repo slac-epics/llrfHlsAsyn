@@ -348,7 +348,7 @@ class llrfHlsAsynDriver
 #define PHASE_ADAPTIVE_GAIN_STR      "p_adaptive_gain"   // phase gain for adaptive mode
 #define AMPL_ADAPTIVE_GAIN_STR       "a_adaptive_gain"   // amplitude gain for adaptive mode
 #define PHASE_DISTB_GAIN_STR         "p_distb_gain"      // disturbance gain for phase
-#define AMPL_DISTB_GAIN_STR          "a_distp_gain"      // disturbance gain for amplitude
+#define AMPL_DISTB_GAIN_STR          "a_distb_gain"      // disturbance gain for amplitude
 #define HARMO_CS_STR                 "harmo_cs%d"        // CS harmonics 
 #define HARMO_SN_STR                 "harmo_sn%d"        // SN harmonics
 #define PHASE_ALPHA_STR              "p_alpha"           // alpha values for phase

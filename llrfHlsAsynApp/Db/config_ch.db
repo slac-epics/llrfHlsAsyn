@@ -64,3 +64,19 @@ record(ao, "$(DEVICE):AMPLSCL$(CH)")
     info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
 }
 
+record(ao, "$(DEVICE):POWERSCL$(CH)")
+{
+    field(PINI, "YES")
+    field(DESC, "power scale for channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) power_coeff_ch$(CH)")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    field(VAL,  "1.")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI EGU")
+}

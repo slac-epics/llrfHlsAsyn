@@ -315,6 +315,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         else if(function == p_ampl_coeff[i]) { // amplitude conversion coefficientfor channel
             llrfHls->setAmplCoeff(value, i);
         }
+        else if(function == p_power_coeff[i]) { // power conversion coefficientfor channel
+            power_coeff_ch[i] = value;
+        }
     }
 
     for(int i = 0; i < NUM_TIMESLOT; i++) {    // search for timeslot
@@ -455,13 +458,15 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getDropCounter(&drop_counter_);       setIntegerParam(p_drop_counter, drop_counter_);
 
     // Do power calculations
-    // Power = (Amplitude)^2
     for(int i {0}; i < NUM_WINDOW; ++i)
     {
         for(int j {0}; j < NUM_FB_CH; ++j)
         {
-            epicsFloat64 a { ampl_wnd_ch[i][j] };
-            power_wnd_ch[i][j] = a*a;
+            epicsFloat64 a { power_coeff_ch[j] }; // coefficient
+            epicsFloat64 x { ampl_wnd_ch[i][j] }; // amplitude
+
+            // Power  = (coefficient) * (Amplitude)^2
+            power_wnd_ch[i][j] = a*x*x;
         }
     }
 
@@ -796,7 +801,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
         sprintf(param_name, GET_IQ_WF_STR,  i); createParam(param_name, asynParamInt32, &(p_get_iq_wf_ch[i]));
 
-        sprintf(param_name, AMPL_COEFF_STR, i); createParam(param_name, asynParamFloat64, &(p_ampl_coeff[i]));
+        sprintf(param_name, AMPL_COEFF_STR, i);  createParam(param_name, asynParamFloat64, &(p_ampl_coeff[i]));
+        sprintf(param_name, POWER_COEFF_STR, i); createParam(param_name, asynParamFloat64, &(p_power_coeff[i]));
        
     }
 

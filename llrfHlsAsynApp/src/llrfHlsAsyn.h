@@ -139,6 +139,8 @@ class llrfHlsAsynDriver
         epicsFloat64  p_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // phase waveform for all channels
         epicsFloat64  a_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // amplitude waveform for all channels
 
+        epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
+
         epicsFloat64  convBeamPeakVolt;
         struct {
             epicsUInt32     raw;
@@ -232,6 +234,7 @@ class llrfHlsAsynDriver
         int p_q_baseband_wf;                       // baseband q waveform
 
         int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
+        int p_power_coeff[NUM_FB_CH];              // power conversion coefficient, software based conversion, per channel
         int p_ampl_norm;                           // normalization factor for amplitude feedback
         int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware, for timeslot aware variables
         int p_var_gain_nt;                         // gain for variance/mean calculation, for non-timeslot aware variables
@@ -338,6 +341,7 @@ class llrfHlsAsynDriver
 #define GET_IQ_WF_ALL_STR            "get_iq_wf_all"     // get iq waveform for all channels
 
 #define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
+#define POWER_COEFF_STR              "power_coeff_ch%d"  // power conversion coefficient per channel
 #define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
 #define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
 #define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables

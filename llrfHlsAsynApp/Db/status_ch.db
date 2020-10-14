@@ -26,7 +26,19 @@ record(ai, "$(DEVICE):AMPL_W$(WND)CH$(CH)")
     info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
-
+record(ai, "$(DEVICE):POWER_W$(WND)CH$(CH)")
+{
+    field(DESC, "power calculations for window $(WND) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) pw_act_w$(WND)ch$(CH)")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(HHSV, "MAJOR")
+    field(HSV,  "MINOR")
+    field(LSV,  "MINOR")
+    field(LLSV, "MAJOR")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU")
+}
 
 ##
 # Jitter PVs

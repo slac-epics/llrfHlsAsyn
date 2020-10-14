@@ -124,6 +124,7 @@ class llrfHlsAsynDriver
         /* internal buffers */
         epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels
         epicsFloat64  ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // amplitude reading for all channels
+        epicsFloat64  power_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // power calculations for all channels
         epicsFloat64  fb_phase_ts[NUM_TIMESLOT];   // phase for feedback loop for all timeslots
         epicsFloat64  fb_ampl_ts[NUM_TIMESLOT];    // amplitude for feedback loop for all timeslots
         epicsFloat64  ref_phase_ts[NUM_TIMESLOT];  // phase for reference for all timeslots
@@ -200,6 +201,7 @@ class llrfHlsAsynDriver
         int p_a_des_ts[NUM_TIMESLOT];         // desired amplitude for each timeslot
         int p_p_wnd_ch[NUM_WINDOW][NUM_FB_CH];                   // actual phase for each channel
         int p_a_wnd_ch[NUM_WINDOW][NUM_FB_CH];                   // actual amplitude for each channel
+        int p_pw_wnd_ch[NUM_WINDOW][NUM_FB_CH];                  // actual power for each channel
         int p_p_fb_ts[NUM_TIMESLOT];          // phase for feedback for each timeslot
         int p_a_fb_ts[NUM_TIMESLOT];          // amplitude for feedback for each timeslot
         int p_p_ref_ts[NUM_TIMESLOT];         // reference phase for each timeslot
@@ -300,8 +302,9 @@ class llrfHlsAsynDriver
 #define P_OFFSET_STR                 "p_offset_ch%d"     // phase offset, for each channel, array[10]
 #define P_DES_STR                    "p_des_ts%d"        // desired phase, for each timeslot, array[18]
 #define A_DES_STR                    "a_des_ts%d"        // desired amplitude, for each timeslot, array[18]
-#define P_WND_CH_STR                 "p_act_w%dch%d"        // actual phase, for each channel, array[3][10]
-#define A_WND_CH_STR                 "a_act_w%dch%d"        // actual amplitude, for each channel, array[3][10]
+#define P_WND_CH_STR                 "p_act_w%dch%d"     // actual phase, for each channel, array[3][10]
+#define A_WND_CH_STR                 "a_act_w%dch%d"     // actual amplitude, for each channel, array[3][10]
+#define PW_WND_CH_STR                "pw_act_w%dch%d"    // actual power, for each channel, array[3][10]
 #define P_FB_STR                     "p_fb_ts%d"         // actual phase for feedback, for each timeslot, array[18]
 #define A_FB_STR                     "a_fb_ts%d"         // actual amplitude for feedback, for each timeslot, array[18]
 #define P_REF_STR                    "p_ref_ts%d"        // actual phase for reference, for each timeslot,  array[18]

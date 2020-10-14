@@ -454,6 +454,17 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getCounter(&counter_);                setIntegerParam(p_counter,      counter_);
     llrfHls->getDropCounter(&drop_counter_);       setIntegerParam(p_drop_counter, drop_counter_);
 
+    // Do power calculations
+    // Power = (Amplitude)^2
+    for(int i {0}; i < NUM_WINDOW; ++i)
+    {
+        for(int j {0}; j < NUM_FB_CH; ++j)
+        {
+            epicsFloat64 a { ampl_wnd_ch[i][j] };
+            power_wnd_ch[i][j] = a*a;
+        }
+    }
+
     {
         double phase_alpha[ALPHA_DIM], ampl_alpha[ALPHA_DIM];
 
@@ -574,6 +585,7 @@ void llrfHlsAsynDriver::updateAmplPVsforAllChannels(void)
 {
     for(int w = 0; w < NUM_WINDOW; w++) for(int i = 0; i < NUM_FB_CH; i++) {
         setDoubleParam(p_a_wnd_ch[w][i], ampl_wnd_ch[w][i]);
+        setDoubleParam(p_pw_wnd_ch[w][i], power_wnd_ch[w][i]);
     }
 }
 
@@ -766,8 +778,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, P_OFFSET_STR,   i); createParam(param_name, asynParamFloat64, &(p_p_offset_ch[i]));
 
         for(int w = 0; w < NUM_WINDOW; w++) {
-            sprintf(param_name, P_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_p_wnd_ch[w][i]));
-            sprintf(param_name, A_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_a_wnd_ch[w][i]));
+            sprintf(param_name, P_WND_CH_STR, w, i);  createParam(param_name, asynParamFloat64, &(p_p_wnd_ch[w][i]));
+            sprintf(param_name, A_WND_CH_STR, w, i);  createParam(param_name, asynParamFloat64, &(p_a_wnd_ch[w][i]));
+            sprintf(param_name, PW_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_pw_wnd_ch[w][i]));
 
             sprintf(param_name, P_JITTER_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_rms_phase_wnd_ch[w][i]));
             sprintf(param_name, A_JITTER_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_rms_ampl_wnd_ch[w][i]));

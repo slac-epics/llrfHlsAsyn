@@ -5,11 +5,12 @@ record(ai, "$(DEVICE):PHASE_W$(WND)CH$(CH)")
     field(INP,  "@asyn($(PORT),0) p_act_w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
+    field(EGU,  "deg")
     field(HHSV, "MAJOR")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 record(ai, "$(DEVICE):AMPL_W$(WND)CH$(CH)")
@@ -23,7 +24,7 @@ record(ai, "$(DEVICE):AMPL_W$(WND)CH$(CH)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 record(ai, "$(DEVICE):POWER_W$(WND)CH$(CH)")
@@ -37,7 +38,7 @@ record(ai, "$(DEVICE):POWER_W$(WND)CH$(CH)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI EGU")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 ##
@@ -52,11 +53,12 @@ record(ai, "$(DEVICE):PHASE_JITT_W$(WND)CH$(CH)")
     field(INP,  "@asyn($(PORT),0) p_jitter_w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
+    field(EGU,  "deg")
     field(HHSV, "MAJOR")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 record(ai, "$(DEVICE):AMPL_JITT_W$(WND)CH$(CH)")
@@ -70,7 +72,7 @@ record(ai, "$(DEVICE):AMPL_JITT_W$(WND)CH$(CH)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 
@@ -86,11 +88,12 @@ record(ai, "$(DEVICE):PHASE_AVG_W$(WND)CH$(CH)")
     field(INP,  "@asyn($(PORT),0) p_mean_w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
+    field(EGU,  "deg")
     field(HHSV, "MAJOR")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 record(ai, "$(DEVICE):AMPL_AVG_W$(WND)CH$(CH)")
@@ -104,7 +107,7 @@ record(ai, "$(DEVICE):AMPL_AVG_W$(WND)CH$(CH)")
     field(HSV,  "MINOR")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+    info(autosaveFields, "LOLO LOW HIGH HIHI EGU PREC")
 }
 
 

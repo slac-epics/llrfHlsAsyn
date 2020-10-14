@@ -61,7 +61,7 @@ record(ao, "$(DEVICE):AMPLSCL$(CH)")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
     field(VAL,  "1.")
-    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI EGU PREC")
 }
 
 record(ao, "$(DEVICE):POWERSCL$(CH)")
@@ -78,5 +78,5 @@ record(ao, "$(DEVICE):POWERSCL$(CH)")
     field(LSV,  "MINOR")
     field(LLSV, "MAJOR")
     field(VAL,  "1.")
-    info(autosaveFields, "VAL LOLO LOW HIGH HIHI EGU")
+    info(autosaveFields, "VAL LOLO LOW HIGH HIHI EGU PREC")
 }

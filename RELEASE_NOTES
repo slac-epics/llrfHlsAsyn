@@ -1,3 +1,9 @@
+R3.4.0      10-14-2020    Jesus Vasquez (jvasquez)
+                          - Add power PVs for each channel and windows. Also, add an extra scale factor for the 
+                            power calculation, for each channel. The power is calculated as (coef) * (amplitude)^2.
+                          - Set phase measurenment PV's EGU filed to 'deg'.
+                          - Add phase, amplitude, and power measurement and scale PV's EGU and PREC fields to autosave. 
+
 R3.3.3      10-10-2020    Kukhee Kim (khkim)
                           - add phase and amplitude waveform for IQ measurement
 

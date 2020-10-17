@@ -140,6 +140,8 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     stream = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
     this->pDrv = pDrv;
 
+    poll_slowdown     = 0;
+
     need_to_read      = true;
     stream_read_count = 0;
     stream_read_size  = 0;
@@ -444,8 +446,20 @@ void llrfHlsAsynDriver::report(int interest)
 
 }
 
+void llrfHlsAsynDriver::fast_poll(void)
+{
+    getIQWaveform();
+//    callParamCallbacks();
+}
+
 void llrfHlsAsynDriver::poll(void)
 {
+
+    fast_poll();
+
+    if(++poll_slowdown >= POLL_RATE) poll_slowdown = 0;
+    if(poll_slowdown % POLL_RATE) return;
+
     llrfHls->getPhaseAllChannels((epicsFloat64 *) phase_wnd_ch);
     llrfHls->getAmplAllChannels((epicsFloat64 *)  ampl_wnd_ch);
     llrfHls->getFeedbackPhaseAllTimeslots(fb_phase_ts);
@@ -1013,7 +1027,7 @@ static int llrfHlsAsynDriverPoll(void)
             if(p->pLlrfHlsAsyn) p->pLlrfHlsAsyn->poll();
             p = (pDrvList_t *) ellNext(&p->node);
         }
-        epicsThreadSleep(1.);
+        epicsThreadSleep(1. / POLL_RATE);
     }
 
     epicsEventSignal(shutdownEvent);

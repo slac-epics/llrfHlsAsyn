@@ -1,3 +1,6 @@
+R3.5.0      10-15-2020    Kukhee Kim (khkim)
+                          - implement a periodic udpate for measure I/Q/A/P waveforms
+
 R3.4.0      10-14-2020    Jesus Vasquez (jvasquez)
                           - Add power PVs for each channel and windows. Also, add an extra scale factor for the 
                             power calculation, for each channel. The power is calculated as (coef) * (amplitude)^2.

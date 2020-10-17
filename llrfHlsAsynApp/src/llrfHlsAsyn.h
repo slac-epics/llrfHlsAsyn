@@ -20,6 +20,7 @@
 
 #include "BsaApi.h"
 
+#define POLL_RATE         4
 
 #define NUM_FB_CH        10        // number of feedback channels
 #define NUM_WINDOW        3        // number of window
@@ -72,6 +73,7 @@ class llrfHlsAsynDriver
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
         asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
         void report(int interest);
+        void fast_poll(void);
         void poll(void);
         void pollStream(void);
         void updatePVs(void);
@@ -103,6 +105,8 @@ class llrfHlsAsynDriver
         llrfFw  llrfHls;
         dacSigGenFw dacSigGen;
         Stream hls_stream_;
+
+        int poll_slowdown;
 
         bool        need_to_read;
         epicsUInt32 version_;

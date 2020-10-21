@@ -5,12 +5,7 @@ record(ai, "$(DEVICE):PHASE_TS$(TS_N)W$(WND)CH$(CH)")
     field(INP,  "@asyn($(PORT),0) p_br_t$(TS)w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
     field(TSE,   "-2")
-#    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):AMPL_TS$(TS_N)W$(WND)CH$(CH)")
@@ -20,12 +15,7 @@ record(ai, "$(DEVICE):AMPL_TS$(TS_N)W$(WND)CH$(CH)")
     field(INP,  "@asyn($(PORT),0) a_br_t$(TS)w$(WND)ch$(CH)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
     field(TSE,  "-2")
-#    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 

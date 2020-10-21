@@ -7,11 +7,7 @@ record(ao, "$(DEVICE):PDES$(TS_N)")
     field(OMSL, "supervisory")
     field(SCAN, "Passive")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+    info(autosaveFields, "VAL")
 }
 
 
@@ -24,11 +20,7 @@ record(ao, "$(DEVICE):ADES$(TS_N)")
     field(OMSL, "supervisory")
     field(SCAN, "Passive")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "VAL LOLO LOW HIGH HIHI")
+    info(autosaveFields, "VAL")
 }
 
 

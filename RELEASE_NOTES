@@ -1,3 +1,6 @@
+R3.5.1      10-21-2020    Kukhee Kim (khkim)
+                          - remove alarm fields from database template and info field for autosave
+
 R3.5.0      10-15-2020    Kukhee Kim (khkim)
                           - implement a periodic udpate for measure I/Q/A/P waveforms
 

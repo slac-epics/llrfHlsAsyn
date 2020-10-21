@@ -5,11 +5,6 @@ record(ai, "$(DEVICE):PACT$(TS_N)")
     field(INP,  "@asyn($(PORT),0) p_fb_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):AACT$(TS_N)")
@@ -19,11 +14,6 @@ record(ai, "$(DEVICE):AACT$(TS_N)")
     field(INP,  "@asyn($(PORT),0) a_fb_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):PREF$(TS_N)")
@@ -33,11 +23,6 @@ record(ai, "$(DEVICE):PREF$(TS_N)")
     field(INP,  "@asyn($(PORT),0) p_ref_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):AREF$(TS_N)")
@@ -47,11 +32,6 @@ record(ai, "$(DEVICE):AREF$(TS_N)")
     field(INP,  "@asyn($(PORT),0) a_ref_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):PSET$(TS_N)")
@@ -61,11 +41,6 @@ record(ai, "$(DEVICE):PSET$(TS_N)")
     field(INP,  "@asyn($(PORT),0) p_set_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):ASET$(TS_N)")
@@ -75,11 +50,6 @@ record(ai, "$(DEVICE):ASET$(TS_N)")
     field(INP,  "@asyn($(PORT),0) a_set_ts$(TS)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 
@@ -92,11 +62,6 @@ record(ai, "$(DEVICE):BVOLT_PK$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "kV")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):BVOLT_PK_SLOW$(TS_N)")
@@ -121,11 +86,6 @@ record(ai, "$(DEVICE):PACT_JITT$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "degree")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 record(ai, "$(DEVICE):AACT_JITT$(TS_N)")
@@ -136,11 +96,6 @@ record(ai, "$(DEVICE):AACT_JITT$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "kV")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 
@@ -152,11 +107,6 @@ record(ai, "$(DEVICE):BVOLT_JITT$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "kV")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 #
@@ -171,11 +121,7 @@ record(ai, "$(DEVICE):PACT_AVG$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "degree")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
+
 }
 
 record(ai, "$(DEVICE):AACT_AVG$(TS_N)")
@@ -186,11 +132,6 @@ record(ai, "$(DEVICE):AACT_AVG$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "kV")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 
 
@@ -202,10 +143,5 @@ record(ai, "$(DEVICE):BVOLT_AVG$(TS_N)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(EGU,  "kV")
-    field(HHSV, "MAJOR")
-    field(HSV,  "MINOR")
-    field(LSV,  "MINOR")
-    field(LLSV, "MAJOR")
-    info(autosaveFields, "LOLO LOW HIGH HIHI")
 }
 

@@ -1,3 +1,6 @@
+R3.5.2      10-28-2020    Kukhee Kim (khkim)
+                          - explicitly initialize VAL field for feedback enable PVs to avoid UDF INVALID issue after ioc re-start
+
 R3.5.1      10-21-2020    Kukhee Kim (khkim)
                           - remove alarm fields from database template and info field for autosave
 

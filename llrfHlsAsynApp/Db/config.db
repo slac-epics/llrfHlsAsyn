@@ -262,6 +262,7 @@ record(bo, "$(DEVICE):PFBENB")
     field(OMSL, "supervisory")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
+    field(VAL,  "0")
 #    info(autosaveFields, "VAL")
 }
 
@@ -275,6 +276,7 @@ record(bo, "$(DEVICE):AFBENB")
     field(OMSL, "supervisory")
     field(ZNAM, "Disable")
     field(ONAM, "Enable")
+    field(VAL,  "0")
 #    info(autosaveFields, "VAL")
 }
 

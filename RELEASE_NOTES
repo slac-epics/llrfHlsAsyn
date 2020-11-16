@@ -1,3 +1,7 @@
+R3.6.0      11-16-2020    Jesus Vasquez (jvasquez)
+                          - Remove the amplitude scale factor from the power calculationn.
+                            The power is now calculated based on normalized amplitude instead.
+
 R3.5.2      10-28-2020    Kukhee Kim (khkim)
                           - explicitly initialize VAL field for feedback enable PVs to avoid UDF INVALID issue after ioc re-start
 

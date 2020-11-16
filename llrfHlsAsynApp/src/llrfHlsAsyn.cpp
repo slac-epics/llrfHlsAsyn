@@ -315,6 +315,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
             break;
         }
         else if(function == p_ampl_coeff[i]) { // amplitude conversion coefficientfor channel
+            ampl_coeff_ch[i] = value;
             llrfHls->setAmplCoeff(value, i);
         }
         else if(function == p_power_coeff[i]) { // power conversion coefficientfor channel
@@ -476,11 +477,15 @@ void llrfHlsAsynDriver::poll(void)
     {
         for(int j {0}; j < NUM_FB_CH; ++j)
         {
-            epicsFloat64 a { power_coeff_ch[j] }; // coefficient
-            epicsFloat64 x { ampl_wnd_ch[i][j] }; // amplitude
+            epicsFloat64 ampl_scale  { ampl_coeff_ch[j]   }; // amplitude coefficient
+            epicsFloat64 power_scale { power_coeff_ch[j] }; // power coefficient
+            epicsFloat64 scaled_ampl { ampl_wnd_ch[i][j] }; // scaled amplitude
 
-            // Power  = (coefficient) * (Amplitude)^2
-            power_wnd_ch[i][j] = a*x*x;
+            // scaled_power  = power_scale * (normalized_amplitude)^2
+            //               = power_scale * (scaled_amplitude / amplitude_scale)^2
+            // We don't check for (ampl_scale == 0), as in that case the PV value will be set to "nan", and
+            // its status to "INVALID" automatically.
+            power_wnd_ch[i][j] = power_scale * (scaled_ampl * scaled_ampl) / (ampl_scale * ampl_scale);
         }
     }
 

@@ -143,6 +143,7 @@ class llrfHlsAsynDriver
         epicsFloat64  p_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // phase waveform for all channels
         epicsFloat64  a_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // amplitude waveform for all channels
 
+        epicsFloat64 ampl_coeff_ch[NUM_FB_CH];     // amplitude calculation coefficients, per each channel
         epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
 
         epicsFloat64  convBeamPeakVolt;

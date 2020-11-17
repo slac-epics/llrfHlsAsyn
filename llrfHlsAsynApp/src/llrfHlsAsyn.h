@@ -72,6 +72,7 @@ class llrfHlsAsynDriver
         asynStatus writeInt32(asynUser *pasynUser,   epicsInt32 value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
         asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements);
+        asynStatus readFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements, size_t *nIn);
         void report(int interest);
         void fast_poll(void);
         void poll(void);
@@ -146,6 +147,11 @@ class llrfHlsAsynDriver
         epicsFloat64 ampl_coeff_ch[NUM_FB_CH];     // amplitude calculation coefficients, per each channel
         epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
 
+        epicsFloat64 iwf_avg_window[NUM_WINDOW][MAX_SAMPLES];
+        epicsFloat64 qwf_avg_window[NUM_WINDOW][MAX_SAMPLES];
+        epicsFloat64 awf_avg_window[NUM_WINDOW][MAX_SAMPLES];
+        epicsFloat64 pwf_avg_window[NUM_WINDOW][MAX_SAMPLES];
+
         epicsFloat64  convBeamPeakVolt;
         struct {
             epicsUInt32     raw;
@@ -167,6 +173,22 @@ class llrfHlsAsynDriver
         void bsaProcessing(bsa_packet_t *p);
         void fastPVProcessing(bsa_packet_t *p);
 
+        // Helper functions to convert bewteen I/Q to Phase/Amplitude and vice versa
+        void iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a);
+        void pa2iq(const epicsFloat64* p, const epicsFloat64* a, epicsFloat64* i, epicsFloat64* q);
+
+        // Helper functions to update the I/Q or Phase/Amplitude average wavefrom, when the opposite
+        // par is set, and to write the resulting I/Q waveforms to FW.
+        void UpdateIQWaveformAverageWindow(int w);
+        void UpdatePAWaveformAverageWindow(int w);
+
+        // Function to readback the I/Q average waveform from FW, and update
+        // all readback waveforms.
+        void ReadbackIQWaveformAverageWindow(int w);
+
+        // Helper function to do callbacks to all readback waveform for
+        // average windows
+        void DoCallbacksReadbackWaveformAverageWindow(int w);
 
     protected:
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
@@ -218,6 +240,12 @@ class llrfHlsAsynDriver
         int p_avg_window[NUM_WINDOW];                     // average window
         int p_iwf_avg_window[NUM_WINDOW];     // complex average window, i waveform
         int p_qwf_avg_window[NUM_WINDOW];     // complex average window, q waveform
+        int p_awf_avg_window[NUM_WINDOW];     // complex average window, ampl waveform
+        int p_pwf_avg_window[NUM_WINDOW];     // complex average window, phase waveform
+        int p_iwf_avg_window_rbv[NUM_WINDOW]; // complex average window, i waveform, readback
+        int p_qwf_avg_window_rbv[NUM_WINDOW]; // complex average window, q waveform, readback
+        int p_awf_avg_window_rbv[NUM_WINDOW]; // complex average window, ampl waveform, readback
+        int p_pwf_avg_window_rbv[NUM_WINDOW]; // complex average window, phase waveform, readback
         int p_i_wf_ch[NUM_FB_CH];                // i waveform for each channel
         int p_q_wf_ch[NUM_FB_CH];                // q waveform for each channel
         int p_p_wf_ch[NUM_FB_CH];                // phase waveform for each channel
@@ -322,6 +350,12 @@ class llrfHlsAsynDriver
 #define AVG_WINDOW_STR               "avg_window%d"      // average window, length = 4096
 #define IWF_AVG_WINDOW_STR           "iwf_avg_window%d"  // i waveform for complex average window, legnth 4096
 #define QWF_AVG_WINDOW_STR           "qwf_avg_window%d"  // q waveform for complex average window, length 4096
+#define AWF_AVG_WINDOW_STR           "awf_avg_window%d"  // ampl waveform for complex average window, legnth 4096
+#define PWF_AVG_WINDOW_STR           "pwf_avg_window%d"  // phase waveform for complex average window, length 4096
+#define IWF_AVG_WINDOW_RBV_STR       "iwf_avg_window_rbv%d"  // i waveform for complex average window, length 4096, readback
+#define QWF_AVG_WINDOW_RBV_STR       "qwf_avg_window_rbv%d"  // q waveform for complex average window, length 4096, readback
+#define AWF_AVG_WINDOW_RBV_STR       "awf_avg_window_rbv%d"  // ampl waveform for complex average window, length 4096, readback
+#define PWF_AVG_WINDOW_RBV_STR       "pwf_avg_window_rbv%d"  // phase waveform for complex average window, length 4096, readback
 #define I_WF_STR                     "i_wf_ch%d"         // i waveform, for each channel, array[10], length = 4096
 #define Q_WF_STR                     "q_wf_ch%d"         // q waveform, for each channel, array[10], length = 4096
 #define P_WF_STR                     "p_wf_ch%d"         // phase waveform for each channe, array[10], length = 4096

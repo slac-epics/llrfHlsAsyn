@@ -177,6 +177,10 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     getFirmwareInformation();
 
     callParamCallbacks();
+
+    // Update average windows readback waveforms
+    for (std::size_t w { 0 }; w < NUM_WINDOW; ++w)
+        ReadbackIQWaveformAverageWindow(w);
 }
 
 llrfHlsAsynDriver::~llrfHlsAsynDriver() {}
@@ -349,6 +353,47 @@ static epicsFloat64* __zero_pad(epicsFloat64 *value, epicsFloat64 *v, size_t nEl
     return v;
 }
 
+asynStatus llrfHlsAsynDriver::readFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements, size_t *nIn)
+{
+    int        function      { pasynUser->reason };
+    asynStatus status        { asynSuccess };
+    const char *functionName = "readFloat64Array";
+    bool       functionFound { false };
+
+    for(std::size_t w { 0 }; w < NUM_WINDOW; ++w)
+    {
+        if(function == p_iwf_avg_window_rbv[w])
+        {
+            memcpy(value, iwf_avg_window[w], nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_qwf_avg_window_rbv[w])
+        {
+            memcpy(value, qwf_avg_window[w], nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_awf_avg_window_rbv[w])
+        {
+            memcpy(value, awf_avg_window[w], nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_pwf_avg_window_rbv[w])
+        {
+            memcpy(value, pwf_avg_window[w], nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+    }
+
+    if(!functionFound)
+        status = asynPortDriver::readFloat64Array(pasynUser, value, nElements, nIn);
+
+    return status;
+}
+
 asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *value, size_t nElements)
 {
     int        function      = pasynUser->reason;
@@ -375,13 +420,27 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
             break;
         }
         else if(function == p_iwf_avg_window[w]) {  // update complex waveform I
-            llrfHls->setIWaveformAverageWindow(__zero_pad(value, v, nElements, MAX_SAMPLES), w);
+            memcpy(iwf_avg_window[w], __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+            UpdatePAWaveformAverageWindow(w);
             // printf("i window %d size: %d\n", w, nElements);
             break;
         }
         else if(function == p_qwf_avg_window[w]) { // update complex waveform Q
-            llrfHls->setQWaveformAverageWindow(__zero_pad(value, v, nElements, MAX_SAMPLES), w);
+            memcpy(qwf_avg_window[w], __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+            UpdatePAWaveformAverageWindow(w);
             // printf("q window %d size: %d\n", w, nElements);
+            break;
+        }
+        else if(function == p_awf_avg_window[w]) {  // update complex waveform I
+            memcpy(awf_avg_window[w], __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+            UpdateIQWaveformAverageWindow(w);
+            // printf("ampl window %d size: %d\n", w, nElements);
+            break;
+        }
+        else if(function == p_pwf_avg_window[w]) {  // update complex waveform I
+            memcpy(&pwf_avg_window[w][0], value, MAX_SAMPLES*sizeof(epicsFloat64)); //__zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES);
+            UpdateIQWaveformAverageWindow(w);
+            // printf("phase window %d size: %d\n", w, nElements);
             break;
         }
     }
@@ -562,12 +621,7 @@ void llrfHlsAsynDriver::getIQWaveform(void)
     for(channel = 0; channel < NUM_FB_CH; channel++) {
         llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
 
-        for(int k = 0; k < MAX_SAMPLES; k++) {
-            double i = i_wf_ch[channel][k];
-            double q = q_wf_ch[channel][k];
-            p_wf_ch[channel][k] = (i == 0.)? NAN:(atan2(q, i) * 180./M_PI);
-            a_wf_ch[channel][k] = sqrt(i*i + q*q);
-        }
+        iq2pa(i_wf_ch[channel], q_wf_ch[channel], p_wf_ch[channel], a_wf_ch[channel]);
     }
 
     llrfHls->freezeWaveform(false);
@@ -794,6 +848,12 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, AVG_WINDOW_STR, w);     createParam(param_name, asynParamFloat64Array, &(p_avg_window[w]));
         sprintf(param_name, IWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_iwf_avg_window[w]));
         sprintf(param_name, QWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_qwf_avg_window[w]));
+        sprintf(param_name, AWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_awf_avg_window[w]));
+        sprintf(param_name, PWF_AVG_WINDOW_STR, w); createParam(param_name, asynParamFloat64Array, &(p_pwf_avg_window[w]));
+        sprintf(param_name, IWF_AVG_WINDOW_RBV_STR, w); createParam(param_name, asynParamFloat64Array, &(p_iwf_avg_window_rbv[w]));
+        sprintf(param_name, QWF_AVG_WINDOW_RBV_STR, w); createParam(param_name, asynParamFloat64Array, &(p_qwf_avg_window_rbv[w]));
+        sprintf(param_name, AWF_AVG_WINDOW_RBV_STR, w); createParam(param_name, asynParamFloat64Array, &(p_awf_avg_window_rbv[w]));
+        sprintf(param_name, PWF_AVG_WINDOW_RBV_STR, w); createParam(param_name, asynParamFloat64Array, &(p_pwf_avg_window_rbv[w]));
     }
 
     for(int i = 0; i < NUM_FB_CH; i++) {    // for loop for number of channels
@@ -956,8 +1016,75 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
     callParamCallbacks();
 }
 
+void llrfHlsAsynDriver::iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a)
+{
+    for(std::size_t k { 0 }; k < MAX_SAMPLES; ++k)
+    {
+        *p++ = atan2(*q, *i) * 180./M_PI;
+        *a++ = sqrt((*i)*(*i) + (*q)*(*q));
+        i++;
+        q++;
+    }
+}
 
 
+void llrfHlsAsynDriver::pa2iq(const epicsFloat64* p, const epicsFloat64* a, epicsFloat64* i, epicsFloat64* q)
+{
+    for(std::size_t k { 0 }; k < MAX_SAMPLES; ++k)
+    {
+        *i++ = *a * cos( *p * M_PI / 180. );
+        *q++ = *a * sin( *p * M_PI / 180. );
+        p++;
+        a++;
+    }
+}
+
+void llrfHlsAsynDriver::UpdateIQWaveformAverageWindow(int w)
+{
+    // Update the Phase/Amplitude waveforms
+    pa2iq(pwf_avg_window[w], awf_avg_window[w], iwf_avg_window[w], qwf_avg_window[w]);
+
+    // Write the I/Q waveforms to FW
+    llrfHls->setIWaveformAverageWindow(iwf_avg_window[w], w);
+    llrfHls->setQWaveformAverageWindow(qwf_avg_window[w], w);
+
+    // Update readback waveforms
+    DoCallbacksReadbackWaveformAverageWindow(w);
+}
+
+void llrfHlsAsynDriver::UpdatePAWaveformAverageWindow(int w)
+{
+    // Update the Phase/Ampl waveforms
+    iq2pa(iwf_avg_window[w], qwf_avg_window[w], pwf_avg_window[w], awf_avg_window[w]);
+
+    // Write the I/Q waveforms to FW
+    llrfHls->setIWaveformAverageWindow(iwf_avg_window[w], w);
+    llrfHls->setQWaveformAverageWindow(qwf_avg_window[w], w);
+
+    // Update readback waveforms
+    DoCallbacksReadbackWaveformAverageWindow(w);
+}
+
+void llrfHlsAsynDriver::ReadbackIQWaveformAverageWindow(int w)
+{
+    // Read the I/Q waveforms from FW
+    llrfHls->getIWaveformAverageWindow(iwf_avg_window[w], w);
+    llrfHls->getQWaveformAverageWindow(qwf_avg_window[w], w);
+
+    // Update the Phase/Ampl waveforms
+    iq2pa(iwf_avg_window[w], qwf_avg_window[w], pwf_avg_window[w], awf_avg_window[w]);
+
+    // Update readback waveforms
+    DoCallbacksReadbackWaveformAverageWindow(w);
+}
+
+void llrfHlsAsynDriver::DoCallbacksReadbackWaveformAverageWindow(int w)
+{
+    doCallbacksFloat64Array(iwf_avg_window[w], MAX_SAMPLES, p_iwf_avg_window_rbv[w], 0);
+    doCallbacksFloat64Array(qwf_avg_window[w], MAX_SAMPLES, p_qwf_avg_window_rbv[w], 0);
+    doCallbacksFloat64Array(awf_avg_window[w], MAX_SAMPLES, p_awf_avg_window_rbv[w], 0);
+    doCallbacksFloat64Array(pwf_avg_window[w], MAX_SAMPLES, p_pwf_avg_window_rbv[w], 0);
+}
 
 extern "C" {
 

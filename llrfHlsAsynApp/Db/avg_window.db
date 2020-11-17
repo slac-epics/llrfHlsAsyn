@@ -36,3 +36,72 @@ record(waveform, "$(DEVICE):QCPXWND$(WND)")
     info(autosaveFields, "VAL")
 }
 
+record(waveform, "$(DEVICE):ACPXWND$(WND)")
+{
+#    field(PINI, "YES")
+    field(DESC, "Ampl complex window")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) awf_avg_window$(WND)")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+    info(autosaveFields, "VAL")
+}
+
+
+record(waveform, "$(DEVICE):PCPXWND$(WND)")
+{
+#    field(PINI, "YES")
+    field(DESC, "Phase complex window")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) pwf_avg_window$(WND)")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+    info(autosaveFields, "VAL")
+}
+
+
+record(waveform, "$(DEVICE):ICPXWND$(WND)_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "I complex window, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) iwf_avg_window_rbv$(WND)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}
+
+record(waveform, "$(DEVICE):QCPXWND$(WND)_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Q complex window, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) qwf_avg_window_rbv$(WND)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}
+
+record(waveform, "$(DEVICE):ACPXWND$(WND)_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Ampl complex window, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) awf_avg_window_rbv$(WND)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}
+
+record(waveform, "$(DEVICE):PCPXWND$(WND)_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Phase complex window, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) pwf_avg_window_rbv$(WND)")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM)")
+}

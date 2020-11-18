@@ -1,3 +1,14 @@
+R3.7.0      11-17-2020    Jesus Vasquez (jvasquez)
+                          - Update llrfHls API to version R4.2.0.
+                          - Add new waveforms PV for setting average windows using phase and amplitude.
+                          - Add readback waveforms PVs for I/Q and Phase/Ampl average windows.
+                          - Readback I/Q average windows waveforms from FW during init, and update all
+                            readback waveform PVs.
+                          - Add new waveforms PV for setting baseband drive using phase and amplitude.
+                          - Add readback waveforms PVs for I/Q and Phase/Ampl baseband drive.
+                          - Readback I/Q baseband drive waveforms from FW during init, and update all
+                            readback waveform PVs.
+
 R3.6.0      11-16-2020    Jesus Vasquez (jvasquez)
                           - Remove the amplitude scale factor from the power calculationn.
                             The power is now calculated based on normalized amplitude instead.

@@ -396,6 +396,73 @@ record(waveform, "$(DEVICE):QBL")
     info(autosaveFields, "VAL")
 }
 
+record(waveform, "$(DEVICE):ABL")
+{
+#    field(PINI, "YES")
+    field(DESC, "Ampl baseband waveform")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) a_baseband_wf")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+    info(autosaveFields, "VAL")
+}
+
+record(waveform, "$(DEVICE):PBL")
+{
+#    field(PINI, "YES")
+    field(DESC, "Phase baseband waveform")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT),0) p_baseband_wf")
+    field(SCAN, "Passive")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+    info(autosaveFields, "VAL")
+}
+
+record(waveform, "$(DEVICE):IBL_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "I baseband waveform, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) i_baseband_wf_rbv")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+}
+
+record(waveform, "$(DEVICE):QBL_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Q baseband waveform, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) q_baseband_wf_rbv")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+}
+
+record(waveform, "$(DEVICE):ABL_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Ampl baseband waveform, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) a_baseband_wf_rbv")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+}
+
+record(waveform, "$(DEVICE):PBL_RBV")
+{
+    field(PINI, "YES")
+    field(DESC, "Phase baseband waveform, readback")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(INP,  "@asyn($(PORT),0) p_baseband_wf_rbv")
+    field(SCAN, "I/O Intr")
+    field(FTVL, "DOUBLE")
+    field(NELM, "$(NELM_BL)")
+}
 
 record(ao, "$(DEVICE):BVOLTCONV")
 {

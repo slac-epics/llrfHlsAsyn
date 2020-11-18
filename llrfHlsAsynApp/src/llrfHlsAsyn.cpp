@@ -178,6 +178,9 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
 
     callParamCallbacks();
 
+    // Update the baseband readback waveforms
+    ReadbacBasebandWaveform();
+
     // Update average windows readback waveforms
     for (std::size_t w { 0 }; w < NUM_WINDOW; ++w)
         ReadbackIQWaveformAverageWindow(w);
@@ -386,6 +389,30 @@ asynStatus llrfHlsAsynDriver::readFloat64Array(asynUser *pasynUser, epicsFloat64
             *nIn = nElements;
             functionFound = true;
         }
+        else if(function == p_i_baseband_wf_rbv)
+        {
+            memcpy(value, i_baseband_wf, nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_q_baseband_wf_rbv)
+        {
+            memcpy(value, q_baseband_wf, nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_a_baseband_wf_rbv)
+        {
+            memcpy(value, a_baseband_wf, nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
+        else if(function == p_p_baseband_wf_rbv)
+        {
+            memcpy(value, p_baseband_wf, nElements*sizeof(epicsFloat64));
+            *nIn = nElements;
+            functionFound = true;
+        }
     }
 
     if(!functionFound)
@@ -404,12 +431,24 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
 
 
     if(function == p_i_baseband_wf) {
-        dacSigGen->setIWaveform(__zero_pad(value, v, nElements, MAX_SAMPLES));
+        memcpy(i_baseband_wf, __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+        UpdatePABasebandWaveform();
         // printf("baseband i waveform size: %d\n", nElements);
     }
     else if(function == p_q_baseband_wf) {
-        dacSigGen->setQWaveform(__zero_pad(value, v, nElements, MAX_SAMPLES));
+        memcpy(q_baseband_wf, __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+        UpdatePABasebandWaveform();
         // printf("baseband q waveform size: %d\n", nElements);
+    }
+    if(function == p_a_baseband_wf) {
+        memcpy(a_baseband_wf, __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+        UpdateIQBasebandWaveform();
+        // printf("baseband ampl waveform size: %d\n", nElements);
+    }
+    if(function == p_p_baseband_wf) {
+        memcpy(p_baseband_wf, __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
+        UpdateIQBasebandWaveform();
+        // printf("baseband phase waveform size: %d\n", nElements);
     }
     else
 
@@ -923,6 +962,12 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_i_baseband_wf));
     sprintf(param_name, Q_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_q_baseband_wf));
+    sprintf(param_name, A_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_a_baseband_wf));
+    sprintf(param_name, P_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_p_baseband_wf));
+    sprintf(param_name, I_BASEBAND_RBV_STR); createParam(param_name, asynParamFloat64Array, &(p_i_baseband_wf_rbv));
+    sprintf(param_name, Q_BASEBAND_RBV_STR); createParam(param_name, asynParamFloat64Array, &(p_q_baseband_wf_rbv));
+    sprintf(param_name, A_BASEBAND_RBV_STR); createParam(param_name, asynParamFloat64Array, &(p_a_baseband_wf_rbv));
+    sprintf(param_name, P_BASEBAND_RBV_STR); createParam(param_name, asynParamFloat64Array, &(p_p_baseband_wf_rbv));
 
 
 
@@ -1039,6 +1084,32 @@ void llrfHlsAsynDriver::pa2iq(const epicsFloat64* p, const epicsFloat64* a, epic
     }
 }
 
+void llrfHlsAsynDriver::UpdateIQBasebandWaveform()
+{
+    // Update the Phase/Amplitude waveforms
+    pa2iq(p_baseband_wf, a_baseband_wf, i_baseband_wf, q_baseband_wf);
+
+    // Write I/Q baseband waveforms
+    dacSigGen->setIWaveform(i_baseband_wf);
+    dacSigGen->setQWaveform(q_baseband_wf);
+
+    // Update readback waveforms
+    DoCallbacksReadbackBasebandWaveform();
+}
+
+void llrfHlsAsynDriver::UpdatePABasebandWaveform()
+{
+    // Update the I/Q waveforms
+    iq2pa(i_baseband_wf, q_baseband_wf, p_baseband_wf, a_baseband_wf);
+
+    // Write I/Q baseband waveforms
+    dacSigGen->setIWaveform(i_baseband_wf);
+    dacSigGen->setQWaveform(q_baseband_wf);
+
+    // Update readback waveforms
+    DoCallbacksReadbackBasebandWaveform();
+}
+
 void llrfHlsAsynDriver::UpdateIQWaveformAverageWindow(int w)
 {
     // Update the Phase/Amplitude waveforms
@@ -1065,6 +1136,19 @@ void llrfHlsAsynDriver::UpdatePAWaveformAverageWindow(int w)
     DoCallbacksReadbackWaveformAverageWindow(w);
 }
 
+void llrfHlsAsynDriver::ReadbacBasebandWaveform()
+{
+    // Read the I/Q baseband waveforms from FW
+    dacSigGen->getIWaveform(i_baseband_wf);
+    dacSigGen->getQWaveform(q_baseband_wf);
+
+    // Update the Phase/Ampl waveform
+    iq2pa(i_baseband_wf, q_baseband_wf, p_baseband_wf, a_baseband_wf);
+
+    // Update the readback waveforms
+    DoCallbacksReadbackBasebandWaveform();
+}
+
 void llrfHlsAsynDriver::ReadbackIQWaveformAverageWindow(int w)
 {
     // Read the I/Q waveforms from FW
@@ -1074,8 +1158,16 @@ void llrfHlsAsynDriver::ReadbackIQWaveformAverageWindow(int w)
     // Update the Phase/Ampl waveforms
     iq2pa(iwf_avg_window[w], qwf_avg_window[w], pwf_avg_window[w], awf_avg_window[w]);
 
-    // Update readback waveforms
+    // Update the readback waveforms
     DoCallbacksReadbackWaveformAverageWindow(w);
+}
+
+void llrfHlsAsynDriver::DoCallbacksReadbackBasebandWaveform()
+{
+    doCallbacksFloat64Array(i_baseband_wf, MAX_SAMPLES, p_i_baseband_wf_rbv, 0);
+    doCallbacksFloat64Array(q_baseband_wf, MAX_SAMPLES, p_q_baseband_wf_rbv, 0);
+    doCallbacksFloat64Array(a_baseband_wf, MAX_SAMPLES, p_a_baseband_wf_rbv, 0);
+    doCallbacksFloat64Array(p_baseband_wf, MAX_SAMPLES, p_p_baseband_wf_rbv, 0);
 }
 
 void llrfHlsAsynDriver::DoCallbacksReadbackWaveformAverageWindow(int w)

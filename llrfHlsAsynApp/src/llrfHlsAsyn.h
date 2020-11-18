@@ -147,6 +147,11 @@ class llrfHlsAsynDriver
         epicsFloat64 ampl_coeff_ch[NUM_FB_CH];     // amplitude calculation coefficients, per each channel
         epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
 
+        epicsFloat64 i_baseband_wf[MAX_SAMPLES];
+        epicsFloat64 q_baseband_wf[MAX_SAMPLES];
+        epicsFloat64 a_baseband_wf[MAX_SAMPLES];
+        epicsFloat64 p_baseband_wf[MAX_SAMPLES];
+
         epicsFloat64 iwf_avg_window[NUM_WINDOW][MAX_SAMPLES];
         epicsFloat64 qwf_avg_window[NUM_WINDOW][MAX_SAMPLES];
         epicsFloat64 awf_avg_window[NUM_WINDOW][MAX_SAMPLES];
@@ -177,6 +182,19 @@ class llrfHlsAsynDriver
         void iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a);
         void pa2iq(const epicsFloat64* p, const epicsFloat64* a, epicsFloat64* i, epicsFloat64* q);
 
+        // Helper functions to update the I/Q or Phase/Amplitude baseband wavefrom, when the opposite
+        // par is set, and to write the resulting I/Q waveforms to FW.
+        void UpdateIQBasebandWaveform();
+        void UpdatePABasebandWaveform();
+
+        // Function to readback the I/Q baseband waveform from FW, and update
+        // all readback waveforms.
+        void ReadbacBasebandWaveform();
+
+        // Helper function to do callbacks to all readback waveform for
+        // baseband waveforms
+        void DoCallbacksReadbackBasebandWaveform();
+
         // Helper functions to update the I/Q or Phase/Amplitude average wavefrom, when the opposite
         // par is set, and to write the resulting I/Q waveforms to FW.
         void UpdateIQWaveformAverageWindow(int w);
@@ -187,7 +205,7 @@ class llrfHlsAsynDriver
         void ReadbackIQWaveformAverageWindow(int w);
 
         // Helper function to do callbacks to all readback waveform for
-        // average windows
+        // average windows waveforms
         void DoCallbacksReadbackWaveformAverageWindow(int w);
 
     protected:
@@ -265,6 +283,12 @@ class llrfHlsAsynDriver
         int p_bvolt_conv;
         int p_i_baseband_wf;                       // baseband i waveform
         int p_q_baseband_wf;                       // baseband q waveform
+        int p_a_baseband_wf;                       // baseband ampl waveform
+        int p_p_baseband_wf;                       // baseband phase waveform
+        int p_i_baseband_wf_rbv;                   // baseband i waveform, readback
+        int p_q_baseband_wf_rbv;                   // baseband q waveform, readback
+        int p_a_baseband_wf_rbv;                   // baseband ampl waveform, readback
+        int p_p_baseband_wf_rbv;                   // baseband phase waveform, readback
 
         int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
         int p_power_coeff[NUM_FB_CH];              // power conversion coefficient, software based conversion, per channel
@@ -363,6 +387,12 @@ class llrfHlsAsynDriver
 
 #define I_BASEBAND_STR               "i_baseband_wf"     // i baseband waveform, length = 4096
 #define Q_BASEBAND_STR               "q_baseband_wf"     // q baseband waveform, length = 4096
+#define A_BASEBAND_STR               "a_baseband_wf"     // ampl baseband waveform, length = 4096
+#define P_BASEBAND_STR               "p_baseband_wf"     // phase baseband waveform, length = 4096
+#define I_BASEBAND_RBV_STR           "i_baseband_wf_rbv" // i baseband waveform, length = 4096, readback
+#define Q_BASEBAND_RBV_STR           "q_baseband_wf_rbv" // q baseband waveform, length = 4096, readback
+#define A_BASEBAND_RBV_STR           "a_baseband_wf_rbv" // ampl baseband waveform, length = 4096, readback
+#define P_BASEBAND_RBV_STR           "p_baseband_wf_rbv" // phase baseband waveform, length = 4096, readback
 
 #define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel

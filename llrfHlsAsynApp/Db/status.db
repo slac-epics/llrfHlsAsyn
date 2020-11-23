@@ -1,3 +1,44 @@
+
+record(mbbi, "$(DEVICE):PFBST")
+{
+    field(DESC, "Status of Phase Feedback")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) p_feedback_st")
+    field(SCAN, "I/O Intr")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Disable")
+    field(ONST, "Pause")
+    field(TWST, "Feedforward")
+    field(THST, "Active")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "MAJOR")
+    field(TWSV, "MINOR")
+    field(THSV, "NO_ALARM")
+}
+
+record(mbbi, "$(DEVICE):AFBST")
+{
+    field(DESC, "Status of Ampl Feedback")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) a_feedback_st")
+    field(SCAN, "I/O Intr")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(ZRST, "Disable")
+    field(ONST, "Pause")
+    field(TWST, "Feedforward")
+    field(THST, "Active")
+    field(ZRSV, "NO_ALARM")
+    field(ONSV, "MAJOR")
+    field(TWSV, "MINOR")
+    field(THSV, "NO_ALARM")
+}
+
 record(longin, "$(DEVICE):LOOPCNT")
 {
     field(DESC, "Formware Loop Counter")

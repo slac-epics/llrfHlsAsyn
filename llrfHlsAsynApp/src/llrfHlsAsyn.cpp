@@ -570,6 +570,9 @@ void llrfHlsAsynDriver::poll(void)
     llrfHls->getCounter(&counter_);                setIntegerParam(p_counter,      counter_);
     llrfHls->getDropCounter(&drop_counter_);       setIntegerParam(p_drop_counter, drop_counter_);
 
+    llrfHls->getPhaseFeedbackStatus(&p_feedback_st_);  setIntegerParam(p_p_feedback_st, p_feedback_st_);
+    llrfHls->getAmplFeedbackStatus(&a_feedback_st_);   setIntegerParam(p_a_feedback_st, a_feedback_st_);
+
     // Do power calculations
     for(int i {0}; i < NUM_WINDOW; ++i)
     {
@@ -863,6 +866,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, MAX_PULSE_LEN_STR);          createParam(param_name, asynParamInt32,   &p_max_pulse_len);
     sprintf(param_name, COUNTER_STR);                createParam(param_name, asynParamInt32,   &p_counter);
     sprintf(param_name, DROP_COUNTER_STR);           createParam(param_name, asynParamInt32,   &p_drop_counter);
+    sprintf(param_name, P_FEEDBACK_ST_STR);          createParam(param_name, asynParamInt32,   &p_p_feedback_st);
+    sprintf(param_name, A_FEEDBACK_ST_STR);          createParam(param_name, asynParamInt32,   &p_a_feedback_st);
 
     sprintf(param_name, P_REF_OFFSET_STR);           createParam(param_name, asynParamFloat64, &p_p_ref_offset);
     sprintf(param_name, P_FB_OFFSET_STR);            createParam(param_name, asynParamFloat64, &p_p_fb_offset);

@@ -118,6 +118,9 @@ class llrfHlsAsynDriver
         epicsUInt32 counter_;
         epicsUInt32 drop_counter_;
 
+        epicsUInt32 p_feedback_st_;
+        epicsUInt32 a_feedback_st_;
+
         epicsUInt32 stream_read_count;
         epicsUInt32 stream_read_size;
 
@@ -226,6 +229,9 @@ class llrfHlsAsynDriver
 
         int p_counter;
         int p_drop_counter;
+
+        int p_p_feedback_st;                  // status of phase feedback
+        int p_a_feedback_st;                  // status of amplitude feedback
 
         int p_p_ref_offset;                   // phase offset of reference
         int p_p_fb_offset;                    // phase offset for feedback
@@ -342,6 +348,9 @@ class llrfHlsAsynDriver
 #define MAX_PULSE_LEN_STR            "max_pulse_len"
 #define COUNTER_STR                  "counter"
 #define DROP_COUNTER_STR             "drop_counter"
+
+#define P_FEEDBACK_ST_STR            "p_feedback_st"     // status of phase feedback
+#define A_FEEDBACK_ST_STR            "a_feedback_st"     // status of amplitude feedback
 
 #define P_REF_OFFSET_STR             "p_ref_offset"      // phase offset for reference, in degree
 #define P_FB_OFFSET_STR              "p_fb_offset"       // phase offset for feedback, in degree

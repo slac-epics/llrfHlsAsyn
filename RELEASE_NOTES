@@ -1,3 +1,6 @@
+R3.7.2      12-01-2020    Kukhee Kim
+                          - chagne the mode name for the trigger mode PV, $(PREFIX):MODECFG Disable/ACCEL/STDBY/ACCEL_STDBY
+
 R3.7.1      11-23-2020    Kukhee Kim
                           - Update llrfHls API to version R4.2.1.
                           - implement feedback status PVs.

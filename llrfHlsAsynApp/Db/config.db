@@ -526,3 +526,69 @@ record(ao, "$(DEVICE):AMPLNORM")
     info(autosaveFields, "VAL")
 }
 
+record(ao, "$(DEVICE):VARNSAMPLE")
+{
+    field(PINI, "YES")
+    field(DESC, "Num sample approx for RMS Jitter calc")
+    field(SCAN, "Passive")
+    field(EGU,  "samples")
+    field(PREC, "0")
+    field(VAL,  "250")
+    field(OUT, "$(DEVICE):VARGAIN_CALC.A PP")
+    info(autosaveFields, "VAL")
+}
+
+record(calcout, "$(DEVICE):VARGAIN_CALC")
+{
+    field(PINI, "NO")
+    field(DESC, "Num sample to gain calculation")
+    field(SCAN, "Passive")
+    field(CALC, "A?1/A:0")
+    field(OUT,  "$(DEVICE):VARGAIN PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):VARNSAMPLE_CALC")
+{
+    field(PINI, "NO")
+    field(DESC, "Gain to num sample calculation")
+    field(SCAN, "Passive")
+    field(INPA, "$(DEVICE):VARGAIN CP")
+    field(CALC, "A?1/A:0")
+    field(OUT,  "$(DEVICE):VARNSAMPLE PP")
+    field(ASG,  "Internal")
+}
+
+record(ao, "$(DEVICE):VARNSAMPLE_NT")
+{
+    field(PINI, "YES")
+    field(DESC, "Num sample approx for RMS Jitter calc")
+    field(SCAN, "Passive")
+    field(EGU,  "samples")
+    field(PREC, "0")
+    field(VAL,  "250")
+    field(OUT, "$(DEVICE):VARGAIN_NT_CALC.A PP")
+    info(autosaveFields, "VAL")
+}
+
+record(calcout, "$(DEVICE):VARGAIN_NT_CALC")
+{
+    field(PINI, "NO")
+    field(DESC, "Num sample to gain calculation")
+    field(SCAN, "Passive")
+    field(CALC, "A?1/A:0")
+    field(OUT,  "$(DEVICE):VARGAIN_NT PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):VARNSAMPLE_NT_CALC")
+{
+    field(PINI, "NO")
+    field(DESC, "Gain to num sample calculation")
+    field(SCAN, "Passive")
+    field(INPA, "$(DEVICE):VARGAIN_NT CP")
+    field(CALC, "A?1/A:0")
+    field(OUT,  "$(DEVICE):VARNSAMPLE_NT PP")
+    field(ASG,  "Internal")
+}
+

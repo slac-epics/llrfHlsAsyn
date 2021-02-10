@@ -147,8 +147,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     stream_read_size  = 0;
     current_bsa       = -1;
     p_buf             = (uint8_t *) &p_bsa_buf[0];
-    bsa_name = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix):(char *)"default_bsa";
-
+    bsa_name = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix):(char *)NULL;
 
     try {
         p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
@@ -172,7 +171,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
 
 
     ParameterSetup();
-    bsaSetup();
+    if(bsa_name) bsaSetup();
 
     getFirmwareInformation();
 
@@ -631,7 +630,7 @@ void llrfHlsAsynDriver::pollStream(void)
 
         setTimeStamp(&((p_bsa_buf[current_bsa]).time));
         beamPeakVoltageProcessing(&p_bsa_buf[current_bsa]);
-        bsaProcessing(&p_bsa_buf[current_bsa]);
+        if(bsa_name) bsaProcessing(&p_bsa_buf[current_bsa]);
         fastPVProcessing(&p_bsa_buf[current_bsa]);
 
     }

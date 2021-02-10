@@ -1,3 +1,9 @@
+
+ued_support  02-01-2021   Kukhee Kim (khkim)
+                          - branch out from R3.8.0 to support UED 1kHz operation
+                          - make LCLS-I style BSA (usig BsaCore) is an option since, UED 1kHz is going to use firmware based BSA (LCLS-II style BSA)
+
+
 R3.8.0      12-11-2020    Jesus Vasquez (jvasquez)
                           - Add VARNSAMPLE and VARNSAMPLE_NT PV, which are the inverse of
                             VARGAIN and VARGAIN_NT. Theses allows the user to define number

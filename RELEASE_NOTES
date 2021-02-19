@@ -2,6 +2,8 @@
 ued_support  02-01-2021   Kukhee Kim (khkim)
                           - branch out from R3.8.0 to support UED 1kHz operation
                           - make LCLS-I style BSA (usig BsaCore) is an option since, UED 1kHz is going to use firmware based BSA (LCLS-II style BSA)
+                          - build with llrfHls API R4.3.0
+                          - using separate PVs for the non-timeslot aware statistics instead of TS0 PVs
 
 
 R3.8.0      12-11-2020    Jesus Vasquez (jvasquez)

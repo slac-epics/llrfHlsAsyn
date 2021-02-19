@@ -74,3 +74,75 @@ record(waveform, "$(DEVICE):AALPHA")
     field(FTVL, "DOUBLE")
     field(NELM, "$(NELM_ALPHA)")
 }
+
+#
+#  Non-timeslot aware Jitter PVs
+#
+
+record(ai, "$(DEVICE):PACT_JITTNT")
+{
+    field(DESC, "PACT Jitter for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) phase_jitter_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "degree")
+}
+
+record(ai, "$(DEVICE):AACT_JITTNT")
+{
+    field(DESC, "AACT Jitter for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) ampl_jitter_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "kV")
+}
+
+
+record(ai, "$(DEVICE):BVOLT_JITTNT")
+{
+    field(DESC, "Peak Beam Voltage Jitter for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) bv_jitter_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "kV")
+}
+
+#
+#  Non-timeslot aware average PVs
+#
+
+record(ai, "$(DEVICE):PACT_AVGNT")
+{
+    field(DESC, "PACT Avg for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) phase_mean_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "degree")
+
+}
+
+record(ai, "$(DEVICE):AACT_AVGNT")
+{
+    field(DESC, "AACT Avg for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) ampl_mean_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "kV")
+}
+
+
+record(ai, "$(DEVICE):BVOLT_AVGNT")
+{
+    field(DESC, "Peak Beam Voltage Avg for timeslot NT")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) bv_mean_nt")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "kV")
+}
+

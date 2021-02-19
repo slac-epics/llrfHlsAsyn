@@ -27,6 +27,9 @@
 #define NUM_TIMESLOT     18        // number of timeslot
 #define MAX_SAMPLES      4096      // number of samples in a waveform
 
+#define NUM_STATISTICS    (NUM_TIMESLOT + 1)
+#define NT_STATISTICS     (NUM_STATISTICS - 1)
+
 
 #define MAX_BSABUF      36         // BSA buffer node
 
@@ -302,11 +305,17 @@ class llrfHlsAsynDriver
         int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware, for timeslot aware variables
         int p_var_gain_nt;                         // gain for variance/mean calculation, for non-timeslot aware variables
         int p_rms_phase[NUM_TIMESLOT];             // rms phase, phase jitter
+        int p_rms_phase_nt;                        // non-timeslot aware rms phase, phase jitter
         int p_rms_ampl[NUM_TIMESLOT];              // rms amplitude, amplitude jitter 
+        int p_rms_ampl_nt;                         // non-timeslot aware rms amplitude, amplitude jitter
         int p_rms_bv[NUM_TIMESLOT];                // rms beam voltage, jitter for beam voltage
+        int p_rms_bv_nt;                           // non-timeslot aware rms beam voltage, jitter for beam voltage
         int p_mean_phase[NUM_TIMESLOT];            // mean value for phase
+        int p_mean_phase_nt;                       // non-timeslot aware mean of phase
         int p_mean_ampl[NUM_TIMESLOT];             // mean value for amplitude
+        int p_mean_ampl_nt;                        // non-timeslot aware mean of amplitude
         int p_mean_bv[NUM_TIMESLOT];               // mean value for beam voltage
+        int p_mean_bv_nt;                          // non-timeslot aware mean of beam voltage
 
         int p_rms_phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];      // rms phase for each channel and each window
         int p_rms_ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];       // rms amplitude for each channel and each window
@@ -424,11 +433,17 @@ class llrfHlsAsynDriver
 #define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
 #define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables
 #define PHASE_JITTER_STR             "phase_jitter_ts%d" // phase jitter (RMS) per timeslot
+#define PHASE_JITTER_NT_STR          "phase_jitter_nt"   // non-timeslot aware phase jitter (rms)
 #define AMPL_JITTER_STR              "ampl_jitter_ts%d"  // amplitude jitter (RMS) per timeslot
+#define AMPL_JITTER_NT_STR           "ampl_jitter_nt"    // non-timeslot aware amplitude jitter (rms)
 #define BV_JITTER_STR                "bv_jitter_ts%d"    // beam voltage jitter (RMS) per timeslot
+#define BV_JITTER_NT_STR             "bv_jitter_nt"      // non-timeslot aware beam voltage jitter (rms)
 #define PHASE_MEAN_STR               "phase_mean_ts%d"   // mean value for phase per timeslot
+#define PHASE_MEAN_NT_STR            "phase_mean_nt"     // non-timeslot aware mean value of phase
 #define AMPL_MEAN_STR                "ampl_mean_ts%d"    // mean value for amplitude per timeslot
+#define AMPL_MEAN_NT_STR             "ampl_mean_nt"      // non-timeslot aware mean value of amplitude
 #define BV_MEAN_STR                  "bv_mean_ts%d"      // mean value for beam peak voltage per timeslot
+#define BV_MEAN_NT_STR               "bv_mean_nt"        // non-timeslot aware mean value of beam voltage
 
 #define P_JITTER_WND_CH_STR          "p_jitter_w%dch%d"  // phase jitter (RMS) per each channel and each window
 #define A_JITTER_WND_CH_STR          "a_jitter_w%dch%d"  // amplitude jitter (RMS) per each channel and each window

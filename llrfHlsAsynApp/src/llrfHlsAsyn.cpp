@@ -777,30 +777,36 @@ void llrfHlsAsynDriver::getFirmwareInformation(void)
 
 void llrfHlsAsynDriver::getPhaseJitterforAllTimeslots(void)
 {
-    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+    double var[NUM_STATISTICS], mean[NUM_STATISTICS];
 
     llrfHls->getVarPhaseAllTimeslots(var);
     llrfHls->getAvgPhaseAllTimeslots(mean);
 
-
+    // for timeslot aware
     for(int i = 0; i < NUM_TIMESLOT; i++) {
         setDoubleParam(p_rms_phase[i], sqrt(var[i]) * 180./M_PI);
         setDoubleParam(p_mean_phase[i], mean[i] * 180./M_PI);
     }
+    // for non-timeslot aware
+    setDoubleParam(p_rms_phase_nt, sqrt(var[NT_STATISTICS]) * 180./M_PI);
+    setDoubleParam(p_mean_phase_nt, mean[NT_STATISTICS] * 180./M_PI);
 }
 
 void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
 {
-    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+    double var[NUM_STATISTICS], mean[NUM_STATISTICS];
 
     llrfHls->getVarAmplAllTimeslots(var);
     llrfHls->getAvgAmplAllTimeslots(mean);
 
+    // for timeslot aware
     for(int i = 0; i< NUM_TIMESLOT; i++) {
         setDoubleParam(p_rms_ampl[i], sqrt(var[i]));
         setDoubleParam(p_mean_ampl[i], mean[i]);
-
     }
+    // for non-timeslot aware
+    setDoubleParam(p_rms_ampl_nt, sqrt(var[NT_STATISTICS]));
+    setDoubleParam(p_mean_ampl_nt, mean[NT_STATISTICS]);
 }
 
 void llrfHlsAsynDriver::getPhaseJitterforAllChannels(void)
@@ -838,15 +844,19 @@ void llrfHlsAsynDriver::getAmplitudeJitterforAllChannels(void)
 
 void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
 {
-    double var[NUM_TIMESLOT], mean[NUM_TIMESLOT];
+    double var[NUM_STATISTICS], mean[NUM_STATISTICS];
 
     llrfHls->getVarBeamVoltageAllTimeslots(var);
     llrfHls->getAvgBeamVoltageAllTimeslots(mean);
 
+    // for timeslot aware
     for(int i = 0; i< NUM_TIMESLOT; i++) {
         setDoubleParam(p_rms_bv[i], sqrt(var[i]) * 32768. * convBeamPeakVolt);
         setDoubleParam(p_mean_bv[i], mean[i] * 32768. * convBeamPeakVolt);
     }
+    // for non-timeslot aware
+    setDoubleParam(p_rms_bv_nt, sqrt(var[NT_STATISTICS]) * 32768. * convBeamPeakVolt);
+    setDoubleParam(p_mean_bv_nt, mean[NT_STATISTICS] * 32768. * convBeamPeakVolt);
 }
 
 
@@ -948,6 +958,13 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, AMPL_MEAN_STR,    i); createParam(param_name, asynParamFloat64, &(p_mean_ampl[i]));
         sprintf(param_name, BV_MEAN_STR,      i); createParam(param_name, asynParamFloat64, &(p_mean_bv[i]));
     }
+    // non-timeslot aware statistics
+    sprintf(param_name, PHASE_JITTER_NT_STR); createParam(param_name, asynParamFloat64, &(p_rms_phase_nt)); 
+    sprintf(param_name, AMPL_JITTER_NT_STR);  createParam(param_name, asynParamFloat64, &(p_rms_ampl_nt));
+    sprintf(param_name, BV_JITTER_NT_STR);    createParam(param_name, asynParamFloat64, &(p_rms_bv_nt));
+    sprintf(param_name, PHASE_MEAN_NT_STR);   createParam(param_name, asynParamFloat64, &(p_mean_phase_nt));
+    sprintf(param_name, AMPL_MEAN_NT_STR);    createParam(param_name, asynParamFloat64, &(p_mean_ampl_nt));
+    sprintf(param_name, BV_MEAN_NT_STR);      createParam(param_name, asynParamFloat64, &(p_mean_bv_nt));
 
     for(int t = 0; t < NUM_TIMESLOT; t++) {
         for(int w = 0; w < NUM_WINDOW; w++){        // w, window index
@@ -1022,17 +1039,22 @@ void llrfHlsAsynDriver::beamPeakVoltageProcessing(bsa_packet_t  *p)
     beam_peak_volt[t].raw = raw;
     beam_peak_volt[t].val = convBeamPeakVolt * raw;
 
+// do not use TS0 as non-timeslot aware
+/*
    if(t) {
        beam_peak_volt[0].raw = beam_peak_volt[t].raw;
        beam_peak_volt[0].val = beam_peak_volt[t].val;
    }
+*/
 }
 
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
+    int t = p->time_slot;
+
     BSA_StoreData(BsaChn_pact, p->time, n_angle(p->phase_fb * 180./M_PI), 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
-    BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[0].val, 0, 0);
+    BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[t].val, 0, 0);
 
     for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, windw index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
@@ -1204,7 +1226,7 @@ int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, 
     p->port         = epicsStrDup(portName);
     p->regPath      = epicsStrDup(regPathString);
     p->hlsStream    = (hlsStream && strlen(hlsStream))?epicsStrDup(hlsStream): NULL;
-    p->bsa_prefix   = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix): (char *) "Default_BSA";
+    p->bsa_prefix   = (bsa_prefix && strlen(bsa_prefix))?epicsStrDup(bsa_prefix): (char *) "";
     p->pRtm         = (void *) NULL;
     p->pLlrfHlsAsyn = new llrfHlsAsynDriver((void *) p, (const char *) p->port, (const char *) p->regPath, (const char *) p->hlsStream, (const char *) p->bsa_prefix, (const char *) p->named_root);
 

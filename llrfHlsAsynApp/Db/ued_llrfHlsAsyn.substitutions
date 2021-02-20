@@ -187,7 +187,7 @@ file rfTSmux.db
 #Timing Abstraction#
 ####################
 
-file cpswTimingCore.db
+file ued_cpswTimingCore.db
 {
     pattern {   TRIG, TRIGMODE, CHANNEL,  DEVICE  }
             { "LLRF",  "ACCEL",   "00" , "$(DEV)" }

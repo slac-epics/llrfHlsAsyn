@@ -2,7 +2,7 @@ record(longout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_EVCODE")
 {
     field(PINI, "YES")
     field(DESC, "Event Code for $(TRIG) $(TRIGMODE)")
-    field(OUT,  "$(TPR_PREFIX):CH$(CHANNEL)_EVCODE PP")
+    field(OUT,  "$(TPR_PREFIX):CH$(CHANNEL)_DESTMASK PP")
     info(autosaveFields, "VAL")
 }
 
@@ -10,7 +10,7 @@ record(longout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGWIDTH")
 {
     field(PINI, "YES")
     field(DESC, "Trigger Width for $(TRIG) $(TRIGMODE)")
-    field(OUT,  "$(TPR_PREFIX):TRG$(CHANNEL)_SYS0_TWID PP")
+    field(OUT,  "$(TPR_PREFIX):TRG$(CHANNEL)_SYS2_TWID PP")
     info(autosaveFields, "VAL")
 }
 
@@ -21,7 +21,7 @@ record(calcout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGDELAY")
     field(INPA, "$(DEVICE):$(TRIG)_DELAY CPP")
     field(INPB, "$(DEVICE):$(TRIGMODE)DELAY CPP")
     field(CALC, "A+B")
-    field(OUT,  "$(TPR_PREFIX):TRG$(CHANNEL)_SYS0_TDES PP")
+    field(OUT,  "$(TPR_PREFIX):TRG$(CHANNEL)_SYS2_TDES PP")
 }
 
 record(bo, "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGPOLARITY")
@@ -49,6 +49,6 @@ record(dfanout, "$(DEVICE):$(TRIG)_$(TRIGMODE)_DFAN")
 {
     field(DOL,  "$(DEVICE):$(TRIG)_$(TRIGMODE)_TRGENABLE")
     field(OMSL, "closed_loop")
-    field(OUTA, "$(TPR_PREFIX):CH$(CHANNEL)_SYS0_TCTL  PP")
-    field(OUTB, "$(TPR_PREFIX):TRG$(CHANNEL)_SYS0_TCTL PP")
+    field(OUTA, "$(TPR_PREFIX):CH$(CHANNEL)_SYS2_TCTL  PP")
+    field(OUTB, "$(TPR_PREFIX):TRG$(CHANNEL)_SYS2_TCTL PP")
 }

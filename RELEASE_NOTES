@@ -1,3 +1,6 @@
+ued_support 03-01-2021    Kukhee Kim (khkim)
+                          - bug fix: connect AREQ and PREQ for all 18 timeslots
+                          - convert sioc-b084-rf54 and sioc-b084-rf60 to UED support
 
 ued_support  02-01-2021   Kukhee Kim (khkim)
                           - branch out from R3.8.0 to support UED 1kHz operation

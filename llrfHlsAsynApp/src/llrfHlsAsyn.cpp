@@ -785,11 +785,11 @@ void llrfHlsAsynDriver::getPhaseJitterforAllTimeslots(void)
     // for timeslot aware
     for(int i = 0; i < NUM_TIMESLOT; i++) {
         setDoubleParam(p_rms_phase[i], sqrt(var[i]) * 180./M_PI);
-        setDoubleParam(p_mean_phase[i], mean[i] * 180./M_PI);
+        setDoubleParam(p_mean_phase[i], n_angle(mean[i] * 180./M_PI));
     }
     // for non-timeslot aware
     setDoubleParam(p_rms_phase_nt, sqrt(var[NT_STATISTICS]) * 180./M_PI);
-    setDoubleParam(p_mean_phase_nt, mean[NT_STATISTICS] * 180./M_PI);
+    setDoubleParam(p_mean_phase_nt, n_angle(mean[NT_STATISTICS] * 180./M_PI));
 }
 
 void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
@@ -820,7 +820,7 @@ void llrfHlsAsynDriver::getPhaseJitterforAllChannels(void)
     for(int w = 0; w < NUM_WINDOW; w++) {
         for(int c = 0; c < NUM_FB_CH; c++) {
             setDoubleParam(p_rms_phase_wnd_ch[w][c], sqrt(var[w][c]) * 180./M_PI);
-            setDoubleParam(p_mean_phase_wnd_ch[w][c], mean[w][c] * 180./M_PI);
+            setDoubleParam(p_mean_phase_wnd_ch[w][c], n_angle(mean[w][c] * 180./M_PI));
         }
     }
 }
@@ -1058,7 +1058,7 @@ void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 
     for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, windw index
         for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            BSA_StoreData(BsaChn_phase[w][i],     p->time, p->ap_wch[w][i].phase * 180./M_PI, 0, 0);
+            BSA_StoreData(BsaChn_phase[w][i],     p->time, n_angle(p->ap_wch[w][i].phase * 180./M_PI), 0, 0);
             BSA_StoreData(BsaChn_amplitude[w][i], p->time, p->ap_wch[w][i].ampl,  0, 0);
         }
     }

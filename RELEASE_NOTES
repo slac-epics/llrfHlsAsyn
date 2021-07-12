@@ -1,3 +1,7 @@
+R3.8.0-br   07-12-2020    Kukhee Kim (khkim)
+                          - branch out from R3.8.0 for fixing the mean calculation for phase
+                          - facet-II production is using R3.8.0 now, we need to branch out to fix bug and to support running production
+
 R3.8.0      12-11-2020    Jesus Vasquez (jvasquez)
                           - Add VARNSAMPLE and VARNSAMPLE_NT PV, which are the inverse of
                             VARGAIN and VARGAIN_NT. Theses allows the user to define number

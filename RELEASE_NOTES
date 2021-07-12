@@ -1,5 +1,5 @@
 R4.1.0      07-12-2021    Kukhee Kim (khkim)
-                          - bug fixing: add angle wrap-found for the phase average calculations
+                          - bug fixing: add angle wrap-round for the phase average calculations
 
 R4.0.1      03-02 2021    Kukhee Kim (khkim)
                           - build with BsaCore R1.5.4 and event R4.5.5

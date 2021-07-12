@@ -1,4 +1,7 @@
-R3.8.0-br   07-12-2020    Kukhee Kim (khkim)
+R3.8.0-BR-0     07-12-2021    Kukhee Kim (khkim)
+                              - add angle wrap-round for the phase average calculation
+
+R3.8.0-br   07-12-2021    Kukhee Kim (khkim)
                           - branch out from R3.8.0 for fixing the mean calculation for phase
                           - facet-II production is using R3.8.0 now, we need to branch out to fix bug and to support running production
 

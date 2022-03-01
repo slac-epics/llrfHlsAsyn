@@ -1,4 +1,7 @@
 
+R4.1.2      03-01-2022    egumtow
+                          - upgrade to asyn/R4.39-1.0.1 and atcacommon/R1.6.2
+
 R4.1.1      010-11-2021    M. Dunning (mdunning)
                           - Upgrade to asyn R4.39-0.0.1, yamlLoader R2.2.0, ATCACommon R1.5.1
                           - llrfHlsAsyn.cpp: replace debugStreamInterface.h with debugStream.h

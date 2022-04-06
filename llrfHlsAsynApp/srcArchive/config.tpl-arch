@@ -1,0 +1,33 @@
+# Abs: Configuration Archive PV List
+#
+# File: config.tpl-arch
+#
+# Format:  PVNAME     INTERVAL     [ monitor | scan ]
+# The interval is in seconds.
+#
+# Name                   Interval   Mode
+#-------------------------------------------------
+$(DEV):STRMENB               1    monitor
+$(DEV):MODECFG               1    monitor
+$(DEV):REFSUBENB             1    monitor
+$(DEV):PFBENB                1    monitor
+$(DEV):AFBENB                1    monitor
+$(DEV):REFPOC                1    monitor
+$(DEV):FBPOC                 1    monitor
+$(DEV):VARGAIN               1    monitor
+$(DEV):PGAIN                 1    monitor
+$(DEV):AGAIN                 1    monitor
+$(DEV):BVOLTCONV             1    monitor
+$(DEV):AMPLNORM              1    monitor
+$(DEV):PCORUPL               1    monitor
+$(DEV):PCORLOL               1    monitor
+$(DEV):ACORUPL               1    monitor
+$(DEV):ACORLOL               1    monitor
+$(DEV):ADRVUPL               1    monitor
+$(DEV):ADRVLOL               1    monitor
+
+# End of file
+
+
+
+

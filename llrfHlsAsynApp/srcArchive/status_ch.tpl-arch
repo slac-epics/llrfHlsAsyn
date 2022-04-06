@@ -1,0 +1,20 @@
+# Abs: Channel Status Archive PV List
+#
+# File: status_ch.tpl-arch
+#
+# Format:  PVNAME     INTERVAL     [ monitor | scan ]
+# The interval is in seconds.
+#
+# Name                   Interval   Mode
+#-------------------------------------------------
+$(DEVICE):PHASE_W$(WND)CH$(CH)         10    scan
+$(DEVICE):AMPL_W$(WND)CH$(CH)          10    scan
+$(DEVICE):POWER_W$(WND)CH$(CH)         10    scan
+$(DEVICE):PHASE_JITT_W$(WND)CH$(CH)    10    scan
+$(DEVICE):AMPL_JITT_W$(WND)CH$(CH)     10    scan
+
+# End of file
+
+
+
+

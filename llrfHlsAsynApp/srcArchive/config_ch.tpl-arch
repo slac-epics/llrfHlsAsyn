@@ -1,0 +1,19 @@
+# Abs: Channel Configuration Archive PV List
+#
+# File: config_ch.tpl-arch
+#
+# Format:  PVNAME     INTERVAL     [ monitor | scan ]
+# The interval is in seconds.
+#
+# Name                   Interval   Mode
+#-------------------------------------------------
+$(DEVICE):REFWGT$(CH)        1    monitor
+$(DEVICE):FBWGT$(CH)         1    monitor
+$(DEVICE):POC$(CH)           1    monitor
+$(DEVICE):AMPLSCL$(CH)       1    monitor
+
+# End of file
+
+
+
+

@@ -1,0 +1,32 @@
+# Abs: RF Timeslot Mux Archive PV List
+#
+# File: rfTSmux.tpl-arch
+#
+# Format:  PVNAME     INTERVAL     [ monitor | scan ]
+# The interval is in seconds.
+#
+# Name                   Interval   Mode
+#-------------------------------------------------
+$(DEV):PREQ                       1    monitor
+
+$(DEV):T1:PREQ_OFFSET             1    monitor
+$(DEV):T2:PREQ_OFFSET             1    monitor
+$(DEV):T3:PREQ_OFFSET             1    monitor
+$(DEV):T4:PREQ_OFFSET             1    monitor
+$(DEV):T5:PREQ_OFFSET             1    monitor
+$(DEV):T6:PREQ_OFFSET             1    monitor
+
+$(DEV):AREQ                       1    monitor
+
+$(DEV):T1:AREQ_OFFSET             1    monitor
+$(DEV):T2:AREQ_OFFSET             1    monitor
+$(DEV):T3:AREQ_OFFSET             1    monitor
+$(DEV):T4:AREQ_OFFSET             1    monitor
+$(DEV):T5:AREQ_OFFSET             1    monitor
+$(DEV):T6:AREQ_OFFSET             1    monitor
+
+# End of file
+
+
+
+

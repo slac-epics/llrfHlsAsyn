@@ -1,0 +1,126 @@
+# Abs: LLRF High-Level Systems Archive PV list 
+#
+file config.tpl-arch
+{
+    pattern {   DEVICE,  NELM_BL, NELM_HARMO  }
+            {  "$(DEV)",    4096,         18  }
+}
+
+file status.tpl-arch
+{
+    pattern { DEVICE   }
+            { "$(DEV)" }
+}
+
+file config_ch.tpl-arch
+{
+    pattern { CH,  DEVICE   }
+            {  0,  "$(DEV)" }
+            {  1,  "$(DEV)" }
+            {  2,  "$(DEV)" }
+            {  3,  "$(DEV)" }
+            {  4,  "$(DEV)" }
+            {  5,  "$(DEV)" }
+            {  6,  "$(DEV)" }
+            {  7,  "$(DEV)" }
+            {  8,  "$(DEV)" }
+            {  9,  "$(DEV)" }
+}
+
+file status_ch.tpl-arch
+{
+    pattern { CH, WND, DEVICE   }
+            {  0,   0, "$(DEV)" }
+            {  1,   0, "$(DEV)" }
+            {  2,   0, "$(DEV)" }
+            {  3,   0, "$(DEV)" }
+            {  4,   0, "$(DEV)" }
+            {  5,   0, "$(DEV)" }
+            {  6,   0, "$(DEV)" }
+            {  7,   0, "$(DEV)" }
+            {  8,   0, "$(DEV)" }
+            {  9,   0, "$(DEV)" }
+#
+            {  0,   1, "$(DEV)" }
+            {  1,   1, "$(DEV)" }
+            {  2,   1, "$(DEV)" }
+            {  3,   1, "$(DEV)" }
+            {  4,   1, "$(DEV)" }
+            {  5,   1, "$(DEV)" }
+            {  6,   1, "$(DEV)" }
+            {  7,   1, "$(DEV)" }
+            {  8,   1, "$(DEV)" }
+            {  9,   1, "$(DEV)" }
+#
+            {  0,   2, "$(DEV)" }
+            {  1,   2, "$(DEV)" }
+            {  2,   2, "$(DEV)" }
+            {  3,   2, "$(DEV)" }
+            {  4,   2, "$(DEV)" }
+            {  5,   2, "$(DEV)" }
+            {  6,   2, "$(DEV)" }
+            {  7,   2, "$(DEV)" }
+            {  8,   2, "$(DEV)" }
+            {  9,   2, "$(DEV)" }
+}
+
+file status_ts.tpl-arch
+{
+    pattern { TS_N,  DEVICE  }
+            {   00, "$(DEV)" }
+            {   01, "$(DEV)" }
+            {   02, "$(DEV)" }
+            {   03, "$(DEV)" }
+            {   04, "$(DEV)" }
+            {   05, "$(DEV)" }
+            {   06, "$(DEV)" }
+            {   07, "$(DEV)" }
+            {   08, "$(DEV)" }
+            {   09, "$(DEV)" }
+#
+            {   10, "$(DEV)" }
+            {   11, "$(DEV)" }
+            {   12, "$(DEV)" }
+            {   13, "$(DEV)" }
+            {   14, "$(DEV)" }
+            {   15, "$(DEV)" }
+            {   16, "$(DEV)" }
+            {   17, "$(DEV)" }
+}
+
+file rfTSmux.tpl-arch
+{
+    pattern {  DEVICE  }
+            { "$(DEV)" }
+}
+
+file cpswTimingCore.tpl-arch
+{
+    pattern {     TRIG, TRIGMODE, CHANNEL,  DEVICE  }
+            {   "LLRF",  "ACCEL",   "00" , "$(DEV)" }
+            {   "LLRF",  "STDBY",   "01" , "$(DEV)" }
+            {    "MOD",  "ACCEL",   "02" , "$(DEV)" }
+            {    "MOD",  "STDBY",   "03" , "$(DEV)" }
+            {   "SSSB",  "ACCEL",   "04" , "$(DEV)" }
+            {   "SSSB",  "STDBY",   "05" , "$(DEV)" }
+            {    "RTM",  "ACCEL",   "06" , "$(DEV)" }
+            {    "RTM",  "STDBY",   "07" , "$(DEV)" }
+            { "DAQMUX",  "ACCEL",   "08" , "$(DEV)" }
+            { "DAQMUX",  "STDBY",   "09" , "$(DEV)" }
+}
+
+file cpswTimingCoreIndvDelay.tpl-arch
+{
+    pattern {    TRIG ,  DEVICE  }
+            {   "LLRF", "$(DEV)" }
+            {    "MOD", "$(DEV)" }
+            {   "SSSB", "$(DEV)" }
+            {    "RTM", "$(DEV)" }
+            { "DAQMUX", "$(DEV)" }
+}
+
+file cpswTimingCoreDelay.tpl-arch
+{
+    pattern {  DEVICE  }
+            { "$(DEV)" }
+}

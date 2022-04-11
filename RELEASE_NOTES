@@ -1,4 +1,7 @@
 
+R4.1.5      04-11-2022    An Le (anle)
+                          - change state text of PFBST and AFBST to 0 -> Disabled, 1 -> Paused
+
 R4.1.4      04-06-2022    An Le (anle)
                           - create archive files
 

@@ -9,6 +9,7 @@
 
 #include <cpsw_api_user.h>
 #include <llrfFw.h>
+#include <llrfDestnTrig.h>
 #include <dacSigGenFw.h>
 #include <vector>
 #include <string>
@@ -40,6 +41,16 @@
 #define ALPHA_HARMO            (ALPHA_DIM -1)
 #define ALPHA_IDX_DC           (ALPHA_DIM -1)
 
+/////////////////////////////
+// Destination Aware Index //
+/////////////////////////////
+
+#define    IDX_LLRF    0
+#define    IDX_RTM     1
+#define    IDX_MOD     2
+#define    IDX_SSB     3
+
+#define    NUM_DESTNTRIG 4
 
 
 typedef struct {
@@ -107,6 +118,7 @@ class llrfHlsAsynDriver
         char *path;
         char *stream;
         llrfFw  llrfHls;
+        llrfDestnTrig llrfDestn;
         dacSigGenFw dacSigGen;
         Stream hls_stream_;
 
@@ -219,6 +231,13 @@ class llrfHlsAsynDriver
         int firstLlrfHlsParam;
 #define FIRST_LLRFHLS_PARAM   firstLlrfHlsParam
 #endif /* ASYN VERSION CHECK under 4.32 */
+
+        struct {
+            int p_enable;
+            int p_polarity;
+            int p_delay;
+            int p_width;
+        } p_destn_trig[NUM_DESTNTRIG];
 
         int p_stream_enable;                  // steram enable: 1 , disable: 0
         int p_timeslot_enable;                // timeslot feedback enable:1, disable: 0
@@ -345,6 +364,11 @@ class llrfHlsAsynDriver
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
 #define NUM_LLRFHLS_DET_PARAMS ((int)(&LAST_LLRFHLS_PARAM - &FIRST_LLRFHLS_PARAM-1))
 #endif /* asyn version check, under 4.32 */
+
+#define DESTNTRIG_ENABLE_STR        "%s_enable"          // destination aware delay, enable
+#define DESTNTRIG_POLARITY_STR      "%s_polarity"        // destination aware delay, polarity
+#define DESTNTRIG_DELAY_STR         "%s_delay"           // destination aware delay, delay
+#define DESTNTRIG_WIDTH_STR         "%s_width"           // destination aware de;ay. width 
 
 #define STREAM_ENABLE_STR            "stream_enable"     // stream enable, disable control
 #define TIMESLOT_ENABLE_STR          "timeslot_enable"   // timeslot feedback enable, disable control

@@ -299,3 +299,35 @@ file waveformTimeAxis.db
             {  "$(DEV)" , "HLS waveform time axis"     , "4096" , "357"  }
 }
 
+
+#############################
+# Destination Aware Trigger #
+#############################
+
+file DestTrig_kind.db
+{
+    pattern   {   DEVICE,        TRG,       TRG_STR } 
+              { "$(DEV)",     "LLRF",        "llrf" }
+              { "$(DEV)",      "RTM",         "rtm" }
+              { "$(DEV)",      "MOD",         "mod" }
+              { "$(DEV)",      "SSA",         "ssa" }
+}
+
+file DestTrig_accl_stdby.db
+{
+    pattern   {   DEVICE,        TRG  }
+              { "$(DEV)",      "ACCL" }
+              { "$(DEV)",     "STDBY" }
+}
+
+
+file DestTrig_ch.db
+{
+    pattern {    DEVICE,     TPR_NAME,     DEST,       TRG,      CH   }
+            {  "$(DEV)",     "$(TPR)",  "DEST0",    "ACCL",    "00"   }
+            {  "$(DEV)",     "$(TPR)",  "DEST0",   "STDBY",    "01"   }
+            {  "$(DEV)",     "$(TPR)",  "DEST1",    "ACCL",    "02"   }
+            {  "$(DEV)",     "$(TPR)",  "DEST1",   "STDBY",    "03"   }
+            {  "$(DEV)",     "$(TPR)",  "DEST2",    "ACCL",    "04"   }
+            {  "$(DEV)",     "$(TPR)",  "DEST2",   "STDBY",    "05"   }
+}

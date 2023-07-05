@@ -258,40 +258,6 @@ file rfTSmux.db
 }
 
 
-####################
-#Timing Abstraction#
-####################
-
-file cpswTimingCore.db
-{
-    pattern {   TRIG, TRIGMODE, CHANNEL,  DEVICE  }
-            { "LLRF",  "ACCEL",   "00" , "$(DEV)" }
-            { "LLRF",  "STDBY",   "01" , "$(DEV)" }
-            {  "MOD",  "ACCEL",   "02" , "$(DEV)" }
-            {  "MOD",  "STDBY",   "03" , "$(DEV)" }
-            { "SSSB",  "ACCEL",   "04" , "$(DEV)" }
-            { "SSSB",  "STDBY",   "05" , "$(DEV)" }
-            {  "RTM",  "ACCEL",   "06" , "$(DEV)" }
-            {  "RTM",  "STDBY",   "07" , "$(DEV)" }
-           {"DAQMUX",  "ACCEL",   "08" , "$(DEV)" }
-           {"DAQMUX",  "STDBY",   "09" , "$(DEV)" }
-}
-
-file cpswTimingCoreIndvDelay.db
-{
-    pattern {  TRIG ,  DEVICE  }
-            { "LLRF", "$(DEV)" }
-            {  "MOD", "$(DEV)" }
-            { "SSSB", "$(DEV)" }
-            {  "RTM", "$(DEV)" }
-           {"DAQMUX", "$(DEV)" }
-}
-
-file cpswTimingCoreDelay.db
-{
-    pattern {  DEVICE  }
-            { "$(DEV)" }
-}
 
 file waveformTimeAxis.db
 {
@@ -331,3 +297,5 @@ file DestTrig_ch.db
             {  "$(DEV)",     "$(TPR)",  "DEST2",    "ACCL",    "04"   }
             {  "$(DEV)",     "$(TPR)",  "DEST2",   "STDBY",    "05"   }
 }
+
+

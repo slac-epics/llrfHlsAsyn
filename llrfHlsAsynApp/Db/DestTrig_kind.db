@@ -8,12 +8,12 @@ record(bo, "$(DEVICE):TRG_$(TRG)_TCTL")
     field(ONAM, "Enabled")
     field(PINI, "YES")
     info(autosaveFields, "VAL")
-
+}
 
 record(bo, "$(DEVICE):TRG_$(TRG)_TPOL")
 {
     field(DESC, "$(TRG) trigger polarity")
-    field(DTYP, "asynFloat64")
+    field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_polarity")
     field(OMSL, "supervisory")
     field(ZNAM, "Falling Edge")
@@ -36,11 +36,11 @@ record(ao, "$(DEVICE):TRG_$(TRG)_TDES")
 }
 
 
-ecord(ao, "$(DEVICE):TRG_$(TRG)_TWID")
+record(ao, "$(DEVICE):TRG_$(TRG)_TWID")
 {
     field(DESC, "$(TRG) trigger width")
-    field(DTYP, "asynFlaot64")
-    field(OUT,  "@asyn($(PPOR), 0) $(TRG_STR)_width")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_width")
     field(OMSL, "supervisory")
     field(EGU,  "ns")
     field(PREC, "0")

@@ -276,7 +276,7 @@ file DestTrig_kind.db
               { "$(DEV)",     "LLRF",        "llrf" }
               { "$(DEV)",      "RTM",         "rtm" }
               { "$(DEV)",      "MOD",         "mod" }
-              { "$(DEV)",      "SSA",         "ssa" }
+              { "$(DEV)",      "SSB",         "ssb" }
 }
 
 file DestTrig_accl_stdby.db
@@ -289,13 +289,25 @@ file DestTrig_accl_stdby.db
 
 file DestTrig_ch.db
 {
-    pattern {    DEVICE,     TPR_NAME,     DEST,       TRG,      CH   }
-            {  "$(DEV)",     "$(TPR)",  "DEST0",    "ACCL",    "00"   }
-            {  "$(DEV)",     "$(TPR)",  "DEST0",   "STDBY",    "01"   }
-            {  "$(DEV)",     "$(TPR)",  "DEST1",    "ACCL",    "02"   }
-            {  "$(DEV)",     "$(TPR)",  "DEST1",   "STDBY",    "03"   }
-            {  "$(DEV)",     "$(TPR)",  "DEST2",    "ACCL",    "04"   }
-            {  "$(DEV)",     "$(TPR)",  "DEST2",   "STDBY",    "05"   }
+    pattern {    DEVICE,            TPR_NAME,     DEST,       TRG,      CH   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",    "ACCL",    "00"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",   "STDBY",    "01"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",    "ACCL",    "02"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",   "STDBY",    "03"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",    "ACCL",    "04"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",   "STDBY",    "05"   }
+}
+
+
+file DestTrig_evcode.db
+{
+    pattern {    DEVICE,            TPR_NAME,      DEST,      TRG,      CH   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",   "ACCL",     "00"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",  "STDBY",     "01"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",   "ACCL",     "02"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",  "STDBY",     "03"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",   "ACCL",     "04"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",  "STDBY",     "05"  }
 }
 
 

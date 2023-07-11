@@ -286,6 +286,13 @@ file DestTrig_accl_stdby.db
               { "$(DEV)",     "STDBY" }
 }
 
+file DestTrig_dest.db
+{
+    pattern {     DEVICE,            TPR_NAME,      DEST,      CH0,      CH1  }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",     "00",      "01" }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",     "02",      "03" }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",     "04",      "05" }
+}
 
 file DestTrig_ch.db
 {

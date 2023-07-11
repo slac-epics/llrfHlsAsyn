@@ -1,13 +1,3 @@
-record(ao,      "$(DEVICE):TRG_$(DEST)_TDES")
-{
-    field(DESC, "Delay for $(DEST)")
-    field(OMSL, "supervisory")
-    field(EGU,  "ns")
-    field(PREC, "0")
-    field(PINI, "YES")
-    info(autosaveFields, "VAL")
-}
-
 record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_TDES")
 {
     field(DESC, "Calculation for $(TRG) of $(DEST)")
@@ -54,3 +44,5 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_SSA_TDES")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
     field(INPC, "$(DEVICE):TRG_SSA_TDES CPP NMS")
 }
+
+

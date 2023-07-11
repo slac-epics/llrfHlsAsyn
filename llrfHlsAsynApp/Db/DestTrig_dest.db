@@ -1,0 +1,10 @@
+record(ao,      "$(DEVICE):TRG_$(DEST)_TDES")
+{
+    field(DESC, "Delay for $(DEST)")
+    field(OMSL, "supervisory")
+    field(EGU,  "ns")
+    field(PREC, "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+

@@ -42,7 +42,7 @@
 #include "rtmInterface.h"
 #include "debugStream.h"
 
-static char *destn_trig_str[] = {"llrf", "rtm", ",mod", "ssb"};
+static char *destn_trig_str[] = {"llrf", "rtm", "mod", "ssb"};
 
 static bool          keep_stay_in_loop = true;
 static epicsEventId  shutdownEvent;

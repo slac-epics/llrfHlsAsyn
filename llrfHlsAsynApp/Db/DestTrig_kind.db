@@ -1,4 +1,4 @@
-record(ao, "$(DEVICE):TRG_$(TRG)_TCTL")
+record(bo, "$(DEVICE):TRG_$(TRG)_TCTL")
 {
     field(DESC, "$(TRG) trigger enable/disable")
     field(DTYP, "asynInt32")
@@ -16,8 +16,8 @@ record(bo, "$(DEVICE):TRG_$(TRG)_TPOL")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_polarity")
     field(OMSL, "supervisory")
-    field(EGU,  "ns")
-    field(PREC, "0")
+    field(ZNAM, "Falling Edge")
+    field(ONAM, "Rising Edege")
     field(PINI, "YES")
     info(autosaveFields, "VAL")
 }

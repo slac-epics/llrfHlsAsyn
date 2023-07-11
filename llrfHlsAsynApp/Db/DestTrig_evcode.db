@@ -1,0 +1,11 @@
+record(longout, "$(DEVICE):TRG_$(DEST)_$(TRG)_EVCODE")
+{
+    field(DESC, "Destomatopm Aware Event Code")
+    field(OMSL, "supervisory")
+    field(OUT,  "$(TPR_NAME):CH$(CH)_EVCODE PP NMS")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+
+

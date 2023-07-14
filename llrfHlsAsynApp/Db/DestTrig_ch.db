@@ -12,7 +12,7 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_LLRF_TDES")
 {
     field(DESC, "Calculation for LLRF $(TRG) of $(DEST)")
     field(CALC, "A+B+C")
-    field(INPB, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
+    field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
     field(INPC, "$(DEVICE):TRG_LLRF_TDES CPP NMS")
 }
@@ -21,7 +21,7 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_RTM_TDES")
 {
     field(DESC, "Calculation for RTM $(TRG) of $(DEST)")
     field(CALC, "A+B+C")
-    field(INPB, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
+    field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
     field(INPC, "$(DEVICE):TRG_RTM_TDES CPP NMS")
 }
@@ -30,7 +30,7 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_MOD_TDES")
 {
     field(DESC, "Calculation for MOD $(TRG) of $(DEST)")
     field(CALC, "A+B+C")
-    field(INPB, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
+    field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
     field(INPC, "$(DEVICE):TRG_MOD_TDES CPP NMS")
 }
@@ -40,7 +40,7 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_SSB_TDES")
 {
     field(DESC, "Calculation for SSA $(TRG) of $(DEST)")
     field(CALC, "A+B+C")
-    field(INPB, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
+    field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
     field(INPC, "$(DEVICE):TRG_SSB_TDES CPP NMS")
 }

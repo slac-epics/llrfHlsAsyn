@@ -317,4 +317,10 @@ file DestTrig_evcode.db
             {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",  "STDBY",     "05"  }
 }
 
+file DestTrig_common_evcode.db
+{
+		pattern {    DEVICE,            TPR_NAME,       TRG,      CH   }
+				{  "$(DEV)",     "$(TPR_PREFIX)",  "DAQMUX",     "06"  }
+				{  "$(DEV)",     "$(TPR_PREFIX)",  "ACALGN",     "07"  }
+}
 

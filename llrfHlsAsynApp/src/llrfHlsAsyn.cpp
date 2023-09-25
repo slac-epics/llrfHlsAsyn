@@ -228,6 +228,10 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
             getIQWaveform(i);
             break;
         }
+        if(function == p_permut_idx[i]) {
+            llrfHls->setAverageWindowPermutationIndex(value, i);
+            break;
+        }
     }
 
     for(int i = 0; i < NUM_DESTNTRIG; i++) {
@@ -947,6 +951,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, REF_WEIGHT_STR, i); createParam(param_name, asynParamFloat64, &(p_ref_weight_ch[i]));
         sprintf(param_name, FB_WEIGHT_STR,  i); createParam(param_name, asynParamFloat64, &(p_fb_weight_ch[i]));
         sprintf(param_name, P_OFFSET_STR,   i); createParam(param_name, asynParamFloat64, &(p_p_offset_ch[i]));
+        sprintf(param_name, PERMUT_IDX_STR, i); createParam(param_name, asynParamInt32,   &(p_permut_idx[i]));
 
         for(int w = 0; w < NUM_WINDOW; w++) {
             sprintf(param_name, P_WND_CH_STR, w, i);  createParam(param_name, asynParamFloat64, &(p_p_wnd_ch[w][i]));

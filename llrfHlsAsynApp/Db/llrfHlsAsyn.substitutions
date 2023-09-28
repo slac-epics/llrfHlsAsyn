@@ -177,7 +177,7 @@ file Bsa.db
 {
   pattern {  DEVICE      ,  ATRB             , LNK      ,  EGU     ,  HOPR,  LOPR  }
           { "$(DEV)"     , "FB_FAST_PACT"    , ""       , "degrees", "180", "-180" }
-          { "$(DEV)"     , "GB_FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
+          { "$(DEV)"     , "FB_FAST_AACT"    , ""       , "norm"   ,   "1",    "0" }
           { "$(DEV)"     , "BVOLT_PK_FAST"   , ""       , "kV"     ,    "",    "0" }
 #
           {"$(DEV)"      , "W0C0_FAST_PACT"    , ""       , "degrees", "180", "-180" }

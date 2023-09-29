@@ -2,6 +2,7 @@ R4.1.5-destination-aware     Kukhee Kim
                               - merge R4.1.5-1.1 to pick up 4 colon PV name
                               - revert back CONFIG_SITE to the before merge to keep working for the permuation window, 
                                 commit 098b6587f0ffd1480b58e187b770a4974e560d63
+                              - build against ATCACommon R1.6.2-1.0 for using 4 colons pv names for crossbar control
 
 R4.1.5-1.1               Kukhee Kim
                          - pv name changes for using max 4 colons

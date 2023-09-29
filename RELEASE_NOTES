@@ -1,3 +1,11 @@
+R4.1.5-1.1               Kukhee Kim
+                         - pv name changes for using max 4 colons
+                         - match the BSA channel name to the attribution part of the 4 colons PV name
+
+R4.1.5-1.0               Kukhee Kim
+                         - implement destination aware trigger (PAU)
+                         - build against rf/llrfHls 4.3.0-1.0
+
 R4.1.5-destination-aware     Kukhee Kim (khkim)
                              - branch out from R4.1.5 to implement destination aware
                              - merge R3.8.0-br branch

@@ -440,10 +440,10 @@ class llrfHlsAsynDriver
 
 #define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel
-#define P_BSA_WND_CH_STR             "%s:W%dC%d:FAST_PACT"
-#define A_BSA_WND_CH_STR             "%s:W%dC%d:FAST_AACT"
-#define P_BSA_FB_STR                 "%s:FB:FAST_PACT"
-#define A_BSA_FB_STR                 "%s:FB:FAST_AACT"
+#define P_BSA_WND_CH_STR             "%s:W%dC%d_FAST_PACT"
+#define A_BSA_WND_CH_STR             "%s:W%dC%d_FAST_AACT"
+#define P_BSA_FB_STR                 "%s:FB_FAST_PACT"
+#define A_BSA_FB_STR                 "%s:FB_FAST_AACT"
 #define BVOLT_BSA_STR                "%s:BVOLT_PK_FAST"
 #define P_BR_STR                     "p_act_br_t%d"              // phase for beam rate PV,     feedback input
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input

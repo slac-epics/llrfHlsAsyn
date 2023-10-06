@@ -1,4 +1,3 @@
-
 R4.1.5      04-11-2022    An Le (anle)
                           - change state text of PFBST and AFBST to 0 -> Disabled, 1 -> Paused
 
@@ -35,6 +34,12 @@ ued_support  02-01-2021   Kukhee Kim (khkim)
                           - build with llrfHls API R4.3.0
                           - using separate PVs for the non-timeslot aware statistics instead of TS0 PVs
 
+R3.8.0-BR-R0     07-12-2021    Kukhee Kim (khkim)
+                              - add angle wrap-round for the phase average calculation
+
+R3.8.0-br   07-12-2021    Kukhee Kim (khkim)
+                          - branch out from R3.8.0 for fixing the mean calculation for phase
+                          - facet-II production is using R3.8.0 now, we need to branch out to fix bug and to support running production
 
 R3.8.0      12-11-2020    Jesus Vasquez (jvasquez)
                           - Add VARNSAMPLE and VARNSAMPLE_NT PV, which are the inverse of

@@ -1,3 +1,16 @@
+R4.1.5-2.0            Kukhee Kim (khkim)
+                              - build against rf/llrfHls R4.3.0-2.0
+                              - work with firmware 8a5d966
+                              - permutation index for average window
+                              - destination aware triger
+                              - support NT timeslot (non-timeslot-aware) statstics PV
+
+R4.1.5-destination-aware     Kukhee Kim
+                              - merge R4.1.5-1.1 to pick up 4 colon PV name
+                              - revert back CONFIG_SITE to the before merge to keep working for the permuation window, 
+                                commit 098b6587f0ffd1480b58e187b770a4974e560d63
+                              - build against ATCACommon R1.6.2-1.0 for using 4 colons pv names for crossbar control
+
 R4.1.5-1.1               Kukhee Kim
                          - pv name changes for using max 4 colons
                          - match the BSA channel name to the attribution part of the 4 colons PV name
@@ -8,6 +21,8 @@ R4.1.5-1.0               Kukhee Kim
 
 R4.1.5-destination-aware     Kukhee Kim (khkim)
                              - branch out from R4.1.5 to implement destination aware
+                             - merge R3.8.0-br branch
+                             - implement interface for the permutation index for average windows
 
 R4.1.5      04-11-2022    An Le (anle)
                           - change state text of PFBST and AFBST to 0 -> Disabled, 1 -> Paused

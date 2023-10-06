@@ -271,6 +271,7 @@ class llrfHlsAsynDriver
         int p_a_threshold;                    // amplitude threshold
         int p_ref_weight_ch[NUM_FB_CH];          // channel weight for reference
         int p_fb_weight_ch[NUM_FB_CH];           // channel weight for feedback
+        int p_permut_idx[NUM_FB_CH];             // permutation index for average window per channel
         int p_p_offset_ch[NUM_FB_CH];            // phase offset for each channel
         int p_p_des_ts[NUM_TIMESLOT];         // dessired phase for each timeslot
         int p_a_des_ts[NUM_TIMESLOT];         // desired amplitude for each timeslot
@@ -401,6 +402,7 @@ class llrfHlsAsynDriver
 #define A_THRED_STR                  "a_threshold"       // amplitude threshold
 #define REF_WEIGHT_STR               "ref_weight_ch%d"   // weight average for reference, for each channel, array[10]
 #define FB_WEIGHT_STR                "fb_weight_ch%d"    // weight average for feedback, for each channel,  array[10]
+#define PERMUT_IDX_STR               "avg_win_permut_idx%d"  // permutation index for average window. array[10]
 #define P_OFFSET_STR                 "p_offset_ch%d"     // phase offset, for each channel, array[10]
 #define P_DES_STR                    "p_des_ts%d"        // desired phase, for each timeslot, array[18]
 #define A_DES_STR                    "a_des_ts%d"        // desired amplitude, for each timeslot, array[18]

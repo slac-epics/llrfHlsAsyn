@@ -66,3 +66,43 @@ llrfHlsAsynDriverConfigure("llrfHls0", "mmio/AppTop/AppCore/Sysgen/LlrfFeedbackW
 
 dbLoadRecords("db/llrfHlsAsyn.db", "DEV=${IOC_NAME}:0,PORT=llrfHls0")
 
+
+5. Permutation Index and Average Windows
+   to complensate the cable delay varying across channels in XTCAV
+
+The LLRF trigger serves as the pivotal point for the entire LLRF processing 
+workflow, impacting various aspects such as the initiation of the average window, 
+channel averaging, feedback loop, and RF signal generation. Unfortunately, our 
+system lacks the flexibility to independently adjust the trigger delay 
+for each individual channel.
+
+In the context of the XTCAV system, we encounter notable differences 
+in cable lengths across its channels. Consequently, the average window 
+coincides with distinct portions of the RF pulse in the time domain 
+due to these varying cable delay disparities. 
+Given our inability to fine-tune the trigger delay on a per-channel basis, 
+we find ourselves in need of employing different average windows 
+for each channel in order to obtain an average phase/amplitude (or I/Q values) 
+at the same location within the RF pulse.
+
+Currently, our system employs three distinct windows, following this convention: 
+the first window is designated for feedback purposes, while the next two windows 
+are utilized for diagnostics. If we could manage the permutation of 
+these three windows differently, we would be able to apply 
+three distinct average windows based on the cable delay for each channel.
+
+Hence, we propose the introduction of a permutation index for each channel, 
+and the following outlines the rules governing this permutation process.
+
+-----------  -----------------------  ----------------------------
+                Average window
+Permutation       Permutation
+Index        (FB)->(Diag0)->(Diag1)   Remarks
+-----------  -----------------------  ----------------------------
+     0             (0)->(1)->(2)      default, backward compatible
+     1             (1)->(2)->(0)
+     2             (2)->(0)->(1)
+-----------  -----------------------  ----------------------------
+
+
+

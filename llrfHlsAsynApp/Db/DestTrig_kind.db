@@ -1,0 +1,49 @@
+record(bo, "$(DEVICE):TRG_$(TRG)_TCTL")
+{
+    field(DESC, "$(TRG) trigger enable/disable")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_enable")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Disabled")
+    field(ONAM, "Enabled")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(bo, "$(DEVICE):TRG_$(TRG)_TPOL")
+{
+    field(DESC, "$(TRG) trigger polarity")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_polarity")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Falling Edge")
+    field(ONAM, "Rising Edge")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+
+record(ao, "$(DEVICE):TRG_$(TRG)_TDES")
+{
+    field(DESC, "$(TRG) trigger delay")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) $(TRG_STR)_delay")
+    field(OMSL, "supervisory")
+    field(EGU,  "ns")
+    field(PREC, "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+
+record(ao, "$(DEVICE):TRG_$(TRG)_TWID")
+{
+    field(DESC, "$(TRG) trigger width")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT), 0) $(TRG_STR)_width")
+    field(OMSL, "supervisory")
+    field(EGU,  "ns")
+    field(PREC, "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}

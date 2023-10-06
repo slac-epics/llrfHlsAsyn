@@ -9,6 +9,7 @@
 
 #include <cpsw_api_user.h>
 #include <llrfFw.h>
+#include <llrfDestnTrig.h>
 #include <dacSigGenFw.h>
 #include <vector>
 #include <string>
@@ -40,6 +41,16 @@
 #define ALPHA_HARMO            (ALPHA_DIM -1)
 #define ALPHA_IDX_DC           (ALPHA_DIM -1)
 
+/////////////////////////////
+// Destination Aware Index //
+/////////////////////////////
+
+#define    IDX_LLRF    0
+#define    IDX_RTM     1
+#define    IDX_MOD     2
+#define    IDX_SSB     3
+
+#define    NUM_DESTNTRIG 4
 
 
 typedef struct {
@@ -107,6 +118,7 @@ class llrfHlsAsynDriver
         char *path;
         char *stream;
         llrfFw  llrfHls;
+        llrfDestnTrig llrfDestn;
         dacSigGenFw dacSigGen;
         Stream hls_stream_;
 
@@ -219,6 +231,13 @@ class llrfHlsAsynDriver
         int firstLlrfHlsParam;
 #define FIRST_LLRFHLS_PARAM   firstLlrfHlsParam
 #endif /* ASYN VERSION CHECK under 4.32 */
+
+        struct {
+            int p_enable;
+            int p_polarity;
+            int p_delay;
+            int p_width;
+        } p_destn_trig[NUM_DESTNTRIG];
 
         int p_stream_enable;                  // steram enable: 1 , disable: 0
         int p_timeslot_enable;                // timeslot feedback enable:1, disable: 0
@@ -346,6 +365,11 @@ class llrfHlsAsynDriver
 #define NUM_LLRFHLS_DET_PARAMS ((int)(&LAST_LLRFHLS_PARAM - &FIRST_LLRFHLS_PARAM-1))
 #endif /* asyn version check, under 4.32 */
 
+#define DESTNTRIG_ENABLE_STR        "%s_enable"          // destination aware delay, enable
+#define DESTNTRIG_POLARITY_STR      "%s_polarity"        // destination aware delay, polarity
+#define DESTNTRIG_DELAY_STR         "%s_delay"           // destination aware delay, delay
+#define DESTNTRIG_WIDTH_STR         "%s_width"           // destination aware de;ay. width 
+
 #define STREAM_ENABLE_STR            "stream_enable"     // stream enable, disable control
 #define TIMESLOT_ENABLE_STR          "timeslot_enable"   // timeslot feedback enable, disable control
 #define MODE_CONFIG_STR              "mode_config"       // trigger mode configuraiton
@@ -414,10 +438,10 @@ class llrfHlsAsynDriver
 
 #define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel
-#define P_BSA_WND_CH_STR             "%s:W%dC%d:FAST_PACT"
-#define A_BSA_WND_CH_STR             "%s:W%dC%d:FAST_AACT"
-#define P_BSA_FB_STR                 "%s:FB:FAST_PACT"
-#define A_BSA_FB_STR                 "%s:FB:FAST_AACT"
+#define P_BSA_WND_CH_STR             "%s:W%dC%d_FAST_PACT"
+#define A_BSA_WND_CH_STR             "%s:W%dC%d_FAST_AACT"
+#define P_BSA_FB_STR                 "%s:FB_FAST_PACT"
+#define A_BSA_FB_STR                 "%s:FB_FAST_AACT"
 #define BVOLT_BSA_STR                "%s:BVOLT_PK_FAST"
 #define P_BR_STR                     "p_act_br_t%d"              // phase for beam rate PV,     feedback input
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input

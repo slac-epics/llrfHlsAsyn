@@ -18,12 +18,12 @@ record(ao, "$(DEVICE):PREQ")
 record(fanout, "$(DEVICE):PREQ_FANOUT")
 {
     field(DESC, "fanout for PREQ")
-    field(LNK1, "$(DEVICE):T0:PREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T1:PREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T2:PREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T3:PREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T4:PREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T5:PREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T0_PREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T1_PREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T2_PREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T3_PREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T4_PREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T5_PREQ_CALC PP")
     field(FLNK, "$(DEVICE):PREQ_FANOUT1 PP")
     field(ASG, "Internal")
 }
@@ -31,12 +31,12 @@ record(fanout, "$(DEVICE):PREQ_FANOUT")
 record(fanout, "$(DEVICE):PREQ_FANOUT1")
 {
     field(DESC, "fanout for PREQ")
-    field(LNK1, "$(DEVICE):T6:PREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T7:PREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T8:PREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T9:PREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T10:PREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T11:PREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T6_PREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T7_PREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T8_PREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T9_PREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T10_PREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T11_PREQ_CALC PP")
     field(FLNK, "$(DEVICE):PREQ_FANOUT2 PP")
     field(ASG, "Internal")
 }
@@ -44,12 +44,12 @@ record(fanout, "$(DEVICE):PREQ_FANOUT1")
 record(fanout, "$(DEVICE):PREQ_FANOUT2")
 {
     field(DESC, "fanout for PREQ")
-    field(LNK1, "$(DEVICE):T12:PREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T13:PREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T14:PREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T15:PREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T16:PREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T17:PREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T12_PREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T13_PREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T14_PREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T15_PREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T16_PREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T17_PREQ_CALC PP")
     field(FLNK, "$(DEVICE):PREQTS PP")
     field(ASG, "Internal")
 }
@@ -69,383 +69,383 @@ record(stringin, "$(DEVICE):PREQTS")
 
 #--------------------------#
 
-record(ai, "$(DEVICE):T0:PREQ_OFFSET")
+record(ai, "$(DEVICE):T0_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T0")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T0:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T0_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T1:PREQ_OFFSET")
+record(ai, "$(DEVICE):T1_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T1")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU, "degrees")
-    field(FLNK, "$(DEVICE):T1:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T1_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T2:PREQ_OFFSET")
+record(ai, "$(DEVICE):T2_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T2")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T2:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T2_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T3:PREQ_OFFSET")
+record(ai, "$(DEVICE):T3_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T3")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T3:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T3_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T4:PREQ_OFFSET")
+record(ai, "$(DEVICE):T4_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T4")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T4:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T4_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T5:PREQ_OFFSET")
+record(ai, "$(DEVICE):T5_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T5")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T5:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T5_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T6:PREQ_OFFSET")
+record(ai, "$(DEVICE):T6_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T6")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T6:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T6_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T7:PREQ_OFFSET")
+record(ai, "$(DEVICE):T7_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T7")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T7:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T7_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T8:PREQ_OFFSET")
+record(ai, "$(DEVICE):T8_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T8")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T8:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T8_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T9:PREQ_OFFSET")
+record(ai, "$(DEVICE):T9_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T9")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T9:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T9_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T10:PREQ_OFFSET")
+record(ai, "$(DEVICE):T10_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T10")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T10:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T10_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T11:PREQ_OFFSET")
+record(ai, "$(DEVICE):T11_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T11")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU, "degrees")
-    field(FLNK, "$(DEVICE):T11:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T11_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T12:PREQ_OFFSET")
+record(ai, "$(DEVICE):T12_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T12")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T12:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T12_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T13:PREQ_OFFSET")
+record(ai, "$(DEVICE):T13_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T13")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T13:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T13_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T14:PREQ_OFFSET")
+record(ai, "$(DEVICE):T14_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T14")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T14:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T14_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T15:PREQ_OFFSET")
+record(ai, "$(DEVICE):T15_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T15")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T15:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T15_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T16:PREQ_OFFSET")
+record(ai, "$(DEVICE):T16_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T16")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T16:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T16_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T17:PREQ_OFFSET")
+record(ai, "$(DEVICE):T17_PREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "PREQ offset for T17")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T17:PREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T17_PREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
 #-----------------------------#
 
-record(calcout, "$(DEVICE):T0:PREQ_CALC")
+record(calcout, "$(DEVICE):T0_PREQ_CALC")
 {
     field(DESC, "Calculation for T0 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T0:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T0_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES00 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T1:PREQ_CALC")
+record(calcout, "$(DEVICE):T1_PREQ_CALC")
 {
     field(DESC, "Calculation for T1 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T1:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T1_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES01 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T2:PREQ_CALC")
+record(calcout, "$(DEVICE):T2_PREQ_CALC")
 {
     field(DESC, "Calculation for T2 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T2:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T2_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES02 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T3:PREQ_CALC")
+record(calcout, "$(DEVICE):T3_PREQ_CALC")
 {
     field(DESC, "Calculation for T3 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T3:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T3_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES03 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T4:PREQ_CALC")
+record(calcout, "$(DEVICE):T4_PREQ_CALC")
 {
     field(DESC, "Calculation for T4 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T4:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T4_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES04 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T5:PREQ_CALC")
+record(calcout, "$(DEVICE):T5_PREQ_CALC")
 {
     field(DESC, "Calculation for T5 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T5:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T5_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES05 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T6:PREQ_CALC")
+record(calcout, "$(DEVICE):T6_PREQ_CALC")
 {
     field(DESC, "Calculation for T6 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T6:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T6_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES06 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T7:PREQ_CALC")
+record(calcout, "$(DEVICE):T7_PREQ_CALC")
 {
     field(DESC, "Calculation for T7 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T7:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T7_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES07 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T8:PREQ_CALC")
+record(calcout, "$(DEVICE):T8_PREQ_CALC")
 {
     field(DESC, "Calculation for T8 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T8:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T8_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES08 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T9:PREQ_CALC")
+record(calcout, "$(DEVICE):T9_PREQ_CALC")
 {
     field(DESC, "Calculation for T9 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T9:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T9_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES09 PP")
     field(ASG,  "Internal")
 }
 
 
-record(calcout, "$(DEVICE):T10:PREQ_CALC")
+record(calcout, "$(DEVICE):T10_PREQ_CALC")
 {
     field(DESC, "Calculation for T10 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T10:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T10_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES10 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T11:PREQ_CALC")
+record(calcout, "$(DEVICE):T11_PREQ_CALC")
 {
     field(DESC, "Calculation for T11 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T11:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T11_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES11 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T12:PREQ_CALC")
+record(calcout, "$(DEVICE):T12_PREQ_CALC")
 {
     field(DESC, "Calculation for T12 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T12:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T12_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES12 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T13:PREQ_CALC")
+record(calcout, "$(DEVICE):T13_PREQ_CALC")
 {
     field(DESC, "Calculation for T13 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T13:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T13_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES13 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T14:PREQ_CALC")
+record(calcout, "$(DEVICE):T14_PREQ_CALC")
 {
     field(DESC, "Calculation for T14 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T14:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T14_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES14 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T15:PREQ_CALC")
+record(calcout, "$(DEVICE):T15_PREQ_CALC")
 {
     field(DESC, "Calculation for T15 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T15:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T15_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES15 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T16:PREQ_CALC")
+record(calcout, "$(DEVICE):T16_PREQ_CALC")
 {
     field(DESC, "Calculation for T16 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T16:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T16_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES16 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T17:PREQ_CALC")
+record(calcout, "$(DEVICE):T17_PREQ_CALC")
 {
     field(DESC, "Calculation for T17 PREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PREQ")
-    field(INPB, "$(DEVICE):T17:PREQ_OFFSET")
+    field(INPB, "$(DEVICE):T17_PREQ_OFFSET")
     field(OUT,  "$(DEVICE):PDES17 PP")
     field(ASG,  "Internal")
 }
@@ -476,12 +476,12 @@ record(ao, "$(DEVICE):AREQ")
 record(fanout, "$(DEVICE):AREQ_FANOUT")
 {
     field(DESC, "fanout for AREQ")
-    field(LNK1, "$(DEVICE):T0:AREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T1:AREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T2:AREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T3:AREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T4:AREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T5:AREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T0_AREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T1_AREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T2_AREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T3_AREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T4_AREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T5_AREQ_CALC PP")
     field(FLNK, "$(DEVICE):AREQ_FANOUT1 PP")
     field(ASG, "Internal")
 }
@@ -489,12 +489,12 @@ record(fanout, "$(DEVICE):AREQ_FANOUT")
 record(fanout, "$(DEVICE):AREQ_FANOUT1")
 {
     field(DESC, "fanout for AREQ")
-    field(LNK1, "$(DEVICE):T6:AREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T7:AREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T8:AREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T9:AREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T10:AREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T11:AREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T6_AREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T7_AREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T8_AREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T9_AREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T10_AREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T11_AREQ_CALC PP")
     field(FLNK, "$(DEVICE):AREQ_FANOUT2 PP")
     field(ASG, "Internal")
 }
@@ -502,12 +502,12 @@ record(fanout, "$(DEVICE):AREQ_FANOUT1")
 record(fanout, "$(DEVICE):AREQ_FANOUT2")
 {
     field(DESC, "fanout for AREQ")
-    field(LNK1, "$(DEVICE):T12:AREQ_CALC PP")
-    field(LNK2, "$(DEVICE):T13:AREQ_CALC PP")
-    field(LNK3, "$(DEVICE):T14:AREQ_CALC PP")
-    field(LNK4, "$(DEVICE):T15:AREQ_CALC PP")
-    field(LNK5, "$(DEVICE):T16:AREQ_CALC PP")
-    field(LNK6, "$(DEVICE):T17:AREQ_CALC PP")
+    field(LNK1, "$(DEVICE):T12_AREQ_CALC PP")
+    field(LNK2, "$(DEVICE):T13_AREQ_CALC PP")
+    field(LNK3, "$(DEVICE):T14_AREQ_CALC PP")
+    field(LNK4, "$(DEVICE):T15_AREQ_CALC PP")
+    field(LNK5, "$(DEVICE):T16_AREQ_CALC PP")
+    field(LNK6, "$(DEVICE):T17_AREQ_CALC PP")
     field(FLNK, "$(DEVICE):AREQTS PP")
     field(ASG, "Internal")
 }
@@ -527,383 +527,383 @@ record(stringin, "$(DEVICE):AREQTS")
 
 #--------------------------#
 
-record(ai, "$(DEVICE):T0:AREQ_OFFSET")
+record(ai, "$(DEVICE):T0_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T0")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T0:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T0_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T1:AREQ_OFFSET")
+record(ai, "$(DEVICE):T1_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T1")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU, "degrees")
-    field(FLNK, "$(DEVICE):T1:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T1_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T2:AREQ_OFFSET")
+record(ai, "$(DEVICE):T2_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T2")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T2:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T2_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T3:AREQ_OFFSET")
+record(ai, "$(DEVICE):T3_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T3")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T3:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T3_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T4:AREQ_OFFSET")
+record(ai, "$(DEVICE):T4_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T4")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T4:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T4_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T5:AREQ_OFFSET")
+record(ai, "$(DEVICE):T5_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T5")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T5:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T5_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T6:AREQ_OFFSET")
+record(ai, "$(DEVICE):T6_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T6")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T6:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T6_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T7:AREQ_OFFSET")
+record(ai, "$(DEVICE):T7_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T7")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T7:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T7_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T8:AREQ_OFFSET")
+record(ai, "$(DEVICE):T8_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T8")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T8:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T8_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T9:AREQ_OFFSET")
+record(ai, "$(DEVICE):T9_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T9")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T9:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T9_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T10:AREQ_OFFSET")
+record(ai, "$(DEVICE):T10_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T10")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T10:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T10_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T11:AREQ_OFFSET")
+record(ai, "$(DEVICE):T11_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T11")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU, "degrees")
-    field(FLNK, "$(DEVICE):T11:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T11_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T12:AREQ_OFFSET")
+record(ai, "$(DEVICE):T12_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T12")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T12:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T12_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T13:AREQ_OFFSET")
+record(ai, "$(DEVICE):T13_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T13")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T13:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T13_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T14:AREQ_OFFSET")
+record(ai, "$(DEVICE):T14_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T14")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T14:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T14_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T15:AREQ_OFFSET")
+record(ai, "$(DEVICE):T15_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T15")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T15:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T15_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T16:AREQ_OFFSET")
+record(ai, "$(DEVICE):T16_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T16")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T16:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T16_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
-record(ai, "$(DEVICE):T17:AREQ_OFFSET")
+record(ai, "$(DEVICE):T17_AREQ_OFFSET")
 {
     field(PINI, "YES")
     field(DESC, "AREQ offset for T17")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEVICE):T17:AREQ_CALC PP")
+    field(FLNK, "$(DEVICE):T17_AREQ_CALC PP")
     info(autosaveFields, "VAL")
 }
 
 #-----------------------------#
 
-record(calcout, "$(DEVICE):T0:AREQ_CALC")
+record(calcout, "$(DEVICE):T0_AREQ_CALC")
 {
     field(DESC, "Calculation for T0 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T0:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T0_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES00 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T1:AREQ_CALC")
+record(calcout, "$(DEVICE):T1_AREQ_CALC")
 {
     field(DESC, "Calculation for T1 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T1:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T1_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES01 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T2:AREQ_CALC")
+record(calcout, "$(DEVICE):T2_AREQ_CALC")
 {
     field(DESC, "Calculation for T2 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T2:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T2_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES02 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T3:AREQ_CALC")
+record(calcout, "$(DEVICE):T3_AREQ_CALC")
 {
     field(DESC, "Calculation for T3 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T3:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T3_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES03 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T4:AREQ_CALC")
+record(calcout, "$(DEVICE):T4_AREQ_CALC")
 {
     field(DESC, "Calculation for T4 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T4:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T4_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES04 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T5:AREQ_CALC")
+record(calcout, "$(DEVICE):T5_AREQ_CALC")
 {
     field(DESC, "Calculation for T5 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T5:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T5_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES05 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T6:AREQ_CALC")
+record(calcout, "$(DEVICE):T6_AREQ_CALC")
 {
     field(DESC, "Calculation for T6 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T6:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T6_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES06 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T7:AREQ_CALC")
+record(calcout, "$(DEVICE):T7_AREQ_CALC")
 {
     field(DESC, "Calculation for T7 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T7:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T7_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES07 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T8:AREQ_CALC")
+record(calcout, "$(DEVICE):T8_AREQ_CALC")
 {
     field(DESC, "Calculation for T8 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T8:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T8_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES08 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T9:AREQ_CALC")
+record(calcout, "$(DEVICE):T9_AREQ_CALC")
 {
     field(DESC, "Calculation for T9 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T9:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T9_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES09 PP")
     field(ASG,  "Internal")
 }
 
 
-record(calcout, "$(DEVICE):T10:AREQ_CALC")
+record(calcout, "$(DEVICE):T10_AREQ_CALC")
 {
     field(DESC, "Calculation for T10 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T10:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T10_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES10 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T11:AREQ_CALC")
+record(calcout, "$(DEVICE):T11_AREQ_CALC")
 {
     field(DESC, "Calculation for T11 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T11:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T11_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES11 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T12:AREQ_CALC")
+record(calcout, "$(DEVICE):T12_AREQ_CALC")
 {
     field(DESC, "Calculation for T12 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T12:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T12_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES12 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T13:AREQ_CALC")
+record(calcout, "$(DEVICE):T13_AREQ_CALC")
 {
     field(DESC, "Calculation for T13 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T13:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T13_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES13 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T14:AREQ_CALC")
+record(calcout, "$(DEVICE):T14_AREQ_CALC")
 {
     field(DESC, "Calculation for T14 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T14:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T14_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES14 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T15:AREQ_CALC")
+record(calcout, "$(DEVICE):T15_AREQ_CALC")
 {
     field(DESC, "Calculation for T15 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T15:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T15_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES15 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T16:AREQ_CALC")
+record(calcout, "$(DEVICE):T16_AREQ_CALC")
 {
     field(DESC, "Calculation for T16 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T16:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T16_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES16 PP")
     field(ASG,  "Internal")
 }
 
-record(calcout, "$(DEVICE):T17:AREQ_CALC")
+record(calcout, "$(DEVICE):T17_AREQ_CALC")
 {
     field(DESC, "Calculation for T17 AREQ")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):AREQ")
-    field(INPB, "$(DEVICE):T17:AREQ_OFFSET")
+    field(INPB, "$(DEVICE):T17_AREQ_OFFSET")
     field(OUT,  "$(DEVICE):ADES17 PP")
     field(ASG,  "Internal")
 }

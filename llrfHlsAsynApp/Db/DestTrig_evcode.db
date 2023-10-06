@@ -1,0 +1,3 @@
+
+alias("$(TPR_NAME):CH$(CH)_EVCODE", "$(DEVICE):TRG_$(DEST)_$(TRG)_EVCODE")
+alias("$(TPR_NAME):CH$(CH)_RATE",   "$(DEVICE):TRG_$(DEST)_$(TRG)_RATE")

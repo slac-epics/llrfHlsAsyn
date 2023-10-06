@@ -1,0 +1,30 @@
+record(ao,      "$(DEVICE):TRG_$(DEST)_TDES")
+{
+    field(DESC, "Delay for $(DEST)")
+    field(OMSL, "supervisory")
+    field(EGU,  "ns")
+    field(PREC, "0")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(bo,     "$(DEVICE):TRG_$(DEST)_TCTL")
+{
+    field(DESC, "Eable/Dsiable $(DEST)")
+    field(OMSL, "supervisory")
+    field(OUT,  "$(DEVICE):TRG_$(DEST)_DFANOUT PP NMS")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    field(PINI, "YES")
+    info(autosaveFields, "VAL")
+}
+
+record(dfanout, "$(DEVICE):TRG_$(DEST)_DFANOUT")
+{
+    field(DESC, "TCTL Dfanout for $(DEST)")
+    field(OMSL, "supervisory")
+    field(OUTA, "$(TPR_NAME):TRG$(CH0)_SYS0_TCTL PP")
+    field(OUTB, "$(TPR_NAME):TRG$(CH1)_SYS0_TCTL PP")
+}
+
+

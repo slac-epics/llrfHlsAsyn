@@ -42,6 +42,8 @@
 #include "rtmInterface.h"
 #include "debugStream.h"
 
+static char *destn_trig_str[] = {"llrf", "rtm", "mod", "ssb"};
+
 static bool          keep_stay_in_loop = true;
 static epicsEventId  shutdownEvent;
 
@@ -160,6 +162,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     }
 
     llrfHls = IllrfFw::create(p_llrfHls);
+    llrfDestn = IllrfDestnTrig::create(p_root->findByName("mmio/AppTop/AppCore"));
     dacSigGen = IdacSigGenFw::create(p_root->findByName("mmio"));
 
 
@@ -223,6 +226,17 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     for(int i = 0; i < NUM_FB_CH; i++) {
         if(function == p_get_iq_wf_ch[i] && value) {
             getIQWaveform(i);
+            break;
+        }
+    }
+
+    for(int i = 0; i < NUM_DESTNTRIG; i++) {
+        if(function == p_destn_trig[i].p_enable) {
+            llrfDestn->setEnable(i, value);
+            break;
+        }
+        if(function == p_destn_trig[i].p_polarity) {
+            llrfDestn->setPolarity(i, value);
             break;
         }
     }
@@ -340,6 +354,19 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
          }
     }
     
+    for(int i = 0; i < NUM_DESTNTRIG; i++) {
+        if(function == p_destn_trig[i].p_delay) {
+            uint32_t tick = value * 1.E-3 * 119. + 0.5;   // using hard-coded clock (LCLS1) for initial implement
+            llrfDestn->setDelay(i, tick);
+            break;
+        }
+
+        if(function == p_destn_trig[i].p_width) {
+            uint32_t tick = value * 1.E-3 * 119. +0.5;    // using hard-coded clock (LCLS1) for initial implement
+            llrfDestn->setWidth(i, tick);
+            break;
+        }
+    }
 
     return status;
 }
@@ -463,7 +490,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64Array(asynUser *pasynUser, epicsFloat6
             // printf("i window %d size: %d\n", w, nElements);
             break;
         }
-        else if(function == p_qwf_avg_window[w]) { // update complex waveform Q
+        else if(function == p_qwf_avg_window[w]) { // update complex wave098b6587f0ffd1480b58e187b770a4974e560d63form Q
             memcpy(qwf_avg_window[w], __zero_pad(value, v, nElements, MAX_SAMPLES), MAX_SAMPLES*sizeof(epicsFloat64));
             UpdatePAWaveformAverageWindow(w);
             // printf("q window %d size: %d\n", w, nElements);
@@ -863,6 +890,13 @@ void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
 void llrfHlsAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
+
+    for(int i=0; i < NUM_DESTNTRIG; i++) {
+        sprintf(param_name, DESTNTRIG_ENABLE_STR,   destn_trig_str[i]); createParam(param_name, asynParamInt32,   &(p_destn_trig[i].p_enable));
+        sprintf(param_name, DESTNTRIG_POLARITY_STR, destn_trig_str[i]); createParam(param_name, asynParamInt32,   &(p_destn_trig[i].p_polarity));
+        sprintf(param_name, DESTNTRIG_DELAY_STR,    destn_trig_str[i]); createParam(param_name, asynParamFloat64, &(p_destn_trig[i].p_delay));
+        sprintf(param_name, DESTNTRIG_WIDTH_STR,    destn_trig_str[i]); createParam(param_name, asynParamFloat64, &(p_destn_trig[i].p_width));
+    }
 
     sprintf(param_name, STREAM_ENABLE_STR);          createParam(param_name, asynParamInt32,   &p_stream_enable);
     sprintf(param_name, TIMESLOT_ENABLE_STR);        createParam(param_name, asynParamInt32,   &p_timeslot_enable);

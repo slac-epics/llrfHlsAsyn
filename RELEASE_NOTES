@@ -1,3 +1,9 @@
+R4.1.5-2.0            Kukhee Kim (khkim)
+                              - work with firmware 8a5d966
+                              - permutation index for average window
+                              - destination aware triger
+                              - support NT timeslot (non-timeslot-aware) statstics PV
+
 R4.1.5-destination-aware     Kukhee Kim
                               - merge R4.1.5-1.1 to pick up 4 colon PV name
                               - revert back CONFIG_SITE to the before merge to keep working for the permuation window, 

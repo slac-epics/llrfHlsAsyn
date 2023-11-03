@@ -276,7 +276,7 @@ file DestTrig_kind.db
               { "$(DEV)",     "LLRF",        "llrf" }
               { "$(DEV)",      "RTM",         "rtm" }
               { "$(DEV)",      "MOD",         "mod" }
-              { "$(DEV)",      "SSB",         "ssb" }
+              { "$(DEV)",      "SSA",         "ssa" }
 }
 
 file DestTrig_accl_stdby.db

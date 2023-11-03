@@ -36,13 +36,13 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_MOD_TDES")
 }
 
 
-record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_SSB_TDES")
+record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_SSA_TDES")
 {
     field(DESC, "Calculation for SSA $(TRG) of $(DEST)")
     field(CALC, "A+B+C")
     field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
-    field(INPC, "$(DEVICE):TRG_SSB_TDES CPP NMS")
+    field(INPC, "$(DEVICE):TRG_SSA_TDES CPP NMS")
 }
 
 

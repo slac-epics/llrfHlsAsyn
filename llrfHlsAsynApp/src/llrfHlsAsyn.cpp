@@ -170,6 +170,9 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     for(int i = 0; i < NUM_TIMESLOT; i++) {
         beam_peak_volt[i].raw = 0;
         beam_peak_volt[i].val = 0.;
+
+        phase_des_ts[i] = 0.;
+        ampl_des_ts[i]  = 0.;
     }
 
 
@@ -349,10 +352,12 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
 
     for(int i = 0; i < NUM_TIMESLOT; i++) {    // search for timeslot
          if(function == p_p_des_ts[i]) {  // desired phase for a specific timeslot
+             phase_des_ts[i] = value;
              llrfHls->setDesiredPhase(value, i);
              break;
          }
          else if(function == p_a_des_ts[i]) {  // desired amplitude for a specific timeslot
+             ampl_des_ts[i] = value;
              llrfHls->setDesiredAmpl(value, i);
              break;
          }
@@ -1060,10 +1065,13 @@ void llrfHlsAsynDriver::bsaSetup(void)
         }
     } 
 
-
-    sprintf(param_name, P_BSA_FB_STR,  bsa_name);  BsaChn_pact  = BSA_CreateChannel(param_name);
-    sprintf(param_name, A_BSA_FB_STR,  bsa_name);  BsaChn_aact  = BSA_CreateChannel(param_name);
-    sprintf(param_name, BVOLT_BSA_STR, bsa_name);  BsaChn_bvolt = BSA_CreateChannel(param_name);
+    sprintf(param_name, PDES_BSA_FB_STR,  bsa_name);  BsaChn_pdes  = BSA_CreateChannel(param_name);
+    sprintf(param_name, ADES_BSA_FB_STR,  bsa_name);  BsaChn_ades  = BSA_CreateChannel(param_name);
+    sprintf(param_name, PSET_BSA_FB_STR,  bsa_name);  BsaChn_pset  = BSA_CreateChannel(param_name);
+    sprintf(param_name, ASET_BSA_FB_STR,  bsa_name);  BsaChn_aset  = BSA_CreateChannel(param_name); 
+    sprintf(param_name, PACT_BSA_FB_STR,  bsa_name);  BsaChn_pact  = BSA_CreateChannel(param_name);
+    sprintf(param_name, AACT_BSA_FB_STR,  bsa_name);  BsaChn_aact  = BSA_CreateChannel(param_name);
+    sprintf(param_name, BVOLT_BSA_STR,    bsa_name);  BsaChn_bvolt = BSA_CreateChannel(param_name);
 
 
    BSA_ConfigSetAllPriorites(90);
@@ -1091,6 +1099,10 @@ void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
     int t = p->time_slot;
 
+    BSA_StoreData(BsaChn_pdes, p->time, n_angle(phase_des_ts[t] * 180./M_PI), 0, 0);
+    BSA_StoreData(BsaChn_ades, p->time, ampl_des_ts[t], 0, 0);
+    BSA_StoreData(BsaChn_pset, p->time, n_angle(p->phase_set * 180./M_PI), 0, 0);
+    BSA_StoreData(BsaChn_aset, p->time, p->ampl_set, 0, 0);
     BSA_StoreData(BsaChn_pact, p->time, n_angle(p->phase_fb * 180./M_PI), 0, 0);
     BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
     BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[t].val, 0, 0);

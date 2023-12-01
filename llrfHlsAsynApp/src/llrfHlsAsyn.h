@@ -154,6 +154,8 @@ class llrfHlsAsynDriver
         epicsFloat64  ref_ampl_ts[NUM_TIMESLOT];   // amplitude for reference for all timeslots
         epicsFloat64  phase_set_ts[NUM_TIMESLOT];  // phase set values for all timeslots
         epicsFloat64  ampl_set_ts[NUM_TIMESLOT];   // amplitude set values for all timeslots
+        epicsFloat64  phase_des_ts[NUM_TIMESLOT];  // phase desired value for all timeslots
+        epicsFloat64  ampl_des_ts[NUM_TIMESLOT];   // amplitude desired value for all timeslots
 
         // epicsFloat64  avg_window[NUM_WINDOW][MAX_SAMPLES];     // average window
 
@@ -183,6 +185,10 @@ class llrfHlsAsynDriver
 
 
         char*      bsa_name;
+        BsaChannel BsaChn_pdes;
+        BsaChannel BsaChn_ades;
+        BsaChannel BsaChn_pset;
+        BsaChannel BsaChn_aset;
         BsaChannel BsaChn_pact;
         BsaChannel BsaChn_aact;
         BsaChannel BsaChn_bvolt;
@@ -440,11 +446,15 @@ class llrfHlsAsynDriver
 
 #define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel
-#define P_BSA_WND_CH_STR             "%s:W%dC%d_FAST_PACT"
-#define A_BSA_WND_CH_STR             "%s:W%dC%d_FAST_AACT"
-#define P_BSA_FB_STR                 "%s:FB_FAST_PACT"
-#define A_BSA_FB_STR                 "%s:FB_FAST_AACT"
-#define BVOLT_BSA_STR                "%s:BVOLT_PK_FAST"
+#define P_BSA_WND_CH_STR             "%s:W%dC%d_FAST_PACT"  // amplitude measurement for channel, BSA
+#define A_BSA_WND_CH_STR             "%s:W%dC%d_FAST_AACT"  // phase measurement for channel, BSA
+#define PACT_BSA_FB_STR              "%s:FB_FAST_PACT"      // phase measurement for feedback, BSA
+#define AACT_BSA_FB_STR              "%s:FB_FAST_AACT"      // amplitude measurement for feedback, BSA
+#define PDES_BSA_FB_STR              "%s:FB_FAST_PDES"      // phase desired value for feedback, BSA
+#define ADES_BSA_FB_STR              "%s:FB_FAST_ADES"      // amplitude desired value for feedback, BSA
+#define PSET_BSA_FB_STR              "%s:FB_FAST_PSET"      // phase set value from feedback, BSA
+#define ASET_BSA_FB_STR              "%s:FB_FAST_ASET"      // amplitude set value from feedback, BSA
+#define BVOLT_BSA_STR                "%s:BVOLT_PK_FAST"     // peak beam voltage, BSA
 #define P_BR_STR                     "p_act_br_t%d"              // phase for beam rate PV,     feedback input
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input
 #define BVOLT_BR_STR                 "bvolt_pk_br_t%d"

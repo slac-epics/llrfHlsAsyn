@@ -4,7 +4,7 @@
 // these dummy will make compiler and linker are happy
 
 
-BsaChannel Bsa_CreateChannel(const char *id)
+BsaChannel BSA_CreateChannel(const char *id)
 {
     return NULL;
 }
@@ -16,7 +16,6 @@ int BSA_StoreData( BsaChannel      bsaChannel,
                    BsaSevr         severity
 ) { return 0; }
 
-int BSA_ConfigSetAllPriorities(unsigned val) { return 0; }
-
+int BSA_ConfigSetAllPriorites(unsigned val) { return 0; }
 
 

@@ -1,0 +1,252 @@
+file config.db
+{
+    pattern {   DEVICE,  NELM_BL, NELM_HARMO  }
+            {  "$(DEV)",    4096,         18  }
+}
+
+file status.db
+{
+    pattern {   DEVICE,  NELM_ALPHA  }
+             { "$(DEV)",          7  }
+}
+
+file config_ch.db
+{
+    pattern { CH,  DEVICE   }
+            {  0,  "$(DEV)" }
+            {  1,  "$(DEV)" }
+            {  2,  "$(DEV)" }
+            {  3,  "$(DEV)" }
+            {  4,  "$(DEV)" }
+            {  5,  "$(DEV)" }
+            {  6,  "$(DEV)" }
+            {  7,  "$(DEV)" }
+            {  8,  "$(DEV)" }
+            {  9,  "$(DEV)" }
+}
+
+
+file config_ts.db
+{
+    pattern { TS, TS_N,  DEVICE  }
+            {  0,   00, "$(DEV)" }
+            {  1,   01, "$(DEV)" }
+            {  2,   02, "$(DEV)" }
+            {  3,   03, "$(DEV)" }
+            {  4,   04, "$(DEV)" }
+            {  5,   05, "$(DEV)" }
+            {  6,   06, "$(DEV)" }
+            {  7,   07, "$(DEV)" }
+            {  8,   08, "$(DEV)" }
+            {  9,   09, "$(DEV)" }
+#
+            { 10,   10, "$(DEV)" }
+            { 11,   11, "$(DEV)" }
+            { 12,   12, "$(DEV)" }
+            { 13,   13, "$(DEV)" }
+            { 14,   14, "$(DEV)" }
+            { 15,   15, "$(DEV)" }
+            { 16,   16, "$(DEV)" }
+            { 17,   17, "$(DEV)" }
+}
+
+
+
+file status_ch.db
+{
+    pattern { CH, WND, DEVICE  }
+            {  0,   0, "$(DEV)" }
+            {  1,   0, "$(DEV)" }
+            {  2,   0, "$(DEV)" }
+            {  3,   0, "$(DEV)" }
+            {  4,   0, "$(DEV)" }
+            {  5,   0, "$(DEV)" }
+            {  6,   0, "$(DEV)" }
+            {  7,   0, "$(DEV)" }
+            {  8,   0, "$(DEV)" }
+            {  9,   0, "$(DEV)" }
+#
+            {  0,   1, "$(DEV)" }
+            {  1,   1, "$(DEV)" }
+            {  2,   1, "$(DEV)" }
+            {  3,   1, "$(DEV)" }
+            {  4,   1, "$(DEV)" }
+            {  5,   1, "$(DEV)" }
+            {  6,   1, "$(DEV)" }
+            {  7,   1, "$(DEV)" }
+            {  8,   1, "$(DEV)" }
+            {  9,   1, "$(DEV)" }
+#
+            {  0,   2, "$(DEV)" }
+            {  1,   2, "$(DEV)" }
+            {  2,   2, "$(DEV)" }
+            {  3,   2, "$(DEV)" }
+            {  4,   2, "$(DEV)" }
+            {  5,   2, "$(DEV)" }
+            {  6,   2, "$(DEV)" }
+            {  7,   2, "$(DEV)" }
+            {  8,   2, "$(DEV)" }
+            {  9,   2, "$(DEV)" }
+
+}
+
+
+file status_ts.db
+{
+    pattern { TS, TS_N,  DEVICE  }
+            {  0,   00, "$(DEV)" }
+            {  1,   01, "$(DEV)" }
+            {  2,   02, "$(DEV)" }
+            {  3,   03, "$(DEV)" }
+            {  4,   04, "$(DEV)" }
+            {  5,   05, "$(DEV)" }
+            {  6,   06, "$(DEV)" }
+            {  7,   07, "$(DEV)" }
+            {  8,   08, "$(DEV)" }
+            {  9,   09, "$(DEV)" }
+#
+            { 10,   10, "$(DEV)" }
+            { 11,   11, "$(DEV)" }
+            { 12,   12, "$(DEV)" }
+            { 13,   13, "$(DEV)" }
+            { 14,   14, "$(DEV)" }
+            { 15,   15, "$(DEV)" }
+            { 16,   16, "$(DEV)" }
+            { 17,   17, "$(DEV)" }
+}
+
+
+file iq_wf_ch.db
+{
+    pattern { CH,  NELM,  DEVICE  }
+            {  0,  4096, "$(DEV)" }
+            {  1,  4096, "$(DEV)" }
+            {  2,  4096, "$(DEV)" }
+            {  3,  4096, "$(DEV)" }
+            {  4,  4096, "$(DEV)" }
+            {  5,  4096, "$(DEV)" }
+            {  6,  4096, "$(DEV)" }
+            {  7,  4096, "$(DEV)" }
+            {  8,  4096, "$(DEV)" }
+            {  9,  4096, "$(DEV)" }
+}
+
+file iq_wf_all.db
+{
+    pattern {  DEVICE  }
+            { "$(DEV)" }
+}
+
+file avg_window.db
+{
+    pattern { NELM,  DEVICE,  WND  }
+            { 4096, "$(DEV)",   0  }
+            { 4096, "$(DEV)",   1  }
+            { 4096, "$(DEV)",   2  }
+}
+
+
+file fastPV.db
+{
+
+    pattern { TS, TS_N,  DEVICE  }
+            {  0,   00, "$(DEV)" }
+            {  1,   01, "$(DEV)" }
+            {  2,   02, "$(DEV)" }
+            {  3,   03, "$(DEV)" }
+            {  4,   04, "$(DEV)" }
+            {  5,   05, "$(DEV)" }
+            {  6,   06, "$(DEV)" }
+            {  7,   07, "$(DEV)" }
+            {  8,   08, "$(DEV)" }
+            {  9,   09, "$(DEV)" }
+#
+            { 10,   10, "$(DEV)" }
+            { 11,   11, "$(DEV)" }
+            { 12,   12, "$(DEV)" }
+            { 13,   13, "$(DEV)" }
+            { 14,   14, "$(DEV)" }
+            { 15,   15, "$(DEV)" }
+            { 16,   16, "$(DEV)" }
+            { 17,   17, "$(DEV)" }
+
+}
+
+
+
+###########################
+# PDES/ADES configuration #
+###########################
+file rfTSmux.db
+{
+    pattern {  DEVICE  }
+            { "$(DEV)" }
+}
+
+
+
+file waveformTimeAxis.db
+{
+    pattern {   DEVICE  , DESC                         ,  SIZE ,  FREQ   }
+            {  "$(DEV)" , "HLS waveform time axis"     , "4096" , "357"  }
+}
+
+
+#############################
+# Destination Aware Trigger #
+#############################
+
+file DestTrig_kind.db
+{
+    pattern   {   DEVICE,        TRG,       TRG_STR } 
+              { "$(DEV)",     "LLRF",        "llrf" }
+              { "$(DEV)",      "RTM",         "rtm" }
+              { "$(DEV)",      "MOD",         "mod" }
+              { "$(DEV)",      "SSA",         "ssa" }
+}
+
+file DestTrig_accl_stdby.db
+{
+    pattern   {   DEVICE,        TRG  }
+              { "$(DEV)",      "ACCL" }
+              { "$(DEV)",     "STDBY" }
+}
+
+file DestTrig_dest.db
+{
+    pattern {     DEVICE,            TPR_NAME,      DEST,      CH0,      CH1  }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",     "00",      "01" }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",     "02",      "03" }
+            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",     "04",      "05" }
+}
+
+file DestTrig_ch.db
+{
+    pattern {    DEVICE,            TPR_NAME,     DEST,       TRG,      CH   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",    "ACCL",    "00"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",   "STDBY",    "01"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",    "ACCL",    "02"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",   "STDBY",    "03"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",    "ACCL",    "04"   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",   "STDBY",    "05"   }
+}
+
+
+file DestTrig_evcode.db
+{
+    pattern {    DEVICE,            TPR_NAME,      DEST,      TRG,      CH   }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",   "ACCL",     "00"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",  "STDBY",     "01"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",   "ACCL",     "02"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",  "STDBY",     "03"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",   "ACCL",     "04"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",  "STDBY",     "05"  }
+}
+
+file DestTrig_common_evcode.db
+{
+		pattern {    DEVICE,            TPR_NAME,       TRG,      CH   }
+				{  "$(DEV)",     "$(TPR_PREFIX)",  "DAQMUX",     "06"  }
+				{  "$(DEV)",     "$(TPR_PREFIX)",  "ACALGN",     "07"  }
+}
+

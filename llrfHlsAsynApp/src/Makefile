@@ -41,6 +41,10 @@ llrfHlsAsyn_LIBS += yamlLoader
 llrfHlsAsyn_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
+LIBRARY_IOC += dummyBsaCore_SC
+dummyBsaCore_SC_SRCS += dummyBsaCore_SC.cpp
+
+
 #===========================
 
 include $(TOP)/configure/RULES

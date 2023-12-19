@@ -292,21 +292,21 @@ file DestTrig_accl_stdby.db
 
 file DestTrig_dest.db
 {
-    pattern {     DEVICE,            TPR_NAME,      DEST,      CH0,      CH1  }
-            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",     "00",      "01" }
-            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",     "02",      "03" }
-            {   "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",     "04",      "05" }
+    pattern {     DEVICE,     SYS,           TPR_NAME,      DEST,      CH0,      CH1  }
+            {   "$(DEV)",  "SYS0",    "$(TPR_PREFIX)",   "DEST0",     "00",      "01" }
+            {   "$(DEV)",  "SYS0",    "$(TPR_PREFIX)",   "DEST1",     "02",      "03" }
+            {   "$(DEV)",  "SYS0",    "$(TPR_PREFIX)",   "DEST2",     "04",      "05" }
 }
 
 file DestTrig_ch.db
 {
-    pattern {    DEVICE,            TPR_NAME,     DEST,       TRG,      CH   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",    "ACCL",    "00"   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST0",   "STDBY",    "01"   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",    "ACCL",    "02"   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST1",   "STDBY",    "03"   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",    "ACCL",    "04"   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",  "DEST2",   "STDBY",    "05"   }
+    pattern {    DEVICE,    SYS,         TPR_NAME,     DEST,       TRG,      CH   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST0",    "ACCL",    "00"   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST0",   "STDBY",    "01"   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST1",    "ACCL",    "02"   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST1",   "STDBY",    "03"   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST2",    "ACCL",    "04"   }
+            {  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DEST2",   "STDBY",    "05"   }
 }
 
 
@@ -323,8 +323,8 @@ file DestTrig_evcode.db
 
 file DestTrig_common_evcode.db
 {
-		pattern {    DEVICE,            TPR_NAME,       TRG,      CH   }
-				{  "$(DEV)",     "$(TPR_PREFIX)",  "DAQMUX",     "06"  }
-				{  "$(DEV)",     "$(TPR_PREFIX)",  "ACALGN",     "07"  }
+		pattern {    DEVICE,    SYS,           TPR_NAME,       TRG,      CH   }
+			{  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "DAQMUX",     "06"  }
+			{  "$(DEV)", "SYS0",    "$(TPR_PREFIX)",  "ACALGN",     "07"  }
 }
 

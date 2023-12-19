@@ -4,7 +4,7 @@ record(calcout, "$(DEVICE):TRG_$(DEST)_$(TRG)_TDES")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):TRG_$(DEST)_TDES CPP NMS")
     field(INPB, "$(DEVICE):TRG_$(TRG)_TDES CPP NMS")
-    field(OUT,  "$(TPR_NAME):TRG$(CH)_SYS0_TDES PP")
+    field(OUT,  "$(TPR_NAME):TRG$(CH)_$(SYS)_TDES PP")
     field(PINI, "YES")
 }
 

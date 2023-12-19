@@ -23,8 +23,8 @@ record(dfanout, "$(DEVICE):TRG_$(DEST)_DFANOUT")
 {
     field(DESC, "TCTL Dfanout for $(DEST)")
     field(OMSL, "supervisory")
-    field(OUTA, "$(TPR_NAME):TRG$(CH0)_SYS0_TCTL PP")
-    field(OUTB, "$(TPR_NAME):TRG$(CH1)_SYS0_TCTL PP")
+    field(OUTA, "$(TPR_NAME):TRG$(CH0)_$(SYS)_TCTL PP")
+    field(OUTB, "$(TPR_NAME):TRG$(CH1)_$(SYS)_TCTL PP")
 }
 
 

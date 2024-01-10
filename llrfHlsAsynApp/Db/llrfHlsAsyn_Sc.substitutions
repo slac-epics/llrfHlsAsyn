@@ -269,7 +269,7 @@ file DestTrig_ch.db
 }
 
 
-file DestTrig_evcode.db
+file DestTrig_acrate.db
 {
     pattern {    DEVICE,            TPR_NAME,      DEST,      TRG,      CH   }
             {  "$(DEV)",     "$(TPR_PREFIX)",     "HXR",   "ACCL",     "00"  }
@@ -280,7 +280,7 @@ file DestTrig_evcode.db
             {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",  "STDBY",     "05"  }
 }
 
-file DestTrig_common_evcode.db
+file DestTrig_common_acrate.db
 {
 		pattern {    DEVICE,      SYS,         TPR_NAME,       TRG,      CH   }
 			{  "$(DEV)",   "SYS2",  "$(TPR_PREFIX)",  "DAQMUX",     "06"  }

@@ -252,18 +252,18 @@ file DestTrig_accl_stdby.db
 file DestTrig_dest.db
 {
     pattern {     DEVICE,     SYS,          TPR_NAME,      DEST,      CH0,      CH1  }
-            {   "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",   "DEST0",     "00",      "01" }
-            {   "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",   "DEST1",     "02",      "03" }
+            {   "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",     "HXR",     "00",      "01" }
+            {   "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",     "SXR",     "02",      "03" }
             {   "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",   "DEST2",     "04",      "05" }
 }
 
 file DestTrig_ch.db
 {
     pattern {    DEVICE,     SYS,          TPR_NAME,     DEST,       TRG,      CH   }
-            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST0",    "ACCL",    "00"   }
-            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST0",   "STDBY",    "01"   }
-            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST1",    "ACCL",    "02"   }
-            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST1",   "STDBY",    "03"   }
+            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",    "HXR",    "ACCL",    "00"   }
+            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",    "HXR",   "STDBY",    "01"   }
+            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",    "SXR",    "ACCL",    "02"   }
+            {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",    "SXR",   "STDBY",    "03"   }
             {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST2",    "ACCL",    "04"   }
             {  "$(DEV)",  "SYS2",   "$(TPR_PREFIX)",  "DEST2",   "STDBY",    "05"   }
 }
@@ -272,10 +272,10 @@ file DestTrig_ch.db
 file DestTrig_evcode.db
 {
     pattern {    DEVICE,            TPR_NAME,      DEST,      TRG,      CH   }
-            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",   "ACCL",     "00"  }
-            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST0",  "STDBY",     "01"  }
-            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",   "ACCL",     "02"  }
-            {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST1",  "STDBY",     "03"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",     "HXR",   "ACCL",     "00"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",     "HXR",  "STDBY",     "01"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",     "SXR",   "ACCL",     "02"  }
+            {  "$(DEV)",     "$(TPR_PREFIX)",     "SXR",  "STDBY",     "03"  }
             {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",   "ACCL",     "04"  }
             {  "$(DEV)",     "$(TPR_PREFIX)",   "DEST2",  "STDBY",     "05"  }
 }

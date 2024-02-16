@@ -181,11 +181,9 @@ record(mbbo, "$(DEVICE):MODECFG")
     field(ZRST, "Disable")
     field(ONST, "ACCEL")
     field(TWST, "STDBY")
-    field(THST, "ACCEL_NO_STDBY")
     field(ZRVL, "0")
     field(ONVL, "3")
     field(TWVL, "2")
-    field(THVL, "1")
     info(autosaveFields, "VAL")
 }
 

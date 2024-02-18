@@ -16,7 +16,7 @@ include $(TOP)/configure/CONFIG
 DB += fastPV.db
 DB += llrfHlsAsyn_NC_XTCAV.db
 DB += llrfHlsAsyn_SC_XTCAV.db
-DB += llrfHlsAsyn_STCAV.db
+DB += llrfHlsAsyn_SC_STCAV.db
 DB += ued_llrfHlsAsyn.db
 
 

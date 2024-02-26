@@ -1,3 +1,7 @@
+R4.3.0     02-24-2024    Kukhee Kim (khkim)
+                         - prepare data base template for NC XTCAV, SC XTCAV, and SC TCAV
+                         - label change for operation mode disable/accel/stdby
+
 R4.2.1     11-14-2023    Kukhee Kim (khkim)
                          - buld against  yamlLoader     R2.3.5
                                          timingApi      R0.9

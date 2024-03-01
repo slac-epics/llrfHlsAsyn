@@ -8,7 +8,7 @@ record(ai, "$(DEVICE):PACT_$(TS_PV)")
     field(TSE,  "-2")
 }
 
-record(ai, "$(DEVICE):AACT_S$(TS_PV)")
+record(ai, "$(DEVICE):AACT_$(TS_PV)")
 {
     field(DESC, "actual amplitude for TS $(TS_N)")
     field(DTYP, "asynFloat64")

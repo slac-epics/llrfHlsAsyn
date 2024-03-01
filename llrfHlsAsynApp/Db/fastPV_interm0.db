@@ -1,18 +1,18 @@
-record(ai, "$(DEVICE):PACT_TS$(TS_N)")
+record(ai, "$(DEVICE):PACT_$(TS_PV)")
 {
-    field(DESC, "actual phase for timeslot $(TS)")
+    field(DESC, "actual phase for TS $(TS_N)")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) p_act_br_t$(TS)")
+    field(INP,  "@asyn($(PORT),0) p_act_br_$(TS_ARG)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(TSE,  "-2")
 }
 
-record(ai, "$(DEVICE):AACT_TS$(TS_N)")
+record(ai, "$(DEVICE):AACT_S$(TS_PV)")
 {
-    field(DESC, "actual amplitude for timeslot $(TS)")
+    field(DESC, "actual amplitude for TS $(TS_N)")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) a_act_br_t$(TS)")
+    field(INP,  "@asyn($(PORT),0) a_act_br_$(TS_ARG)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
     field(TSE,  "-2")

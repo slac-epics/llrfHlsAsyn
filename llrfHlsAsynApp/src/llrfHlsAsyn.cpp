@@ -1023,6 +1023,19 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, BVOLT_BR_STR, t); createParam(param_name, asynParamFloat64, &(p_br[t].p_br_bvolt));
     }
 
+    // Beam Rate PVs for No Timeslot Aware
+    for(int w = 0; w < NUM_WINDOW; w++) {       // w, window index
+        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
+            sprintf(param_name, P_BR_NT_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_brNT.p_br_phase[w][i]));
+            sprintf(param_name, A_BR_NT_WND_CH_STR, w, i); createParam(param_name, asynParamFloat64, &(p_brNT.p_br_amplitude[w][i]));
+        }
+    }
+
+    sprintf(param_name, P_BR_NT_STR);  createParam(param_name, asynParamFloat64, &(p_brNT.p_br_pact));
+    sprintf(param_name, A_BR_NT_STR);  createParam(param_name, asynParamFloat64, &(p_brNT.p_br_aact));
+    sprintf(param_name, BVOLT_BR_NT_STR); createParam(param_name, asynParamFloat64, &(p_brNT.p_br_bvolt));
+
+
     sprintf(param_name, BVOLT_CONV_STR); createParam(param_name, asynParamFloat64,      &p_bvolt_conv);
 
     sprintf(param_name, I_BASEBAND_STR); createParam(param_name, asynParamFloat64Array, &(p_i_baseband_wf));
@@ -1122,16 +1135,20 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
     // todo, update timestamp for asyn Port driver
 
     int t = p->time_slot;
+    double phase;
 
-    setDoubleParam(p_br[t].p_br_pact, n_angle(p->phase_fb * 180./M_PI));
-    setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);
-    setDoubleParam(p_br[t].p_br_bvolt, beam_peak_volt[t].val);
+    phase = n_angle(p->phase_fb * 180./M_PI);
+    setDoubleParam(p_br[t].p_br_pact, phase);                   setDoubleParam(p_brNT.p_br_pact, phase);
+    setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);              setDoubleParam(p_brNT.p_br_aact, p->ampl_fb);
+    setDoubleParam(p_br[t].p_br_bvolt, beam_peak_volt[t].val);  setDoubleParam(p_brNT.p_br_bvolt, beam_peak_volt[t].val);
+
 
 
     for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {
         for(int i = 0; i < NUM_FB_CH; i++) {
-            setDoubleParam(p_br[t].p_br_phase[w][i], n_angle(p->ap_wch[w][i].phase * 180./M_PI));
-            setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ap_wch[w][i].ampl);
+            phase = n_angle(p->ap_wch[w][i].phase * 180./M_PI);
+            setDoubleParam(p_br[t].p_br_phase[w][i], phase);                      setDoubleParam(p_brNT.p_br_phase[w][i], phase);
+            setDoubleParam(p_br[t].p_br_amplitude[w][i], p->ap_wch[w][i].ampl);   setDoubleParam(p_brNT.p_br_amplitude[w][i], p->ap_wch[w][i].ampl);
         }
     }
 

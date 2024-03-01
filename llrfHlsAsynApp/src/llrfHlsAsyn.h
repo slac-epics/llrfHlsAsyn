@@ -313,7 +313,7 @@ class llrfHlsAsynDriver
             int p_br_pact;
             int p_br_aact;
             int p_br_bvolt;
-        } p_br[NUM_TIMESLOT];
+        } p_br[NUM_TIMESLOT], p_brNT;         // beam rate PVs for timeslot aware and No-Timeslot aware (NT)
 
         int p_bvolt_conv;
         int p_i_baseband_wf;                       // baseband i waveform
@@ -446,6 +446,8 @@ class llrfHlsAsynDriver
 
 #define P_BR_WND_CH_STR              "p_br_t%dw%dch%d"      // phase for beam rate PV,     for window and channel
 #define A_BR_WND_CH_STR              "a_br_t%dw%dch%d"      // amplitude for beam rate PV, for window and channel
+#define P_BR_NT_WND_CH_STR           "p_br_NTw%dch%d"       // phase for beam rate PV, No Timeslot Aware
+#define A_BR_NT_WND_CH_STR           "a_br_NTw%dch%d"       // amplitude for beam rate PV, No Timeslot Aware
 #define P_BSA_WND_CH_STR             "%s:W%dC%d_FAST_PACT"  // amplitude measurement for channel, BSA
 #define A_BSA_WND_CH_STR             "%s:W%dC%d_FAST_AACT"  // phase measurement for channel, BSA
 #define PACT_BSA_FB_STR              "%s:FB_FAST_PACT"      // phase measurement for feedback, BSA
@@ -459,6 +461,9 @@ class llrfHlsAsynDriver
 #define A_BR_STR                     "a_act_br_t%d"              // amplitude for beam rate PV, feedback input
 #define BVOLT_BR_STR                 "bvolt_pk_br_t%d"
 #define BVOLT_CONV_STR               "bvolt_conv"
+#define P_BR_NT_STR                  "p_act_br_NT"          // phase for beam rate PV, feedback input, No Timeslot Aware
+#define A_BR_NT_STR                  "a_act_br_NT"          // amplitude for beam rate PV, feedback input, No Timeslot Aware
+#define BVOLT_BR_NT_STR              "bvolt_pk_br_NT"       // beam peak voltage for beam rate PV, No Timeslot Aware
 
 #define GET_IQ_WF_STR                "get_iq_wf_ch%d"    // get iq waveform per channel
 #define GET_IQ_WF_ALL_STR            "get_iq_wf_all"     // get iq waveform for all channels

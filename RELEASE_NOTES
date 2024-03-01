@@ -1,3 +1,7 @@
+R4.4.0     02-29-2024    Kukhee Kim (khkim)
+                         - adding Beam Rate PVs for No Timeslot Aware (NT)
+                           to provide workaround until the SC mdoe BSA is ready
+
 R4.3.0     02-24-2024    Kukhee Kim (khkim)
                          - prepare data base template for NC XTCAV, SC XTCAV, and SC TCAV
                          - label change for operation mode disable/accel/stdby

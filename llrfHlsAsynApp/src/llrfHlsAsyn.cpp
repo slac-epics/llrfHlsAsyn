@@ -718,7 +718,7 @@ void llrfHlsAsynDriver::getIQWaveform(int channel)
         double q = q_wf_ch[channel][k];
 
         p_wf_ch[channel][k] = (i == 0.)? NAN: (atan2(q, i) * 180./M_PI);
-        a_wf_ch[channel][k] = sqrt(i*i + q*q);
+        a_wf_ch[channel][k] = sqrt(i*i + q*q) * ampl_coeff_ch[channel];
     }
 
 

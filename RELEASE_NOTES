@@ -1,3 +1,6 @@
+R4.5.0     03-19-2024    Kukhee Kim (khkim)
+                         - use engineering scale for amplitude waveform (per channel waveform)
+
 R4.4.0     02-29-2024    Kukhee Kim (khkim)
                          - adding Beam Rate PVs for No Timeslot Aware (NT)
                            to provide workaround until the SC mdoe BSA is ready

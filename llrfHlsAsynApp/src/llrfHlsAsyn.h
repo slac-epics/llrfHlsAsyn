@@ -204,6 +204,7 @@ class llrfHlsAsynDriver
 
         // Helper functions to convert bewteen I/Q to Phase/Amplitude and vice versa
         void iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a);
+        void iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a, epicsFloat64 ampl_scale);
         void pa2iq(const epicsFloat64* p, const epicsFloat64* a, epicsFloat64* i, epicsFloat64* q);
 
         // Helper functions to update the I/Q or Phase/Amplitude baseband wavefrom, when the opposite

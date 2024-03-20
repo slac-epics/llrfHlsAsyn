@@ -698,7 +698,7 @@ void llrfHlsAsynDriver::getIQWaveform(void)
     for(channel = 0; channel < NUM_FB_CH; channel++) {
         llrfHls->getIQWaveform(i_wf_ch[channel], q_wf_ch[channel], channel);
 
-        iq2pa(i_wf_ch[channel], q_wf_ch[channel], p_wf_ch[channel], a_wf_ch[channel]);
+        iq2pa(i_wf_ch[channel], q_wf_ch[channel], p_wf_ch[channel], a_wf_ch[channel], ampl_coeff_ch[channel]);
     }
 
     llrfHls->freezeWaveform(false);
@@ -1165,6 +1165,18 @@ void llrfHlsAsynDriver::iq2pa(const epicsFloat64* i, const epicsFloat64* q, epic
         q++;
     }
 }
+
+void llrfHlsAsynDriver::iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a, epicsFloat64 ampl_scale)
+{
+    for(std::size_t k { 0 }; k < MAX_SAMPLES; ++k)
+    {
+        *p++ = atan2(*q, *i) * 180./M_PI;
+        *a++ = sqrt((*i)*(*i) + (*q)*(*q)) * ampl_scale;
+        i++;
+        q++;
+    }
+}
+
 
 
 void llrfHlsAsynDriver::pa2iq(const epicsFloat64* p, const epicsFloat64* a, epicsFloat64* i, epicsFloat64* q)

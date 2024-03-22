@@ -1,3 +1,6 @@
+R4.6.0     03-22-2024    Kukhee Kim (khkim)
+                         - automation for dequantization parameter calculation depends on scale factor changes
+
 R4.5.0     03-19-2024    Kukhee Kim (khkim)
                          - use engineering scale for amplitude waveform (per channel waveform)
 

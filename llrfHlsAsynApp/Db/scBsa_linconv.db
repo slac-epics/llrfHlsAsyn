@@ -1,0 +1,42 @@
+# SC Bsa dequantization using Linear Conversion in the bsaDriver
+
+record(ai, "$(DEVICE):SCBSA_SLOPE:$(SECN)")
+{
+    field(DESC, "Slope of $(DESC)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) scBsa_$(PARAM)_slope")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(DEVICE):SCBSA_SLOPE_AO:$(SECN) PP")
+}
+
+record(dfanout, "$(DEVICE):SCBSA_SLOPE_AO:$(SECN)")
+{
+    field(DESC, "Push slope to $(DESC)")
+    field(DOL, "$(DEVICE):SCBSA_SLOPE:$(SECN) NPP NMS")
+    field(OMSL, "closed_loop")
+    field(OUTA, "$(DEVICE):$(SECN_A)_SLOPE_BSA PP")
+    field(OUTB, "$(DEVICE):$(SECN_B)_SLOPE_BSA PP")
+    field(OUTC, "$(DEVICE):$(SECN_C)_SLOPE_BSA PP")
+    field(SCAN, "Passive")
+}
+
+
+record(ai, "$(DEVICE):SCBSA_OFFSET:$(SECN)")
+{
+    field(DESC, "Offset of $(DESC)")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) scBsa_$(PARAM)_offset")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(DEVICE):SCBSA_OFFSET_AO:$(SECN) PP")
+}
+
+record(dfanout, "$(DEVICE):SCBSA_OFFSET_AO:$(SECN)")
+{
+    field(DESC, "Push offset to $(DESC)")
+    field(DOL, "$(DEVICE):SCBSA_OFFSET:$(SECN) NPP NMS")
+    field(OMSL, "closed_loop")
+    field(OUTA, "$(DEVICE):$(SECN_A)_OFFSET_BSA PP")
+    field(OUTB, "$(DEVICE):$(SECN_B)_OFFSET_BSA PP")
+    field(OUTC, "$(DEVICE):$(SECN_C)_OFFSET_BSA PP")
+    field(SCAN, "Passive")
+}

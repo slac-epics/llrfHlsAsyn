@@ -1184,7 +1184,7 @@ void llrfHlsAsynDriver::recalc_dequantization(void)
     double norm = 0.;
     double fb_c = 0.;
     double ph_c = 360. / sc_quantization;
-    double ph_offset = 180.;
+    double ph_offset = -180.;
     double a_offset  = 0.;
     double a_c[NUM_FB_CH];
     

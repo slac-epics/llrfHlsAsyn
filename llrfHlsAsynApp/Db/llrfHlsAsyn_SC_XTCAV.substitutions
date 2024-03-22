@@ -183,6 +183,7 @@ file bsa.db
              { "$(DEV)", "bsaPort",     "AACT",     "FB_FAST_AACT"   }
              { "$(DEV)", "bsaPort",     "PDES",     "FB_FAST_PDES"   }
              { "$(DEV)", "bsaPort",     "ADES",     "FB_FAST_ADES"   }
+             { "$(DEV)", "bsaPort",     "PSET",     "FB_FAST_PSET"   }
              { "$(DEV)", "bsaPort",     "ASET",     "FB_FAST_ASET"   }
              { "$(DEV)", "bsaPort",     "PCH0",     "W0C0_FAST_PACT" }
              { "$(DEV)", "bsaPort",     "ACH0",     "W0C0_FAST_AACT" }
@@ -206,6 +207,38 @@ file bsa.db
              { "$(DEV)", "bsaPort",     "ACH9",     "W0C9_FAST_AACT" }
 }
 
+file scBsa_linconv.db
+{
+    pattern  {   DEVICE,     PARAM,      SECN,          SECN_A,          SECN_B         , SECN_C,    DESC }
+              { "$(DEV)",    "pact",    "PACT", "FB_FAST_PACT",  "FB_FAST_PDES",  "FB_FAST_PSET",  "phase"}
+              { "$(DEV)",    "aact"     "AACT", "FB_FAST_AACT",  "FB_FAST_ADES",  "FB_FAST_ASET",  "amplitude"}
+}
+
+
+file scBsa_linconv_ch.db
+{
+    pattern {    DEVICE,      PARAM,           SECN,         DESC       }
+             { "$(DEV)",     "pch0",     "W0C0_FAST_PACT", "phase for ch0" }
+             { "$(DEV)",     "ach0",     "W0C0_FAST_AACT", "amplitude for ch0" }
+             { "$(DEV)",     "pch1",     "W0C1_FAST_PACT", "phase for ch1" }
+             { "$(DEV)",     "ach1",     "W0C1_FAST_AACT", "amplitude for ch1" }
+             { "$(DEV)",     "pch2",     "W0C2_FAST_PACT", "phase for ch2" }
+             { "$(DEV)",     "ach2",     "W0C2_FAST_AACT", "amplitude for ch2" }
+             { "$(DEV)",     "pch3",     "W0C3_FAST_PACT", "phsse for ch3" }
+             { "$(DEV)",     "ach3",     "W0C3_FAST_AACT", "amplitude for ch3" }
+             { "$(DEV)",     "pch4",     "W0C4_FAST_PACT", "phase for ch4" }
+             { "$(DEV)",     "ach4",     "W0C4_FAST_AACT", "amplitude for ch4" }
+             { "$(DEV)",     "pch5",     "W0C5_FAST_PACT", "phase for ch5" }
+             { "$(DEV)",     "ach5",     "W0C5_FAST_AACT", "amplitude for ch5" }
+             { "$(DEV)",     "pch6",     "W0C6_FAST_PACT", "phase for ch6" }
+             { "$(DEV)",     "ach6",     "W0C6_FAST_AACT", "amplitude for ch6" }
+             { "$(DEV)",     "pch7",     "W0C7_FAST_PACT", "phase for ch7" }
+             { "$(DEV)",     "ach7",     "W0C7_FAST_AACT", "amplitude for ch7" }
+             { "$(DEV)",     "pch8",     "W0C8_FAST_PACT", "phase for ch8" }
+             { "$(DEV)",     "ach8",     "W0C8_FAST_AACT", "amplitude for ch8" }
+             { "$(DEV)",     "pch9",     "W0C9_FAST_PACT", "phase for ch9" }
+             { "$(DEV)",     "ach9",     "W0C9_FAST_AACT", "amplitude for ch9" }
+}
 
 
 

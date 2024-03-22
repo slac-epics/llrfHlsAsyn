@@ -41,6 +41,8 @@
 #define ALPHA_HARMO            (ALPHA_DIM -1)
 #define ALPHA_IDX_DC           (ALPHA_DIM -1)
 
+#define SC_QUANTIZATION   18
+
 /////////////////////////////
 // Destination Aware Index //
 /////////////////////////////
@@ -164,6 +166,8 @@ class llrfHlsAsynDriver
         epicsFloat64  p_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // phase waveform for all channels
         epicsFloat64  a_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // amplitude waveform for all channels
 
+        epicsFloat64 sc_quantization;
+        epicsFloat64 fb_weight_ch[NUM_FB_CH];      // channel weight for feedback input, per channel
         epicsFloat64 ampl_coeff_ch[NUM_FB_CH];     // amplitude calculation coefficients, per each channel
         epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
 
@@ -201,6 +205,9 @@ class llrfHlsAsynDriver
         void beamPeakVoltageProcessing(bsa_packet_t *p);
         void bsaProcessing(bsa_packet_t *p);
         void fastPVProcessing(bsa_packet_t *p);
+
+        // dequantization for SC BSA
+        void recalc_dequantization(void);
 
         // Helper functions to convert bewteen I/Q to Phase/Amplitude and vice versa
         void iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a);
@@ -349,6 +356,12 @@ class llrfHlsAsynDriver
         int p_mean_phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // mean value of phase for each channel and each window
         int p_mean_ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];      // mean value of amplitude for each channel and each window
 
+        struct {                                   // dequantization for SC BSA, Linear conversion parameters
+            int p_p_slope;                                   // phase slope
+            int p_p_offset;                                  // phase offset
+            int p_a_slope;                                   // amplitude slope
+            int p_a_offset;                                  // amplitude offset
+        } p_scBsa_linconv_ch[NUM_FB_CH], p_scBsa_linconv_fb;   // dequantization for each channel and PACT and ACT
 
         int p_op_mode;
         int p_p_adaptive_gain;
@@ -501,6 +514,17 @@ class llrfHlsAsynDriver
 #define HARMO_SN_STR                 "harmo_sn%d"        // SN harmonics
 #define PHASE_ALPHA_STR              "p_alpha"           // alpha values for phase
 #define AMPL_ALPHA_STR               "a_alpha"           // alpha values for amplitude
+
+
+#define SC_BSA_PCH_SLOPE             "scBsa_pch%d_slope"   // SC BSA linear conversion, phase slope for channel
+#define SC_BSA_PCH_OFFSET            "scBsa_pch%d_offset"  // SC BSA linear conversion, phase offset for channel
+#define SC_BSA_ACH_SLOPE             "scBsa_ach%d_slope"   // SC BSA linear conversion, amplitude slope for channel
+#define SC_BSA_ACH_OFFSET            "scBsa_ach%d_offset"  // SC bSA linear conversion, amplitude offset for channel
+
+#define SC_BSA_PACT_SLOPE            "scBsa_pact_slope"    // SC BSA linear conversion for PACT slope
+#define SC_BSA_PACT_OFFSET           "scBsa_pact_offset"   // SC BSA linear conversion for PACT offset
+#define SC_BSA_AACT_SLOPE            "scBsa_aact_slope"    // SC BSA linear conversion for AACT slope
+#define SC_BSA_AACT_OFFSET           "ScBsa_aact_offset"   // SC BSA linear conversion for AACT offset
 
 
 #endif /* _LLRFHLSASYN_H */

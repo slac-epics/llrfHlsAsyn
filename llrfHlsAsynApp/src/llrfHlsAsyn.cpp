@@ -168,12 +168,19 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
 
     convBeamPeakVolt = 1.;
     for(int i = 0; i < NUM_TIMESLOT; i++) {
-        beam_peak_volt[i].raw = 0;
+        beam_peak_volt[i].raw = 0.;
         beam_peak_volt[i].val = 0.;
 
         phase_des_ts[i] = 0.;
         ampl_des_ts[i]  = 0.;
     }
+
+    for(int i = 0; i < NUM_FB_CH; i++) {
+        fb_weight_ch[i]  = 0.;
+        ampl_coeff_ch[i] = 0.;
+    }
+
+    sc_quantization = pow(2., SC_QUANTIZATION);
 
 
     ParameterSetup();
@@ -334,7 +341,9 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
             break;
         }
         else if(function == p_fb_weight_ch[i]) {  // channel weight for feedback
+            fb_weight_ch[i] = value;
             llrfHls->setFeedbackChannelWeight(value, i);
+            recalc_dequantization();
             break;
         }
         else if(function == p_p_offset_ch[i]) {    // phase offset for channel
@@ -344,6 +353,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         else if(function == p_ampl_coeff[i]) { // amplitude conversion coefficientfor channel
             ampl_coeff_ch[i] = value;
             llrfHls->setAmplCoeff(value, i);
+            recalc_dequantization();
         }
         else if(function == p_power_coeff[i]) { // power conversion coefficientfor channel
             power_coeff_ch[i] = value;
@@ -1063,6 +1073,19 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, PHASE_ALPHA_STR);          createParam(param_name, asynParamFloat64, &p_p_alpha);
     sprintf(param_name, AMPL_ALPHA_STR);           createParam(param_name, asynParamFloat64, &p_a_alpha);
 
+
+    for(int i = 0; i < NUM_FB_CH; i++) {
+        sprintf(param_name, SC_BSA_PCH_SLOPE, i);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_ch[i].p_p_slope));
+        sprintf(param_name, SC_BSA_PCH_OFFSET, i); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_ch[i].p_p_offset));
+        sprintf(param_name, SC_BSA_ACH_SLOPE, i);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_ch[i].p_a_slope));
+        sprintf(param_name, SC_BSA_ACH_OFFSET, i); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_ch[i].p_a_offset));
+    }
+
+    sprintf(param_name, SC_BSA_PACT_SLOPE);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_p_slope));
+    sprintf(param_name, SC_BSA_PACT_OFFSET); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_p_offset));
+    sprintf(param_name, SC_BSA_AACT_SLOPE);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_a_slope));
+    sprintf(param_name, SC_BSA_AACT_OFFSET); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_a_offset));
+
 }
 
 
@@ -1154,6 +1177,39 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
 
     callParamCallbacks();
 }
+
+
+void llrfHlsAsynDriver::recalc_dequantization(void)
+{
+    double norm = 0.;
+    double fb_c = 0.;
+    double ph_c = 360. / sc_quantization;
+    double ph_offset = 180.;
+    double a_offset  = 0.;
+    double a_c[NUM_FB_CH];
+    
+
+    for(int i = 0; i < NUM_FB_CH; i++) {
+        norm += fb_weight_ch[i];
+        fb_c += ampl_coeff_ch[i] * fb_weight_ch[i];
+        a_c[i] = ampl_coeff_ch[i] / sc_quantization;
+    }
+    if(norm > 0.1) fb_c /= norm;
+    fb_c /= sc_quantization;
+
+    setDoubleParam(p_scBsa_linconv_fb.p_p_slope, ph_c);
+    setDoubleParam(p_scBsa_linconv_fb.p_p_offset, ph_offset);
+    setDoubleParam(p_scBsa_linconv_fb.p_a_slope, fb_c);
+    setDoubleParam(p_scBsa_linconv_fb.p_a_offset, a_offset);
+
+    for(int i = 0; i < NUM_FB_CH; i++) {
+        setDoubleParam(p_scBsa_linconv_ch[i].p_p_slope,  ph_c);
+        setDoubleParam(p_scBsa_linconv_ch[i].p_p_offset, ph_offset);
+        setDoubleParam(p_scBsa_linconv_ch[i].p_a_slope,  a_c[i]);
+        setDoubleParam(p_scBsa_linconv_ch[i].p_a_offset, a_offset);
+    }
+}
+
 
 void llrfHlsAsynDriver::iq2pa(const epicsFloat64* i, const epicsFloat64* q, epicsFloat64* p, epicsFloat64* a)
 {

@@ -184,7 +184,32 @@ record(mbbo, "$(DEVICE):MODECFG")
     field(ZRVL, "0")
     field(ONVL, "3")
     field(TWVL, "2")
+    field(FLNK, "$(DEVICE):MODE_calc")
     info(autosaveFields, "VAL")
+}
+
+record(calcout, "$(DEVICE):MODE_calc")
+{
+    field(INPA, "$(DEVICE):MODECFG CP")
+# B is a hook. System can write 0 to indicate Disabled, 1 to indicate not disabled.
+# Details left to future use.
+    field(INPB, "1")
+    field(CALC, "A*B")
+    field(FLNK, "$(DEVICE):MODE")
+}
+
+record(mbbi, "$(DEVICE):MODE")
+{
+    field(PINI, "YES")
+    field(DESC, "Trigger Mode")
+    field(INP,  "$(DEVICE):MODE_calc")
+    field(SCAN, "Passive")
+    field(ZRST, "Disable")
+    field(ONST, "ACCEL")
+    field(TWST, "STDBY")
+    field(ZRVL, "0")
+    field(ONVL, "3")
+    field(TWVL, "2")
 }
 
 

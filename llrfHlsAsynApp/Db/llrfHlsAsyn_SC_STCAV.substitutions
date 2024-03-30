@@ -241,6 +241,37 @@ file scBsa_linconv_ch.db
 }
 
 
+file bsss.db
+{
+    pattern {       DEV,       PORT,     BSAKEY,           SECN       }
+             { "$(DEV)", "bsssPort",     "PACT",     "FB_FAST_PACT"   }
+             { "$(DEV)", "bsssPort",     "AACT",     "FB_FAST_AACT"   }
+             { "$(DEV)", "bsssPort",     "PDES",     "FB_FAST_PDES"   }
+             { "$(DEV)", "bsssPort",     "ADES",     "FB_FAST_ADES"   }
+             { "$(DEV)", "bsssPort",     "PSET",     "FB_FAST_PSET"   }
+             { "$(DEV)", "bsssPort",     "ASET",     "FB_FAST_ASET"   }
+             { "$(DEV)", "bsssPort",     "PCH0",     "W0C0_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH0",     "W0C0_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH1",     "W0C1_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH1",     "W0C1_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH2",     "W0C2_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH2",     "W0C2_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH3",     "W0C3_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH3",     "W0C3_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH4",     "W0C4_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH5",     "W0C4_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH5",     "W0C5_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH5",     "W0C5_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH6",     "W0C6_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH6",     "W0C6_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH7",     "W0C7_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH7",     "W0C7_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH8",     "W0C8_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH8",     "W0C8_FAST_AACT" }
+             { "$(DEV)", "bsssPort",     "PCH9",     "W0C9_FAST_PACT" }
+             { "$(DEV)", "bsssPort",     "ACH9",     "W0C9_FAST_AACT" }
+}
+
 
 ###########################
 # PDES/ADES configuration #

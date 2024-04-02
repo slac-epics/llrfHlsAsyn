@@ -1,3 +1,8 @@
+R4.7.0     04-02-2024    Kukhee Kim (khkim)
+                         - add BSSS database template for SC mode application
+                         - provide read-only mode PV (disable, ACCEL, STDBY)
+
+
 R4.6.0     03-22-2024    Kukhee Kim (khkim)
                          - automation for dequantization parameter calculation depends on scale factor changes
 

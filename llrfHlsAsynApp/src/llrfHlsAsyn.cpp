@@ -176,7 +176,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     }
 
     for(int i = 0; i < NUM_FB_CH; i++) {
-        fb_weight_ch[i]  = 0.;
+        for(int j = 0; j < NUM_DEST; j++) fb_weight_ch[j*NUM_FB_CH + i]  = 0.;
         ampl_coeff_ch[i] = 0.;
     }
 
@@ -340,12 +340,6 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
             llrfHls->setReferenceChannelWeight(value, i);
             break;
         }
-        else if(function == p_fb_weight_ch[i]) {  // channel weight for feedback
-            fb_weight_ch[i] = value;
-            llrfHls->setFeedbackChannelWeight(value, i);
-            recalc_dequantization();
-            break;
-        }
         else if(function == p_p_offset_ch[i]) {    // phase offset for channel
             llrfHls->setPhaseOffset(value, i);
             break;
@@ -357,6 +351,15 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         }
         else if(function == p_power_coeff[i]) { // power conversion coefficientfor channel
             power_coeff_ch[i] = value;
+        }
+
+        for(int j = 0; j < NUM_DEST; j++) {
+            if(function == p_fb_weight_ch[j*NUM_DEST + i]) {  // channel weight for feedback
+                fb_weight_ch[j*NUM_DEST + i] = value;
+                llrfHls->setFeedbackChannelWeight(value, i, j);    // (value, channel, destination index)
+                recalc_dequantization();
+                break;
+            }
         }
     }
 
@@ -964,7 +967,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
     for(int i = 0; i < NUM_FB_CH; i++) {    // for loop for number of channels
         sprintf(param_name, REF_WEIGHT_STR, i); createParam(param_name, asynParamFloat64, &(p_ref_weight_ch[i]));
-        sprintf(param_name, FB_WEIGHT_STR,  i); createParam(param_name, asynParamFloat64, &(p_fb_weight_ch[i]));
+        for(int j=0; j < NUM_DEST; j++) {
+            sprintf(param_name, FB_WEIGHT_STR, j, i); createParam(param_name, asynParamFloat64, &(p_fb_weight_ch[j*NUM_FB_CH +i]));
+        }
         sprintf(param_name, P_OFFSET_STR,   i); createParam(param_name, asynParamFloat64, &(p_p_offset_ch[i]));
         sprintf(param_name, PERMUT_IDX_STR, i); createParam(param_name, asynParamInt32,   &(p_permut_idx[i]));
 
@@ -1190,8 +1195,10 @@ void llrfHlsAsynDriver::recalc_dequantization(void)
     
 
     for(int i = 0; i < NUM_FB_CH; i++) {
-        norm += fb_weight_ch[i];
-        fb_c += ampl_coeff_ch[i] * fb_weight_ch[i];
+        for(int j = 0; j < NUM_DEST; j++) {
+            norm += fb_weight_ch[j*NUM_FB_CH + i];
+            fb_c += ampl_coeff_ch[i] * fb_weight_ch[j*NUM_FB_CH + i];
+        }
         a_c[i] = ampl_coeff_ch[i] / sc_quantization;
     }
     if(norm > 0.1) fb_c /= norm;

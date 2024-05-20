@@ -24,6 +24,7 @@
 #define POLL_RATE         4
 
 #define NUM_FB_CH        10        // number of feedback channels
+#define NUM_DEST          3        // number of destination
 #define NUM_WINDOW        3        // number of window
 #define NUM_TIMESLOT     18        // number of timeslot
 #define MAX_SAMPLES      4096      // number of samples in a waveform
@@ -167,7 +168,7 @@ class llrfHlsAsynDriver
         epicsFloat64  a_wf_ch[NUM_FB_CH][MAX_SAMPLES];    // amplitude waveform for all channels
 
         epicsFloat64 sc_quantization;
-        epicsFloat64 fb_weight_ch[NUM_FB_CH];      // channel weight for feedback input, per channel
+        epicsFloat64 fb_weight_ch[NUM_DEST * NUM_FB_CH];      // channel weight for feedback input, per channel
         epicsFloat64 ampl_coeff_ch[NUM_FB_CH];     // amplitude calculation coefficients, per each channel
         epicsFloat64 power_coeff_ch[NUM_FB_CH];    // power calculation coefficients, per each channel
 
@@ -284,7 +285,7 @@ class llrfHlsAsynDriver
         int p_a_drv_lower;                    // amplitude drive lower limit
         int p_a_threshold;                    // amplitude threshold
         int p_ref_weight_ch[NUM_FB_CH];          // channel weight for reference
-        int p_fb_weight_ch[NUM_FB_CH];           // channel weight for feedback
+        int p_fb_weight_ch[NUM_DEST * NUM_FB_CH];           // channel weight for feedback
         int p_permut_idx[NUM_FB_CH];             // permutation index for average window per channel
         int p_p_offset_ch[NUM_FB_CH];            // phase offset for each channel
         int p_p_des_ts[NUM_TIMESLOT];         // dessired phase for each timeslot
@@ -421,7 +422,7 @@ class llrfHlsAsynDriver
 #define A_DRV_LOWER_STR              "a_drv_lower"       // amplitude drive lower limit
 #define A_THRED_STR                  "a_threshold"       // amplitude threshold
 #define REF_WEIGHT_STR               "ref_weight_ch%d"   // weight average for reference, for each channel, array[10]
-#define FB_WEIGHT_STR                "fb_weight_ch%d"    // weight average for feedback, for each channel,  array[10]
+#define FB_WEIGHT_STR                "fb_weight_dst%d_ch%d"  // weight average for feedback, for each channel,  array[10*3]
 #define PERMUT_IDX_STR               "avg_win_permut_idx%d"  // permutation index for average window. array[10]
 #define P_OFFSET_STR                 "p_offset_ch%d"     // phase offset, for each channel, array[10]
 #define P_DES_STR                    "p_des_ts%d"        // desired phase, for each timeslot, array[18]

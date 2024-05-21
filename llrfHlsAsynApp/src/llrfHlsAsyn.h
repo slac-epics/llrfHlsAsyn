@@ -147,6 +147,8 @@ class llrfHlsAsynDriver
         int          current_bsa;
         uint8_t*     p_buf;
 
+        bool         recal_norm_flag;    // on-deman command flag for the amplitude normalization
+
         /* internal buffers */
         epicsFloat64  phase_wnd_ch[NUM_WINDOW][NUM_FB_CH];    // phase reading for all channels
         epicsFloat64  ampl_wnd_ch[NUM_WINDOW][NUM_FB_CH];     // amplitude reading for all channels
@@ -187,7 +189,6 @@ class llrfHlsAsynDriver
             epicsUInt32     raw;
             epicsFloat64    val;
         } beam_peak_volt[NUM_TIMESLOT];
-
 
         char*      bsa_name;
         BsaChannel BsaChn_pdes;
@@ -240,6 +241,8 @@ class llrfHlsAsynDriver
         // Helper function to do callbacks to all readback waveform for
         // average windows waveforms
         void DoCallbacksReadbackWaveformAverageWindow(int w);
+
+        void checkAmplNorm();
 
     protected:
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)
@@ -337,6 +340,8 @@ class llrfHlsAsynDriver
         int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
         int p_power_coeff[NUM_FB_CH];              // power conversion coefficient, software based conversion, per channel
         int p_ampl_norm;                           // normalization factor for amplitude feedback
+        int p_ampl_norm_pb;                        // normalization pushback logic
+        int p_ampl_norm_od;                        // normalization on-demand command
         int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware, for timeslot aware variables
         int p_var_gain_nt;                         // gain for variance/mean calculation, for non-timeslot aware variables
         int p_rms_phase[NUM_TIMESLOT];             // rms phase, phase jitter
@@ -486,6 +491,8 @@ class llrfHlsAsynDriver
 #define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
 #define POWER_COEFF_STR              "power_coeff_ch%d"  // power conversion coefficient per channel
 #define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
+#define AMPL_NORM_PB_STR             "ampl_norm_pushback"   // amplitude normalization factor, for pushback logic
+#define AMPL_NORM_OD_STR             "ampl_norm_ondemand"   // amplitude normalizatio, on-demand command
 #define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
 #define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables
 #define PHASE_JITTER_STR             "phase_jitter_ts%d" // phase jitter (RMS) per timeslot

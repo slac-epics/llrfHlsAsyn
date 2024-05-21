@@ -305,6 +305,10 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     else if(function == p_ampl_norm) {  // normalization factor for amplitude
         if(value != 0.) llrfHls->setAmplNorm(1. / value);   // pass the receiprocal of the factor to the firmware
     }
+    else if(function == p_ampl_norm_od) {    // on-demand command for recalculating amplitude normalization
+        recal_norm_flag = value?true:false;  
+        if(recal_norm_flag) llrfHls->setRecalNorm(1);    // pass command to frmware
+    }
     else if(function == p_var_gain) {   // gain for variance / mean calculation, single pole algorithm
         llrfHls->setVarGain(value);
     }
@@ -660,6 +664,8 @@ void llrfHlsAsynDriver::poll(void)
     getPhaseJitterforAllChannels();
     getAmplitudeJitterforAllChannels();
 
+    checkAmplNorm();
+
     updatePVs();
     callParamCallbacks();
 }
@@ -950,6 +956,8 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, A_THRED_STR);                createParam(param_name, asynParamFloat64, &p_a_threshold);
 
     sprintf(param_name, AMPL_NORM_STR);              createParam(param_name, asynParamFloat64, &p_ampl_norm);
+    sprintf(param_name, AMPL_NORM_PB_STR);           createParam(param_name, asynParamFloat64, &p_ampl_norm_pb);
+    sprintf(param_name, AMPL_NORM_OD_STR);           createParam(param_name, asynParamInt32,   &p_ampl_norm_od);
     sprintf(param_name, VAR_GAIN_STR);               createParam(param_name, asynParamFloat64, &p_var_gain);
     sprintf(param_name, VAR_GAIN_NT_STR);            createParam(param_name, asynParamFloat64, &p_var_gain_nt);
 
@@ -1345,6 +1353,30 @@ void llrfHlsAsynDriver::DoCallbacksReadbackWaveformAverageWindow(int w)
     doCallbacksFloat64Array(qwf_avg_window[w], MAX_SAMPLES, p_qwf_avg_window_rbv[w], 0);
     doCallbacksFloat64Array(awf_avg_window[w], MAX_SAMPLES, p_awf_avg_window_rbv[w], 0);
     doCallbacksFloat64Array(pwf_avg_window[w], MAX_SAMPLES, p_pwf_avg_window_rbv[w], 0);
+}
+
+void llrfHlsAsynDriver::checkAmplNorm()
+{
+    double shadow, readout;
+    uint8_t flag;
+
+    if(!recal_norm_flag) return;   // no requrest from software side
+    
+    llrfHls->getRecalNorm(&flag);
+    if(flag) return;               // firmware did not proceed the request yet
+    
+    recal_norm_flag = false;       // clear flag
+    getDoubleParam(p_ampl_norm, &shadow);  // get shadow value which is located/is latched in asyn port driver 
+                                           // the shadow value is previous set value from sotware, 
+    llrfHls->getAmplNorm(&readout);        // read out normalization factor from firmware, using read-only register
+
+    if(shadow != readout && readout > 1.E-6) {
+        setDoubleParam(p_ampl_norm_pb, 0.);            // clean up previous value in the pushback
+        setDoubleParam(p_ampl_norm_pb, (1./readout));  // apply new set value for the normalization 
+                                                       // remarks PV and firmware value has reciprocal relation
+    }
+
+    // PV update/processing will be completed by the end of polling function who calls this function
 }
 
 extern "C" {

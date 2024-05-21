@@ -1,0 +1,13 @@
+
+record(ao, "$(DEVICE):FBWGT$(DEST)$(CH)")
+{
+    field(PINI, "YES")
+    field(DESC, "feedback weight for $(DEST) channel $(CH)")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) fb_weight_dst$(DIX)_ch$(CH)")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    info(autosaveFields, "VAL")
+}
+

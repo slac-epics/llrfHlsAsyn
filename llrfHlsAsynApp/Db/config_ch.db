@@ -10,18 +10,6 @@ record(ao, "$(DEVICE):REFWGT$(CH)")
     info(autosaveFields, "VAL")
 }
 
-record(ao, "$(DEVICE):FBWGT$(CH)")
-{
-    field(PINI, "YES")
-    field(DESC, "feedback weight for channel $(CH)")
-    field(DTYP, "asynFloat64")
-    field(OUT,  "@asyn($(PORT),0) fb_weight_ch$(CH)")
-    field(OMSL, "supervisory")
-    field(SCAN, "Passive")
-    field(PREC, "3")
-    info(autosaveFields, "VAL")
-}
-
 record(longout, "$(DEVICE):PERMUTIDX$(CH)")
 {
     field(PINI, "YES")

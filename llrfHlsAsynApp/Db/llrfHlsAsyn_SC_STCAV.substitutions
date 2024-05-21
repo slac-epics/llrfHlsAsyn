@@ -25,6 +25,44 @@ file config_ch.db
             {  9,  "$(DEV)" }
 }
 
+file config_dest_ch.db
+{
+    pattern { CH,  DEVICE,    DEST,     DIX }
+            {  0,  "$(DEV)", "HXR",       0 }
+            {  1,  "$(DEV)", "HXR",       0 }
+            {  2,  "$(DEV)", "HXR",       0 }
+            {  3,  "$(DEV)", "HXR",       0 }
+            {  4,  "$(DEV)", "HXR",       0 }
+            {  5,  "$(DEV)", "HXR",       0 }
+            {  6,  "$(DEV)", "HXR",       0 }
+            {  7,  "$(DEV)", "HXR",       0 }
+            {  8,  "$(DEV)", "HXR",       0 }
+            {  9,  "$(DEV)", "HXR",       0 }
+#
+            {  0,  "$(DEV)", "SXR",       1 }
+            {  1,  "$(DEV)", "SXR",       1 }
+            {  2,  "$(DEV)", "SXR",       1 }
+            {  3,  "$(DEV)", "SXR",       1 }
+            {  4,  "$(DEV)", "SXR",       1 }
+            {  5,  "$(DEV)", "SXR",       1 }
+            {  6,  "$(DEV)", "SXR",       1 }
+            {  7,  "$(DEV)", "SXR",       1 }
+            {  8,  "$(DEV)", "SXR",       1 }
+            {  9,  "$(DEV)", "SXR",       1 }
+#
+            {  0,  "$(DEV)", "DEST2",      2 }
+            {  1,  "$(DEV)", "DEST2",      2 }
+            {  2,  "$(DEV)", "DEST2",      2 }
+            {  3,  "$(DEV)", "DEST2",      2 }
+            {  4,  "$(DEV)", "DEST2",      2 }
+            {  5,  "$(DEV)", "DEST2",      2 }
+            {  6,  "$(DEV)", "DEST2",      2 }
+            {  7,  "$(DEV)", "DEST2",      2 }
+            {  8,  "$(DEV)", "DEST2",      2 }
+            {  9,  "$(DEV)", "DEST2",      2 }
+
+}
+
 
 file config_ts.db
 {

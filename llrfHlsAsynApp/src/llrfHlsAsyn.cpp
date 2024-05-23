@@ -232,6 +232,11 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if(function == p_get_iq_wf_all & value) {
         getIQWaveform();
     }
+    else if(function == p_ampl_norm_od) {    // on-demand command for recalculating amplitude normalization
+        printf("on-demand normalization PV: %d\n", value);
+        recal_norm_flag = value?true:false;  
+        if(recal_norm_flag) llrfHls->setRecalNorm(1);    // pass command to frmware
+    }
     else
     for(int i = 0; i < NUM_FB_CH; i++) {
         if(function == p_get_iq_wf_ch[i] && value) {
@@ -304,10 +309,7 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     }
     else if(function == p_ampl_norm) {  // normalization factor for amplitude
         if(value != 0.) llrfHls->setAmplNorm(1. / value);   // pass the receiprocal of the factor to the firmware
-    }
-    else if(function == p_ampl_norm_od) {    // on-demand command for recalculating amplitude normalization
-        recal_norm_flag = value?true:false;  
-        if(recal_norm_flag) llrfHls->setRecalNorm(1);    // pass command to frmware
+        llrfHls->setRecalNorm(0);   // clear_recal flag for next request
     }
     else if(function == p_var_gain) {   // gain for variance / mean calculation, single pole algorithm
         llrfHls->setVarGain(value);
@@ -358,8 +360,8 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
         }
 
         for(int j = 0; j < NUM_DEST; j++) {
-            if(function == p_fb_weight_ch[j*NUM_DEST + i]) {  // channel weight for feedback
-                fb_weight_ch[j*NUM_DEST + i] = value;
+            if(function == p_fb_weight_ch[j*NUM_FB_CH + i]) {  // channel weight for feedback
+                fb_weight_ch[j*NUM_FB_CH + i] = value;
                 llrfHls->setFeedbackChannelWeight(value, i, j);    // (value, channel, destination index)
                 recalc_dequantization();
                 break;
@@ -595,6 +597,7 @@ void llrfHlsAsynDriver::report(int interest)
     epicsTimeToStrftime(ts_str, sizeof(ts_str), "%Y/%m/%d %H:%M:%S.%09f", &ts);
     printf("\ttimestamp in stream : %s\n", ts_str);
 
+    llrfHls->printFeedbackChannelWeight();
 }
 
 void llrfHlsAsynDriver::fast_poll(void)
@@ -1360,10 +1363,16 @@ void llrfHlsAsynDriver::checkAmplNorm()
     double shadow, readout;
     uint8_t flag;
 
+    printf("checkAmplNorm - calling\n");
+
     if(!recal_norm_flag) return;   // no requrest from software side
+
+    printf("checkAmplNorm - flag set\n");
     
     llrfHls->getRecalNorm(&flag);
-    if(flag) return;               // firmware did not proceed the request yet
+    if(!flag) return;               // firmware did not proceed the request yet
+
+    printf("checkAmplNorm - firmware completes recalculation\n");
     
     recal_norm_flag = false;       // clear flag
     getDoubleParam(p_ampl_norm, &shadow);  // get shadow value which is located/is latched in asyn port driver 
@@ -1375,6 +1384,9 @@ void llrfHlsAsynDriver::checkAmplNorm()
         setDoubleParam(p_ampl_norm_pb, (1./readout));  // apply new set value for the normalization 
                                                        // remarks PV and firmware value has reciprocal relation
     }
+
+    printf("checkAmplNorm - shadow %.5lf register %.5lf \n",
+           shadow, 1./readout);
 
     // PV update/processing will be completed by the end of polling function who calls this function
 }

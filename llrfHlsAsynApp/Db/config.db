@@ -537,17 +537,18 @@ record(ao, "$(DEVICE):VARGAIN_NT")
 record(bo, "$(DEVICE):UPDATEAMPLNORM")
 {
     field(PINI, "NO")
-    field(DESC, "Update DAC Normalization Factor")
+    field(DESC, "On-deman Recal Ampl Norm ")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),0) update_ampl_norm")
-    field(HIGH, "1")
+    field(OUT,  "@asyn($(PORT),0) ampl_norm_od")
+    field(ZNAM, "recalc")
+    field(ONAM, "RECALC")
 }
 
 record(ai, "$(DEVICE):AMPLNORM_READBACK")
 {
-    field(DESC, "Normalization Factor calculated in firmware")
+    field(DESC, "Ampl Norm from Firmware")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) ampl_norm_rbv")
+    field(INP,  "@asyn($(PORT),0) ampl_norm_pb")
     field(SCAN, "I/O Intr")
     field(EGU,  "")
     field(PREC, "5")
@@ -557,7 +558,7 @@ record(ai, "$(DEVICE):AMPLNORM_READBACK")
 
 record(ao, "$(DEVICE):AMPLNORM_SYNC")
 {
-    field(DESC, "Update Normalization Factor setting from firmware readback")
+    field(DESC, "Update Ampl Norm")
     field(OMSL, "closed_loop")
     field(DOL, "$(DEVICE):AMPLNORM_READBACK")
     field(SCAN, "Passive")

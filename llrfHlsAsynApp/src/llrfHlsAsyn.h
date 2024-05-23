@@ -491,8 +491,8 @@ class llrfHlsAsynDriver
 #define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
 #define POWER_COEFF_STR              "power_coeff_ch%d"  // power conversion coefficient per channel
 #define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
-#define AMPL_NORM_PB_STR             "ampl_norm_pushback"   // amplitude normalization factor, for pushback logic
-#define AMPL_NORM_OD_STR             "ampl_norm_ondemand"   // amplitude normalizatio, on-demand command
+#define AMPL_NORM_PB_STR             "ampl_norm_pb"      // amplitude normalization factor, for pushback logic
+#define AMPL_NORM_OD_STR             "ampl_norm_od"      // amplitude normalizatio, on-demand command
 #define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
 #define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables
 #define PHASE_JITTER_STR             "phase_jitter_ts%d" // phase jitter (RMS) per timeslot

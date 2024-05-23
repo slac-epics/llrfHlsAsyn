@@ -1363,16 +1363,12 @@ void llrfHlsAsynDriver::checkAmplNorm()
     double shadow, readout;
     uint8_t flag;
 
-    printf("checkAmplNorm - calling\n");
-
     if(!recal_norm_flag) return;   // no requrest from software side
 
-    printf("checkAmplNorm - flag set\n");
     
     llrfHls->getRecalNorm(&flag);
     if(!flag) return;               // firmware did not proceed the request yet
 
-    printf("checkAmplNorm - firmware completes recalculation\n");
     
     recal_norm_flag = false;       // clear flag
     getDoubleParam(p_ampl_norm, &shadow);  // get shadow value which is located/is latched in asyn port driver 
@@ -1385,10 +1381,6 @@ void llrfHlsAsynDriver::checkAmplNorm()
                                                        // remarks PV and firmware value has reciprocal relation
     }
 
-    printf("checkAmplNorm - shadow %.5lf register %.5lf \n",
-           shadow, 1./readout);
-
-    // PV update/processing will be completed by the end of polling function who calls this function
 }
 
 extern "C" {

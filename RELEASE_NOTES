@@ -1,3 +1,12 @@
+R4.8.0     05-24-2024    Kukhee Kim (khkim)
+                         - implement destination aware feedback weight sets
+                         - implement on-demand DAC normalization
+                         - compatible with the following firmware or later
+                             . NC application LlrfGen2  hash-00c9293   Built Thu 23 May 2024 09:31:33 PM PDT
+                             . SC application LlrfTcav2 hash-2e639c7   Built Thu 23 May 2024 11:01:22 PM PDT
+                         - build against rf/llrfHls  R4.4.0
+
+
 R4.7.0     04-02-2024    Kukhee Kim (khkim)
                          - add BSSS database template for SC mode application
                          - provide read-only mode PV (disable, ACCEL, STDBY)

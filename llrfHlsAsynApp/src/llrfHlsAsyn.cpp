@@ -233,7 +233,6 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
         getIQWaveform();
     }
     else if(function == p_ampl_norm_od) {    // on-demand command for recalculating amplitude normalization
-        printf("on-demand normalization PV: %d\n", value);
         recal_norm_flag = value?true:false;  
         if(recal_norm_flag) llrfHls->setRecalNorm(1);    // pass command to frmware
     }

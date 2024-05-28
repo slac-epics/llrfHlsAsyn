@@ -1,0 +1,161 @@
+# Extends llrfHlsAsyn.db from the llrfHlsAsyn module, adding SXR/HXR PDES/ADES.
+# This keeps it compatible with the tcav Matlab scripts.
+
+# Macros:
+#    DEV - Standard device type, e.g. TCAV
+#    AREA_P - first part of area name, before H, S, or 0, e.g. DMP
+#    POS - Standard position field, e.g 360 for DMP XTCAV controls
+#    INST - Standard instance field, e.g 0 for DMP XTCAV NC controls
+#    DEVICE - passed to rfTSmux.db, general PV prefix, e.g. TCAV:DMP0:360:0
+
+# TCAV:DMP0:360:0:*DES
+
+# Include records that are common to HXR/SXR
+include "rfTSmux.db"
+
+#----HXR----
+# Phase
+record(ao, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+{
+    field(PINI, "YES")
+    field(DESC, "HXR Phase setpoint")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT PP")
+    field(DRVL, "-180")
+    field(DRVH, "180")
+    field(LOPR, "-180")
+    field(HOPR, "180")
+    info(autosaveFields, "VAL")
+}
+
+#-------------------------------#
+
+record(fanout, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT")
+{
+    field(DESC, "fanout for HXR PREQ")
+    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC PP")
+    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC PP")
+    field(ASG, "Internal")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC")
+{
+    field(DESC, "Calculation for T1 PREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC")
+{
+    field(DESC, "Calculation for T4 PREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+}
+
+# Amplitude
+record(ao, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+{
+    field(PINI, "YES")
+    field(DESC, "HXR Amplitude setpoint")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(FLNK, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT PP")
+    info(autosaveFields, "VAL EGU DRVL DRVH LOPR HOPR")
+}
+
+record(fanout, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT")
+{
+    field(DESC, "fanout for HXR AREQ")
+    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC PP")
+    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC PP")
+    field(ASG, "Internal")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC")
+{
+    field(DESC, "Calculation for T1 AREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC")
+{
+    field(DESC, "Calculation for T4 AREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+}
+
+
+#----SXR----
+# Phase
+record(ao, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+{
+    field(PINI, "YES")
+    field(DESC, "SXR Phase setpoint")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT PP")
+    field(DRVL, "-180")
+    field(DRVH, "180")
+    field(LOPR, "-180")
+    field(HOPR, "180")
+    info(autosaveFields, "VAL")
+}
+
+record(fanout, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT")
+{
+    field(DESC, "fanout for SXR PREQ")
+    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC PP")
+    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC PP")
+    field(ASG, "Internal")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC")
+{
+    field(DESC, "Calculation for T7 PREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC")
+{
+    field(DESC, "Calculation for T10 PREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+}
+
+# Amplitude
+record(ao, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+{
+    field(PINI, "YES")
+    field(DESC, "SXR Amplitude Setpoint")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(FLNK, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT PP")
+    info(autosaveFields, "VAL EGU DRVL DRVH LOPR HOPR")
+}
+
+record(fanout, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT")
+{
+    field(DESC, "fanout for SXR AREQ")
+    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC PP")
+    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC PP")
+    field(ASG, "Internal")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC")
+{
+    field(DESC, "Calculation for T7 AREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+}
+
+record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC")
+{
+    field(DESC, "Calculation for T10 AREQ")
+    field(CALC, "A+B+C")
+    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+}

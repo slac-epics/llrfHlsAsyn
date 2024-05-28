@@ -316,7 +316,7 @@ file bsss.db
 ###########################
 # PDES/ADES configuration #
 ###########################
-file rfTSmux.db
+file rfTSmux_SXR_HXR.db
 {
     pattern {  DEVICE  }
             { "$(DEV)" }

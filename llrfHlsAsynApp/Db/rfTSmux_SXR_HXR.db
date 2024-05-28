@@ -15,14 +15,14 @@ include "rfTSmux.db"
 
 #----HXR----
 # Phase
-record(ao, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+record(ao, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):PDES")
 {
     field(PINI, "YES")
     field(DESC, "HXR Phase setpoint")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT PP")
+    field(FLNK, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT PP")
     field(DRVL, "-180")
     field(DRVH, "180")
     field(LOPR, "-180")
@@ -32,72 +32,72 @@ record(ao, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
 
 #-------------------------------#
 
-record(fanout, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT")
+record(fanout, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):PDES_FANOUT")
 {
     field(DESC, "fanout for HXR PREQ")
-    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC PP")
-    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC PP")
+    field(LNK2, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC PP")
+    field(LNK4, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC PP")
     field(ASG, "Internal")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T1_PREQ_CALC")
 {
     field(DESC, "Calculation for T1 PREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+    field(INPC, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):PDES")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T4_PREQ_CALC")
 {
     field(DESC, "Calculation for T4 PREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):PDES")
+    field(INPC, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):PDES")
 }
 
 # Amplitude
-record(ao, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+record(ao, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):ADES")
 {
     field(PINI, "YES")
     field(DESC, "HXR Amplitude setpoint")
     field(SCAN, "Passive")
     field(PREC, "3")
-    field(FLNK, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT PP")
+    field(FLNK, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT PP")
     info(autosaveFields, "VAL EGU DRVL DRVH LOPR HOPR")
 }
 
-record(fanout, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT")
+record(fanout, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):ADES_FANOUT")
 {
     field(DESC, "fanout for HXR AREQ")
-    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC PP")
-    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC PP")
+    field(LNK2, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC PP")
+    field(LNK4, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC PP")
     field(ASG, "Internal")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T1_AREQ_CALC")
 {
     field(DESC, "Calculation for T1 AREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+    field(INPC, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):ADES")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T4_AREQ_CALC")
 {
     field(DESC, "Calculation for T4 AREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)H:$(POS):$(INST):ADES")
+    field(INPC, "$(DEV_P):$(AREA_P)H:$(POS):$(INST):ADES")
 }
 
 
 #----SXR----
 # Phase
-record(ao, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+record(ao, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):PDES")
 {
     field(PINI, "YES")
     field(DESC, "SXR Phase setpoint")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "degrees")
-    field(FLNK, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT PP")
+    field(FLNK, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT PP")
     field(DRVL, "-180")
     field(DRVH, "180")
     field(LOPR, "-180")
@@ -105,57 +105,57 @@ record(ao, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
     info(autosaveFields, "VAL")
 }
 
-record(fanout, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT")
+record(fanout, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):PDES_FANOUT")
 {
     field(DESC, "fanout for SXR PREQ")
-    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC PP")
-    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC PP")
+    field(LNK2, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC PP")
+    field(LNK4, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC PP")
     field(ASG, "Internal")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T7_PREQ_CALC")
 {
     field(DESC, "Calculation for T7 PREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+    field(INPC, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):PDES")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T10_PREQ_CALC")
 {
     field(DESC, "Calculation for T10 PREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):PDES")
+    field(INPC, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):PDES")
 }
 
 # Amplitude
-record(ao, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+record(ao, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):ADES")
 {
     field(PINI, "YES")
     field(DESC, "SXR Amplitude Setpoint")
     field(SCAN, "Passive")
     field(PREC, "3")
-    field(FLNK, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT PP")
+    field(FLNK, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT PP")
     info(autosaveFields, "VAL EGU DRVL DRVH LOPR HOPR")
 }
 
-record(fanout, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT")
+record(fanout, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):ADES_FANOUT")
 {
     field(DESC, "fanout for SXR AREQ")
-    field(LNK2, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC PP")
-    field(LNK4, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC PP")
+    field(LNK2, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC PP")
+    field(LNK4, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC PP")
     field(ASG, "Internal")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T7_AREQ_CALC")
 {
     field(DESC, "Calculation for T7 AREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+    field(INPC, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):ADES")
 }
 
-record(calcout, "$(DEV):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC")
+record(calcout, "$(DEV_P):$(AREA_P)0:$(POS):$(INST):T10_AREQ_CALC")
 {
     field(DESC, "Calculation for T10 AREQ")
     field(CALC, "A+B+C")
-    field(INPC, "$(DEV):$(AREA_P)S:$(POS):$(INST):ADES")
+    field(INPC, "$(DEV_P):$(AREA_P)S:$(POS):$(INST):ADES")
 }

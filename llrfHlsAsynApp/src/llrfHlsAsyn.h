@@ -339,8 +339,8 @@ class llrfHlsAsynDriver
 
         int p_ampl_coeff[NUM_FB_CH];               // amplitude conversion coefficient, firmware based conversion, per channel
         int p_power_coeff[NUM_FB_CH];              // power conversion coefficient, software based conversion, per channel
-        int p_ampl_norm;                           // normalization factor for amplitude feedback
-        int p_ampl_norm_pb;                        // normalization pushback logic
+        int p_ampl_norm[NUM_DEST];                 // normalization factor for amplitude feedback
+        int p_ampl_norm_pb[NUM_DEST];              // normalization pushback logic
         int p_ampl_norm_od;                        // normalization on-demand command
         int p_var_gain;                            // gain for variance/mean calculation, single pole algorithm in firmware, for timeslot aware variables
         int p_var_gain_nt;                         // gain for variance/mean calculation, for non-timeslot aware variables
@@ -490,8 +490,8 @@ class llrfHlsAsynDriver
 
 #define AMPL_COEFF_STR               "ampl_coeff_ch%d"   // amplitude conversion coefficient per channel
 #define POWER_COEFF_STR              "power_coeff_ch%d"  // power conversion coefficient per channel
-#define AMPL_NORM_STR                "ampl_norm"         // amplitude normalization factor
-#define AMPL_NORM_PB_STR             "ampl_norm_pb"      // amplitude normalization factor, for pushback logic
+#define AMPL_NORM_STR                "ampl_norm_d%d"         // amplitude normalization factor
+#define AMPL_NORM_PB_STR             "ampl_norm_pb_d%d"      // amplitude normalization factor, for pushback logic
 #define AMPL_NORM_OD_STR             "ampl_norm_od"      // amplitude normalizatio, on-demand command
 #define VAR_GAIN_STR                 "var_gain"          // gain for variance/average calculation for timeslot aware variables
 #define VAR_GAIN_NT_STR              "var_gain_nt"       // gain for variance/average calculation for non-timeslot aware variables

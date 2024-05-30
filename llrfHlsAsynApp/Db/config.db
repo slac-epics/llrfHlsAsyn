@@ -534,6 +534,10 @@ record(ao, "$(DEVICE):VARGAIN_NT")
     info(autosaveFields, "VAL")
 }
 
+#
+#  on-demand DAC normalization
+#
+
 record(bo, "$(DEVICE):UPDATEAMPLNORM")
 {
     field(PINI, "NO")
@@ -544,36 +548,40 @@ record(bo, "$(DEVICE):UPDATEAMPLNORM")
     field(ONAM, "RECALC")
 }
 
-record(ai, "$(DEVICE):AMPLNORM_READBACK")
+#
+#    Deatination 0
+#
+
+record(ai, "$(DEVICE):AMPLNORM_READBACK0")
 {
     field(DESC, "Ampl Norm from Firmware")
     field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),0) ampl_norm_pb")
+    field(INP,  "@asyn($(PORT),0) ampl_norm_pb_d0")
     field(SCAN, "I/O Intr")
     field(EGU,  "")
     field(PREC, "5")
     field(ASG,  "Internal")
-    field(FLNK, "$(DEVICE):AMPLNORM_SYNC")
+    field(FLNK, "$(DEVICE):AMPLNORM_SYNC0")
 }
 
-record(ao, "$(DEVICE):AMPLNORM_SYNC")
+record(ao, "$(DEVICE):AMPLNORM_SYNC0")
 {
     field(DESC, "Update Ampl Norm")
     field(OMSL, "closed_loop")
-    field(DOL, "$(DEVICE):AMPLNORM_READBACK")
+    field(DOL, "$(DEVICE):AMPLNORM_READBACK0")
     field(SCAN, "Passive")
     field(EGU,  "")
     field(PREC, "5")
     field(ASG,  "Internal")
-    field(OUT, "$(DEVICE):AMPLNORM PP")
+    field(OUT, "$(DEVICE):AMPLNORM1 PP")
 }
 
-record(ao, "$(DEVICE):AMPLNORM")
+record(ao, "$(DEVICE):AMPLNORM0")
 {
     field(PINI, "YES")
     field(DESC, "Normalization Factor for Amplitude")
     field(DTYP, "asynFloat64")
-    field(OUT,  "@asyn($(PORT),0) ampl_norm")
+    field(OUT,  "@asyn($(PORT),0) ampl_norm_d0")
     field(OMSL, "supervisory")
     field(SCAN, "Passive")
     field(EGU,  "")
@@ -581,6 +589,100 @@ record(ao, "$(DEVICE):AMPLNORM")
     field(VAL, "1.")
     info(autosaveFields, "VAL")
 }
+
+
+#
+#    Deatination 1
+#
+
+record(ai, "$(DEVICE):AMPLNORM_READBACK1")
+{
+    field(DESC, "Ampl Norm from Firmware")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) ampl_norm_pb_d1")
+    field(SCAN, "I/O Intr")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(ASG,  "Internal")
+    field(FLNK, "$(DEVICE):AMPLNORM_SYNC1")
+}
+
+record(ao, "$(DEVICE):AMPLNORM_SYNC1")
+{
+    field(DESC, "Update Ampl Norm")
+    field(OMSL, "closed_loop")
+    field(DOL, "$(DEVICE):AMPLNORM_READBACK1")
+    field(SCAN, "Passive")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(ASG,  "Internal")
+    field(OUT, "$(DEVICE):AMPLNORM1 PP")
+}
+
+record(ao, "$(DEVICE):AMPLNORM1")
+{
+    field(PINI, "YES")
+    field(DESC, "Normalization Factor for Amplitude")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) ampl_norm_d1")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(VAL, "1.")
+    info(autosaveFields, "VAL")
+}
+
+
+#
+#    Deatination 2
+#
+
+record(ai, "$(DEVICE):AMPLNORM_READBACK2")
+{
+    field(DESC, "Ampl Norm from Firmware")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) ampl_norm_pb_d2")
+    field(SCAN, "I/O Intr")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(ASG,  "Internal")
+    field(FLNK, "$(DEVICE):AMPLNORM_SYNC2")
+}
+
+record(ao, "$(DEVICE):AMPLNORM_SYNC2")
+{
+    field(DESC, "Update Ampl Norm")
+    field(OMSL, "closed_loop")
+    field(DOL, "$(DEVICE):AMPLNORM_READBACK2")
+    field(SCAN, "Passive")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(ASG,  "Internal")
+    field(OUT, "$(DEVICE):AMPLNORM2 PP")
+}
+
+record(ao, "$(DEVICE):AMPLNORM2")
+{
+    field(PINI, "YES")
+    field(DESC, "Normalization Factor for Amplitude")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) ampl_norm_d2")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(EGU,  "")
+    field(PREC, "5")
+    field(VAL, "1.")
+    info(autosaveFields, "VAL")
+}
+
+
+
+#
+#
+#
+
+
 
 record(ao, "$(DEVICE):VARNSAMPLE")
 {

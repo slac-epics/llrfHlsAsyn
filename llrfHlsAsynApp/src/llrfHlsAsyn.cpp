@@ -180,6 +180,8 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
         ampl_coeff_ch[i] = 0.;
     }
 
+    for(int i = 0; i < NUM_DEST; i++) recal_norm_flag[i] = false;
+
     sc_quantization = pow(2., SC_QUANTIZATION);
 
 
@@ -232,11 +234,17 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     else if(function == p_get_iq_wf_all & value) {
         getIQWaveform();
     }
-    else if(function == p_ampl_norm_od) {    // on-demand command for recalculating amplitude normalization
-        recal_norm_flag = value?true:false;  
-        if(recal_norm_flag) llrfHls->setRecalNorm(1);    // pass command to frmware
+
+    for(int i = 0; i< NUM_DEST; i++) {
+        if(function == p_ampl_norm_od[i]) {
+            if(value) {
+                recal_norm_flag[i] = true;
+                llrfHls->setRecalNorm(1, i);
+            }
+            break;
+        }
     }
-    else
+
     for(int i = 0; i < NUM_FB_CH; i++) {
         if(function == p_get_iq_wf_ch[i] && value) {
             getIQWaveform(i);
@@ -338,8 +346,8 @@ asynStatus llrfHlsAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 val
     for(int i = 0; i < NUM_DEST; i++) {
         if(function == p_ampl_norm[i]) {  // normalization factor for amplitude
             if(value != 0.) llrfHls->setAmplNorm(1. / value, i);   // pass the receiprocal of the factor to the firmware
-            llrfHls->setRecalNorm(0);   // clear_recal flag for next request
-            break;
+            llrfHls->setRecalNorm(0, i);   // clear_recal flag for next request
+             break;
         }
     }
 
@@ -670,7 +678,7 @@ void llrfHlsAsynDriver::poll(void)
     getPhaseJitterforAllChannels();
     getAmplitudeJitterforAllChannels();
 
-    checkAmplNorm();
+    for(int i = 0; i < NUM_DEST; i++) checkAmplNorm(i);
 
     updatePVs();
     callParamCallbacks();
@@ -964,8 +972,9 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     for(int i = 0; i < NUM_DEST; i++) {
         sprintf(param_name, AMPL_NORM_STR, i);              createParam(param_name, asynParamFloat64, &p_ampl_norm[i]);
         sprintf(param_name, AMPL_NORM_PB_STR, i);           createParam(param_name, asynParamFloat64, &p_ampl_norm_pb[i]);
+        sprintf(param_name, AMPL_NORM_OD_STR, i);           createParam(param_name, asynParamInt32,   &p_ampl_norm_od[i]);
     }
-    sprintf(param_name, AMPL_NORM_OD_STR);           createParam(param_name, asynParamInt32,   &p_ampl_norm_od);
+
     sprintf(param_name, VAR_GAIN_STR);               createParam(param_name, asynParamFloat64, &p_var_gain);
     sprintf(param_name, VAR_GAIN_NT_STR);            createParam(param_name, asynParamFloat64, &p_var_gain_nt);
 
@@ -1363,22 +1372,19 @@ void llrfHlsAsynDriver::DoCallbacksReadbackWaveformAverageWindow(int w)
     doCallbacksFloat64Array(pwf_avg_window[w], MAX_SAMPLES, p_pwf_avg_window_rbv[w], 0);
 }
 
-void llrfHlsAsynDriver::checkAmplNorm()
+void llrfHlsAsynDriver::checkAmplNorm(int dest_idx)
 {
     double shadow, readout;
     uint8_t flag;
-    int     dest_idx;
 
-    if(!recal_norm_flag) return;   // no requrest from software side
 
-    
-    llrfHls->getRecalNorm(&flag);
-    if(!(flag &0x1<<2)) return;               // firmware did not proceed the request yet
-
-    dest_idx = flag & 0x3;
+    if(!recal_norm_flag[dest_idx]) return;   // no requrest from software side
 
     
-    recal_norm_flag = false;       // clear flag
+    llrfHls->getRecalNorm(&flag, dest_idx);
+    if(!flag) return;               // firmware did not proceed the request yet
+
+    recal_norm_flag[dest_idx] = false;       // clear flag
     getDoubleParam(p_ampl_norm[dest_idx], &shadow);  // get shadow value which is located/is latched in asyn port driver 
                                            // the shadow value is previous set value from sotware, 
     llrfHls->getAmplNorm(&readout, dest_idx);        // read out normalization factor from firmware, using read-only register

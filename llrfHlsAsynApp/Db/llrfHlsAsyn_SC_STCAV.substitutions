@@ -4,6 +4,15 @@ file config.db
             {  "$(DEV)",    4096,         18  }
 }
 
+
+file config_dac_norm.db
+{
+    pattern {   DEVICE,        DEST,     DEST_IDX }
+            { "$(DEV)",          "",          "0" }
+#            { "$(DEV)",   "SPARE0_",          "1" }
+#            { "$(DEV)",   "SPARE1_",          "2" }
+}
+
 file status.db
 {
     pattern {   DEVICE,  NELM_ALPHA  }

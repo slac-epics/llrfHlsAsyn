@@ -1,3 +1,7 @@
+R4.9.0     06-02-2024    Kukhee Kim (khkim)
+                         - separate on-demand DAC normalization for each destination
+                         - build against rf/llrfHls R4.5.0
+
 R4.8.0     05-24-2024    Kukhee Kim (khkim)
                          - implement destination aware feedback weight sets
                          - implement on-demand DAC normalization

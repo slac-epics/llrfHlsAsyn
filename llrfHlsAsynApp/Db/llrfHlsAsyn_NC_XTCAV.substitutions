@@ -304,10 +304,11 @@ file Bsa.db
 ###########################
 # PDES/ADES configuration #
 ###########################
-file rfTSmux.db
+file rfTSmux_dest.db
 {
-    pattern {  DEVICE  }
-            { "$(DEV)" }
+    pattern {      DEVICE,     TN0,   TN1,    NN0,  NN1  }
+            { "$(DEVHXR)",    "T4",  "T1",   "04",  "01" }
+            { "$(DEVSXR)",   "T10",  "T7",   "10",  "07" }
 }
 
 

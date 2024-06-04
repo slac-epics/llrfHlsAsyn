@@ -1,0 +1,185 @@
+record(ao, "$(DEVICE):PDES")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES master")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):PDES_FANOUT PP")
+    field(DRVL, "-180")
+    field(DRVH, "180")
+    field(LOPR, "-180")
+    field(HOPR, "180")
+    info(autosaveFields, "VAL")
+}
+
+#-------------------------------#
+
+record(fanout, "$(DEVICE):PDES_FANOUT")
+{
+    field(DESC, "fanout for PDES")
+    field(LNK1, "$(DEVICE):$(TN0)_PDES_CALC PP")
+    field(LNK2, "$(DEVICE):$(TN1)_PDES_CALC PP")
+    field(FLNK, "$(DEVICE):PDESTS PP")
+    field(ASG, "Internal")
+}
+
+
+#--------------------------#
+
+record(stringin, "$(DEVICE):PDESTS")
+{
+  field(DESC, "PDES Time Stamp")
+  field(PINI, "YES")
+  field(DTYP, "Soft Timestamp")
+  field(VAL, "Unknown")
+  field(INP, "@%m/%d/%y %H:%M:%S")
+  field(ASG, "Internal")
+  info(autosaveFields, "VAL")
+}
+
+#--------------------------#
+
+record(ai, "$(DEVICE):$(TN0)_PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for $(TN0)")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):$(TN0)_PDES_CALC PP")
+    info(autosaveFields, "VAL")
+}
+
+record(ai, "$(DEVICE):$(TN1)_PDES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "PDES offset for $(TN1)")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU, "degrees")
+    field(FLNK, "$(DEVICE):$(TN1)_PDES_CALC PP")
+    info(autosaveFields, "VAL")
+}
+
+#-----------------------------#
+
+record(calcout, "$(DEVICE):$(TN0)_PDES_CALC")
+{
+    field(DESC, "Calculation for $(TN0) PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):$(TN0)_PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES$(NN0) PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):$(TN1)_PDES_CALC")
+{
+    field(DESC, "Calculation for $(TN1) PDES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):PDES")
+    field(INPB, "$(DEVICE):$(TN1)_PDES_OFFSET")
+    field(OUT,  "$(DEVICE):PDES$(NN1) PP")
+    field(ASG,  "Internal")
+}
+
+
+# -------------------------------------------#
+# -------------------------------------------#
+# -------------------------------------------#
+# -------------------------------------------#
+
+
+record(ao, "$(DEVICE):ADES")
+{
+    field(PINI, "YES")
+    field(DESC, "ADES master")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "")
+    field(FLNK, "$(DEVICE):ADES_FANOUT PP")
+    field(DRVL, "")
+    field(DRVH, "")
+    field(LOPR, "")
+    field(HOPR, "")
+    info(autosaveFields, "VAL EGU DRVL DRVH LOPR HOPR")
+}
+
+#-------------------------------#
+
+record(fanout, "$(DEVICE):ADES_FANOUT")
+{
+    field(DESC, "fanout for ADES")
+    field(LNK1, "$(DEVICE):$(TN0)_ADES_CALC PP")
+    field(LNK2, "$(DEVICE):$(TN1)_ADES_CALC PP")
+    field(FLNK, "$(DEVICE):ADESTS PP")
+    field(ASG, "Internal")
+}
+
+#--------------------------#
+
+record(stringin, "$(DEVICE):ADESTS")
+{
+  field(DESC, "ADES Time Stamp")
+  field(PINI, "YES")
+  field(DTYP, "Soft Timestamp")
+  field(VAL, "Unknown")
+  field(INP, "@%m/%d/%y %H:%M:%S")
+  field(ASG, "Internal")
+  info(autosaveFields, "VAL")
+}
+
+#--------------------------#
+
+record(ai, "$(DEVICE):$(TN0)_ADES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "ADES offset for $(TN0)")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "degrees")
+    field(FLNK, "$(DEVICE):$(TN0)_ADES_CALC PP")
+    info(autosaveFields, "VAL")
+}
+
+record(ai, "$(DEVICE):$(TN1)_ADES_OFFSET")
+{
+    field(PINI, "YES")
+    field(DESC, "ADES offset for $(TN1)")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU, "degrees")
+    field(FLNK, "$(DEVICE):$(TN1)_ADES_CALC PP")
+    info(autosaveFields, "VAL")
+}
+
+
+#-----------------------------#
+
+record(calcout, "$(DEVICE):$(TN0)_ADES_CALC")
+{
+    field(DESC, "Calculation for $(TN0) ADES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):ADES")
+    field(INPB, "$(DEVICE):$(TN0)_ADES_OFFSET")
+    field(OUT,  "$(DEVICE):ADES$(NN0) PP")
+    field(ASG,  "Internal")
+}
+
+record(calcout, "$(DEVICE):$(TN1)_ADES_CALC")
+{
+    field(DESC, "Calculation for $(TN1) ADES")
+    field(CALC, "A+B")
+    field(INPA, "$(DEVICE):ADES")
+    field(INPB, "$(DEVICE):$(TN1)_ADES_OFFSET")
+    field(OUT,  "$(DEVICE):ADES$(NN1) PP")
+    field(ASG,  "Internal")
+}
+
+
+# -------------------------------------------#
+# -------------------------------------------#
+# -------------------------------------------#
+# -------------------------------------------#
+

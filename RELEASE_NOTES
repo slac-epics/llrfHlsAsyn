@@ -1,5 +1,7 @@
-R4.11.0    06-04-2024    Kukhee Kim (khkim)
+R4.11.0    06-11-2024    Kukhee Kim (khkim)
                          - PV name change: from AREQ/PREQ to ADES/PDES
+                         - separate set values (ADES/PDES) for each destination
+
 
 R4.10.0    06-03-2024    Kukhee Kim (khkim)
                          - make STCAV uses a single set of feedback weight (single destination)

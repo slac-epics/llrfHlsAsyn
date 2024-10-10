@@ -859,6 +859,11 @@ void llrfHlsAsynDriver::getPhaseJitterforAllTimeslots(void)
     // for non-timeslot aware
     setDoubleParam(p_rms_phase_nt, sqrt(var[NT_STATISTICS]) * 180./M_PI);
     setDoubleParam(p_mean_phase_nt, n_angle(mean[NT_STATISTICS] * 180./M_PI));
+
+    for(int i =0; i < NUM_DEST; i++) {
+        setDoubleParam(p_rms_phase_dest[i], sqrt(var[DEST_STATISTICS + i]) * 180./M_PI);
+        setDoubleParam(p_mean_phase_dest[i], n_angle(mean[DEST_STATISTICS + i] * 180./M_PI));
+    }
 }
 
 void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
@@ -876,6 +881,11 @@ void llrfHlsAsynDriver::getAmplJitterforAllTimeslots(void)
     // for non-timeslot aware
     setDoubleParam(p_rms_ampl_nt, sqrt(var[NT_STATISTICS]));
     setDoubleParam(p_mean_ampl_nt, mean[NT_STATISTICS]);
+
+    for(int i = 0; i < NUM_DEST; i++) {
+        setDoubleParam(p_rms_ampl_dest[i], sqrt(var[DEST_STATISTICS + i]));
+        setDoubleParam(p_mean_ampl_dest[i], mean[DEST_STATISTICS + i]);
+    }
 }
 
 void llrfHlsAsynDriver::getPhaseJitterforAllChannels(void)
@@ -926,6 +936,11 @@ void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
     // for non-timeslot aware
     setDoubleParam(p_rms_bv_nt, sqrt(var[NT_STATISTICS]) * BV_COUNT_SCALE * convBeamPeakVolt);
     setDoubleParam(p_mean_bv_nt, mean[NT_STATISTICS] * BV_COUNT_SCALE * convBeamPeakVolt);
+
+    for(int i = 0; i< NUM_DEST; i++) {
+        setDoubleParam(p_rms_bv_dest[i], sqrt(var[DEST_STATISTICS +i]) * BV_COUNT_SCALE * convBeamPeakVolt);
+        setDoubleParam(p_mean_bv_dest[i], mean[DEST_STATISTICS +i] * BV_COUNT_SCALE * convBeamPeakVolt);
+    }
 }
 
 
@@ -1049,6 +1064,15 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, PHASE_MEAN_NT_STR);   createParam(param_name, asynParamFloat64, &(p_mean_phase_nt));
     sprintf(param_name, AMPL_MEAN_NT_STR);    createParam(param_name, asynParamFloat64, &(p_mean_ampl_nt));
     sprintf(param_name, BV_MEAN_NT_STR);      createParam(param_name, asynParamFloat64, &(p_mean_bv_nt));
+
+    for(int i = 0; i < NUM_DEST; i++) {
+        sprintf(param_name, PHASE_JITTER_DEST_STR, i); createParam(param_name, asynParamFloat64, &(p_rms_phase_dest[i])); 
+        sprintf(param_name, AMPL_JITTER_DEST_STR, i);  createParam(param_name, asynParamFloat64, &(p_rms_ampl_dest[i]));
+        sprintf(param_name, BV_JITTER_DEST_STR, i);    createParam(param_name, asynParamFloat64, &(p_rms_bv_dest[i]));
+        sprintf(param_name, PHASE_MEAN_DEST_STR, i);   createParam(param_name, asynParamFloat64, &(p_mean_phase_dest[i]));
+        sprintf(param_name, AMPL_MEAN_DEST_STR, i);     createParam(param_name, asynParamFloat64, &(p_mean_ampl_dest[i]));
+        sprintf(param_name, BV_MEAN_DEST_STR, i);       createParam(param_name, asynParamFloat64, &(p_mean_bv_dest[i]));
+    }    
 
     for(int t = 0; t < NUM_TIMESLOT; t++) {
         for(int w = 0; w < NUM_WINDOW; w++){        // w, window index

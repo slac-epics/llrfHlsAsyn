@@ -920,12 +920,12 @@ void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
 
     // for timeslot aware
     for(int i = 0; i< NUM_TIMESLOT; i++) {
-        setDoubleParam(p_rms_bv[i], sqrt(var[i]) * 32768. * convBeamPeakVolt);
-        setDoubleParam(p_mean_bv[i], mean[i] * 32768. * convBeamPeakVolt);
+        setDoubleParam(p_rms_bv[i], sqrt(var[i]) * BV_COUNT_SCALE * convBeamPeakVolt);
+        setDoubleParam(p_mean_bv[i], mean[i] * BV_COUNT_SCALE * convBeamPeakVolt);
     }
     // for non-timeslot aware
-    setDoubleParam(p_rms_bv_nt, sqrt(var[NT_STATISTICS]) * 32768. * convBeamPeakVolt);
-    setDoubleParam(p_mean_bv_nt, mean[NT_STATISTICS] * 32768. * convBeamPeakVolt);
+    setDoubleParam(p_rms_bv_nt, sqrt(var[NT_STATISTICS]) * BV_COUNT_SCALE * convBeamPeakVolt);
+    setDoubleParam(p_mean_bv_nt, mean[NT_STATISTICS] * BV_COUNT_SCALE * convBeamPeakVolt);
 }
 
 

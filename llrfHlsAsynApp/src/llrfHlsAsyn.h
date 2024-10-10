@@ -29,8 +29,10 @@
 #define NUM_TIMESLOT     18        // number of timeslot
 #define MAX_SAMPLES      4096      // number of samples in a waveform
 
-#define NUM_STATISTICS    (NUM_TIMESLOT + 1)
-#define NT_STATISTICS     (NUM_STATISTICS - 1)
+#define NUM_DEST          3                          // destination, 0: HXR, 1: SXR, 2: Spare
+#define NUM_STATISTICS    (NUM_TIMESLOT + 1 + NUM_DEST)     // 18 virtual timeslots, 1 NT statistics, 3 destinations
+#define NT_STATISTICS     (NUM_STATISTICS - 1 - NUM_DEST)   // NT is located at index 18
+#define DEST_STATISTICS   (NUM_STATISTICS - NUM_DEST)       // destiination statistics starts from index 19
 
 
 #define MAX_BSABUF      36         // BSA buffer node
@@ -43,6 +45,8 @@
 #define ALPHA_IDX_DC           (ALPHA_DIM -1)
 
 #define SC_QUANTIZATION   18
+#define BV_QUANTIZATION   16
+#define BV_COUNT_SCALE    (32768.)
 
 /////////////////////////////
 // Destination Aware Index //

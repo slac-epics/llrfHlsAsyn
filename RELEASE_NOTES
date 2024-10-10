@@ -1,3 +1,10 @@
+R4.12.0    09-10-2024    Kukhee Kim (khkim)
+                         - adjust BSA data channels "per destinaiton"
+                         - dropping all of input channel based BSA data channels
+                         - add statistics (mean and RMS) "per destination"
+                         - using destination prefixes + AC timeslot on PV names, instead of virtual timeslot
+
+
 R4.11.0    06-11-2024    Kukhee Kim (khkim)
                          - PV name change: from AREQ/PREQ to ADES/PDES
                          - separate set values (ADES/PDES) for each destination

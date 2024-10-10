@@ -105,4 +105,10 @@ Index        (FB)->(Diag0)->(Diag1)   Remarks
 -----------  -----------------------  ----------------------------
 
 
-
+6. Internal Data Structure for Statistical data
+index [0, 17]  -- statistics for virtual timeslot [00, 17]
+index 18       -- statistics for NT (non-timeslot-aware)
+index [19, 21] -- statistics for destinaitons:
+                       19: destination 0    -- HXR
+                       20: destination 1    -- SXR
+                       21: destination 2    -- Spare

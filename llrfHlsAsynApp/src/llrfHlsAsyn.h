@@ -522,7 +522,7 @@ class llrfHlsAsynDriver
 #define AMPL_MEAN_DEST_STR           "ampl_mean_dest%d"  // mean value for amplitude per destination
 #define BV_MEAN_STR                  "bv_mean_ts%d"      // mean value for beam peak voltage per timeslot
 #define BV_MEAN_NT_STR               "bv_mean_nt"        // non-timeslot aware mean value of beam voltage
-#define BV_MEAN_DEST_STR             "pv_mean_dest%d"    // mean value for beam peak voltage per destination
+#define BV_MEAN_DEST_STR             "bv_mean_dest%d"    // mean value for beam peak voltage per destination
 
 #define P_JITTER_WND_CH_STR          "p_jitter_w%dch%d"  // phase jitter (RMS) per each channel and each window
 #define A_JITTER_WND_CH_STR          "a_jitter_w%dch%d"  // amplitude jitter (RMS) per each channel and each window

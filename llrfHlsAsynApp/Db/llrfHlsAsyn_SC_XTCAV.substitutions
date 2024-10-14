@@ -138,6 +138,14 @@ file status_ts.db
 }
 
 
+file status_dest.db
+{
+    pattern {  DEST_IDX,      DEVICE    }
+            {       "0",   "$(DEVHXR)"  }
+            {       "1",   "$(DEVSXR)"  }
+}
+
+
 file iq_wf_ch.db
 {
     pattern { CH,  NELM,  DEVICE  }

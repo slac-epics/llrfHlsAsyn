@@ -77,11 +77,11 @@ file config_dest_ch.db
 file config_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,   01, "$(DEVHXR)" }
-            {  4,   04, "$(DEVHXR)" }
+            {  1,    1, "$(DEVHXR)" }
+            {  4,    4, "$(DEVHXR)" }
 #
-            {  7,   07, "$(DEVSXR)" }
-            { 10,   10, "$(DEVSXR)" }
+            {  7,    1, "$(DEVSXR)" }
+            { 10,    4, "$(DEVSXR)" }
 }
 
 
@@ -128,11 +128,11 @@ file status_ch.db
 file status_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,   01, "$(DEVHXR)" }
-            {  4,   04, "$(DEVHXR)" }
+            {  1,    1, "$(DEVHXR)" }
+            {  4,    4, "$(DEVHXR)" }
 #
-            {  7,   07, "$(DEVSXR)" }
-            { 10,   10, "$(DEVSXR)" }
+            {  7,    1, "$(DEVSXR)" }
+            { 10,    4, "$(DEVSXR)" }
 }
 
 
@@ -287,8 +287,8 @@ file Bsa.db
 file rfTSmux_dest.db
 {
     pattern {      DEVICE,     TN0,   TN1,    NN0,  NN1  }
-            { "$(DEVHXR)",    "T4",  "T1",   "04",  "01" }
-            { "$(DEVSXR)",   "T10",  "T7",   "10",  "07" }
+            { "$(DEVHXR)",    "T4",  "T1",    "4",   "1" }
+            { "$(DEVSXR)",    "T4",  "T1",    "4",   "1" }
 }
 
 

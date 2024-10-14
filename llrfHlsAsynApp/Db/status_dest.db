@@ -5,7 +5,7 @@
 
 record(ai, "$(DEVICE):PACT_JITT")
 {
-    field(DESC, "PACT Jitter for timeslot NT")
+    field(DESC, "PACT Jitter per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) phase_jitter_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")
@@ -15,7 +15,7 @@ record(ai, "$(DEVICE):PACT_JITT")
 
 record(ai, "$(DEVICE):AACT_JITT")
 {
-    field(DESC, "AACT Jitter for timeslot NT")
+    field(DESC, "AACT Jitter per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) ampl_jitter_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")
@@ -26,7 +26,7 @@ record(ai, "$(DEVICE):AACT_JITT")
 
 record(ai, "$(DEVICE):BVOLT_JITT")
 {
-    field(DESC, "Peak Beam Voltage Jitter for timeslot NT")
+    field(DESC, "Peak Beam Voltage Jitter per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) bv_jitter_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")
@@ -40,7 +40,7 @@ record(ai, "$(DEVICE):BVOLT_JITT")
 
 record(ai, "$(DEVICE):PACT_AVG")
 {
-    field(DESC, "PACT Avg for timeslot NT")
+    field(DESC, "PACT Avg per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) phase_mean_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")
@@ -51,7 +51,7 @@ record(ai, "$(DEVICE):PACT_AVG")
 
 record(ai, "$(DEVICE):AACT_AVG")
 {
-    field(DESC, "AACT Avg for timeslot NT")
+    field(DESC, "AACT Avg per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) ampl_mean_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")
@@ -62,7 +62,7 @@ record(ai, "$(DEVICE):AACT_AVG")
 
 record(ai, "$(DEVICE):BVOLT_AVG")
 {
-    field(DESC, "Peak Beam Voltage Avg for timeslot NT")
+    field(DESC, "Peak Beam Voltage Avg per destination")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) bv_mean_dest$(DEST_IDX)")
     field(SCAN, "I/O Intr")

@@ -1135,10 +1135,12 @@ void llrfHlsAsynDriver::ParameterSetup(void)
         sprintf(param_name, SC_BSA_ACH_OFFSET, i); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_ch[i].p_a_offset));
     }
 
-    sprintf(param_name, SC_BSA_PACT_SLOPE);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_p_slope));
-    sprintf(param_name, SC_BSA_PACT_OFFSET); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_p_offset));
-    sprintf(param_name, SC_BSA_AACT_SLOPE);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_a_slope));
-    sprintf(param_name, SC_BSA_AACT_OFFSET); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb.p_a_offset));
+    for(int i = 0; i < NUM_DEST; i++) {
+        sprintf(param_name, SC_BSA_PACT_SLOPE, i);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb[i].p_p_slope));
+        sprintf(param_name, SC_BSA_PACT_OFFSET, i); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb[i].p_p_offset));
+        sprintf(param_name, SC_BSA_AACT_SLOPE, i);  createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb[i].p_a_slope));
+        sprintf(param_name, SC_BSA_AACT_OFFSET, i); createParam(param_name, asynParamFloat64, &(p_scBsa_linconv_fb[i].p_a_offset));
+    }
 
 }
 
@@ -1240,28 +1242,30 @@ void llrfHlsAsynDriver::recalc_dequantization(void)
     double ph_c = 360. / sc_quantization;
     double ph_offset = -180.;
     double a_offset  = 0.;
-    double a_c[NUM_FB_CH];
+    double a_c;
     
-
-    for(int i = 0; i < NUM_FB_CH; i++) {
-        for(int j = 0; j < NUM_DEST; j++) {
+    for(int j = 0; j < NUM_DEST; j++) {
+        norm = 0.;
+        fb_c = 0.;
+        for(int i = 0; i < NUM_FB_CH; i++) {
             norm += fb_weight_ch[j*NUM_FB_CH + i];
             fb_c += ampl_coeff_ch[i] * fb_weight_ch[j*NUM_FB_CH + i];
         }
-        a_c[i] = ampl_coeff_ch[i] / sc_quantization;
-    }
-    if(norm > 0.1) fb_c /= norm;
-    fb_c /= sc_quantization;
+        if(norm > 0.1) fb_c /= norm;
+        fb_c /= sc_quantization;
 
-    setDoubleParam(p_scBsa_linconv_fb.p_p_slope, ph_c);
-    setDoubleParam(p_scBsa_linconv_fb.p_p_offset, ph_offset);
-    setDoubleParam(p_scBsa_linconv_fb.p_a_slope, fb_c);
-    setDoubleParam(p_scBsa_linconv_fb.p_a_offset, a_offset);
+        setDoubleParam(p_scBsa_linconv_fb[j].p_p_slope, ph_c);
+        setDoubleParam(p_scBsa_linconv_fb[j].p_p_offset, ph_offset);
+        setDoubleParam(p_scBsa_linconv_fb[j].p_a_slope, fb_c);
+        setDoubleParam(p_scBsa_linconv_fb[j].p_a_offset, a_offset);
+    }
 
     for(int i = 0; i < NUM_FB_CH; i++) {
+        a_c = ampl_coeff_ch[i] / sc_quantization;
+
         setDoubleParam(p_scBsa_linconv_ch[i].p_p_slope,  ph_c);
         setDoubleParam(p_scBsa_linconv_ch[i].p_p_offset, ph_offset);
-        setDoubleParam(p_scBsa_linconv_ch[i].p_a_slope,  a_c[i]);
+        setDoubleParam(p_scBsa_linconv_ch[i].p_a_slope,  a_c);
         setDoubleParam(p_scBsa_linconv_ch[i].p_a_offset, a_offset);
     }
 }

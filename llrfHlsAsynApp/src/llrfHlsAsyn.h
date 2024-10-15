@@ -377,7 +377,7 @@ class llrfHlsAsynDriver
             int p_p_offset;                                  // phase offset
             int p_a_slope;                                   // amplitude slope
             int p_a_offset;                                  // amplitude offset
-        } p_scBsa_linconv_ch[NUM_FB_CH], p_scBsa_linconv_fb;   // dequantization for each channel and PACT and ACT
+        } p_scBsa_linconv_ch[NUM_FB_CH], p_scBsa_linconv_fb[NUM_DEST];   // dequantization for each channel and PACT and ACT
 
         int p_op_mode;
         int p_p_adaptive_gain;
@@ -545,10 +545,10 @@ class llrfHlsAsynDriver
 #define SC_BSA_ACH_SLOPE             "scBsa_ach%d_slope"   // SC BSA linear conversion, amplitude slope for channel
 #define SC_BSA_ACH_OFFSET            "scBsa_ach%d_offset"  // SC bSA linear conversion, amplitude offset for channel
 
-#define SC_BSA_PACT_SLOPE            "scBsa_pact_slope"    // SC BSA linear conversion for PACT slope
-#define SC_BSA_PACT_OFFSET           "scBsa_pact_offset"   // SC BSA linear conversion for PACT offset
-#define SC_BSA_AACT_SLOPE            "scBsa_aact_slope"    // SC BSA linear conversion for AACT slope
-#define SC_BSA_AACT_OFFSET           "ScBsa_aact_offset"   // SC BSA linear conversion for AACT offset
+#define SC_BSA_PACT_SLOPE            "scBsa_pact_slope_d%d"    // SC BSA linear conversion for PACT slope
+#define SC_BSA_PACT_OFFSET           "scBsa_pact_offset_d%d"   // SC BSA linear conversion for PACT offset
+#define SC_BSA_AACT_SLOPE            "scBsa_aact_slope_d%d"    // SC BSA linear conversion for AACT slope
+#define SC_BSA_AACT_OFFSET           "ScBsa_aact_offset_d%d"   // SC BSA linear conversion for AACT offset
 
 
 #endif /* _LLRFHLSASYN_H */

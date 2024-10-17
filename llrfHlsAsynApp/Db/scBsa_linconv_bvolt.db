@@ -1,0 +1,12 @@
+# SC Bsa dequantization using Linear Conversion in the bsaDriver
+
+record(ao, "$(DEVICE):SCBSA_SLOPE_AO:$(SECN)")
+{
+    field(DESC, "Push slope to $(DESC)")
+    field(DOL, "$(DEVICE):BVOLTCONV CPP NMS")
+    field(OMSL, "closed_loop")
+    field(OUT, "$(DEVICE):$(SECN)_SLOPE_BSA PP")
+    field(SCAN, "Passive")
+}
+
+

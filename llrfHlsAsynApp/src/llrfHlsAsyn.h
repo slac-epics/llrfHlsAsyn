@@ -3,9 +3,11 @@
 
 
 #include <asynPortDriver.h>
+
 #include <epicsEvent.h>
 #include <epicsTypes.h>
 #include <epicsTime.h>
+#include <ellLib.h>
 
 #include <cpsw_api_user.h>
 #include <llrfFw.h>
@@ -68,8 +70,11 @@ typedef struct {
         epicsFloat32    phase;
         epicsFloat32    ampl;
     } ap_wch [NUM_WINDOW][NUM_FB_CH];
-    epicsFloat32    phase_fb;
-    epicsFloat32    ampl_fb;
+
+    struct {
+        epicsFloat32    phase_fb;
+        epicsFloat32    ampl_fb;
+    } ap_dest[NUM_DEST];
     epicsFloat32    phase_ref;
     epicsFloat32    ampl_ref;
     epicsFloat32    phase_set;
@@ -83,6 +88,7 @@ typedef struct {
     } terminator;
     char dummy_buf[128];
 } bsa_packet_t;
+
 
 
 class llrfHlsAsynDriver
@@ -204,6 +210,9 @@ class llrfHlsAsynDriver
         BsaChannel BsaChn_bvolt;
         BsaChannel BsaChn_phase[NUM_WINDOW][NUM_FB_CH];
         BsaChannel BsaChn_amplitude[NUM_WINDOW][NUM_FB_CH];
+
+        int ts2dest_idx(int ts);
+        int dest_idx2ts(int dest_idx,int index);
 
 
         void ParameterSetup(void);

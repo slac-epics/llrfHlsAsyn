@@ -48,6 +48,7 @@ static bool          keep_stay_in_loop = true;
 static epicsEventId  shutdownEvent;
 
 static ELLLIST *pDrvEllList = NULL;
+static ELLLIST *pHlsBsaEllList = NULL;
 
 typedef struct {
     ELLNODE           node;
@@ -59,6 +60,12 @@ typedef struct {
     llrfHlsAsynDriver *pLlrfHlsAsyn;
     void              *pRtm;
 } pDrvList_t;
+
+typedef struct {
+    ELLNODE     node;
+    char        bsa_name[128];
+    BsaChannel  bsa_channel;
+} hls_bsa_list_t;
 
 
 static double n_angle(double a)
@@ -72,6 +79,15 @@ static double n_angle(double a)
 }
 
 
+static void init_bsaList(void)
+{
+    if(!pHlsBsaEllList) {
+        pHlsBsaEllList = (ELLLIST *) mallocMustSucceed(sizeof(ELLLIST), "llrfHlsAsyn driver: init_bsaList()");
+        ellInit(pHlsBsaEllList);
+    }
+
+    return;
+}
 
 
 static void init_drvList(void)
@@ -944,6 +960,25 @@ void llrfHlsAsynDriver::getBeamPkVoltforAllTimeslots(void)
 }
 
 
+int llrfHlsAsynDriver::ts2dest_idx(int ts)
+{
+    int dest_idx[] = {2,
+                      0, 0, 0, 0, 0, 0,
+                      1, 1, 1, 1, 1, 1,
+                      2, 2, 2, 2, 2};
+
+    return dest_idx[ts];
+}
+
+int llrfHlsAsynDriver::dest_idx2ts(int dest_idx, int index)
+{
+    int ts[NUM_DEST][6] = {{ 1,  2,  3,  4,  5,  6},
+                           { 7,  8,  9, 10, 11, 12},
+                           {13, 14, 15, 16, 17, 0}};
+
+    return ts[dest_idx][index];
+}
+
 void llrfHlsAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
@@ -1147,27 +1182,17 @@ void llrfHlsAsynDriver::ParameterSetup(void)
 
 void llrfHlsAsynDriver::bsaSetup(void)
 {
-    char param_name[128];
+    init_bsaList();
+    hls_bsa_list_t *p = (hls_bsa_list_t *) ellFirst(pHlsBsaEllList);
 
+    while(p) {
+      p->bsa_channel = BSA_CreateChannel(p->bsa_name);
+      p = (hls_bsa_list_t *) ellNext(&p->node);
+    }
 
-    for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, window index
-        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            sprintf(param_name, P_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_phase[w][i]     = BSA_CreateChannel(param_name);
-            sprintf(param_name, A_BSA_WND_CH_STR, bsa_name, w, i); BsaChn_amplitude[w][i] = BSA_CreateChannel(param_name);
-        }
-    } 
-
-    sprintf(param_name, PDES_BSA_FB_STR,  bsa_name);  BsaChn_pdes  = BSA_CreateChannel(param_name);
-    sprintf(param_name, ADES_BSA_FB_STR,  bsa_name);  BsaChn_ades  = BSA_CreateChannel(param_name);
-    sprintf(param_name, PSET_BSA_FB_STR,  bsa_name);  BsaChn_pset  = BSA_CreateChannel(param_name);
-    sprintf(param_name, ASET_BSA_FB_STR,  bsa_name);  BsaChn_aset  = BSA_CreateChannel(param_name); 
-    sprintf(param_name, PACT_BSA_FB_STR,  bsa_name);  BsaChn_pact  = BSA_CreateChannel(param_name);
-    sprintf(param_name, AACT_BSA_FB_STR,  bsa_name);  BsaChn_aact  = BSA_CreateChannel(param_name);
-    sprintf(param_name, BVOLT_BSA_STR,    bsa_name);  BsaChn_bvolt = BSA_CreateChannel(param_name);
-
-
-   BSA_ConfigSetAllPriorites(90);
+    BSA_ConfigSetAllPriorites(90);
 }
+
 
 
 void llrfHlsAsynDriver::beamPeakVoltageProcessing(bsa_packet_t  *p)
@@ -1187,22 +1212,37 @@ void llrfHlsAsynDriver::beamPeakVoltageProcessing(bsa_packet_t  *p)
 */
 }
 
+
+#define BSA_STOREDATA(BSA, SOURCE, VAL_CALC) \
+{ \
+    if(!BSA) return; \
+    BSA_StoreData((BSA)->bsa_channel, (SOURCE)->time, (VAL_CALC), 0, 0); \
+    (BSA) = (hls_bsa_list_t *) ellNext(&((BSA)->node)); \
+} 
+
+
+
+
 void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
 {
     int t = p->time_slot;
+    int d = ts2dest_idx(t);
 
-    BSA_StoreData(BsaChn_pdes, p->time, n_angle(phase_des_ts[t] * 180./M_PI), 0, 0);
-    BSA_StoreData(BsaChn_ades, p->time, ampl_des_ts[t], 0, 0);
-    BSA_StoreData(BsaChn_pset, p->time, n_angle(p->phase_set * 180./M_PI), 0, 0);
-    BSA_StoreData(BsaChn_aset, p->time, p->ampl_set, 0, 0);
-    BSA_StoreData(BsaChn_pact, p->time, n_angle(p->phase_fb * 180./M_PI), 0, 0);
-    BSA_StoreData(BsaChn_aact, p->time, p->ampl_fb,  0, 0);
-    BSA_StoreData(BsaChn_bvolt, p->time, beam_peak_volt[t].val, 0, 0);
+    init_bsaList();
+    hls_bsa_list_t *pBsa = (hls_bsa_list_t *) ellFirst(pHlsBsaEllList);
 
-    for(int w = 0; w < 1 /*NUM_WINDOW*/ ; w++) {       // w, windw index
-        for(int i = 0; i < NUM_FB_CH; i++) {    // i, channel index
-            BSA_StoreData(BsaChn_phase[w][i],     p->time, n_angle(p->ap_wch[w][i].phase * 180./M_PI), 0, 0);
-            BSA_StoreData(BsaChn_amplitude[w][i], p->time, p->ap_wch[w][i].ampl,  0, 0);
+    for(int i = 0; i < NUM_DEST; i++) {
+      BSA_STOREDATA(pBsa, p, n_angle(p->ap_dest[i].phase_fb + 180./M_PI));        // PACT for each destination
+      BSA_STOREDATA(pBsa, p, p->ap_dest[i].ampl_fb);                              // AACT for each destination
+    }
+
+    BSA_STOREDATA(pBsa, p, beam_peak_volt[t].val);                                // BVOLT
+
+    for(int w = 0; w < 1 /* NUM_WINDOW*/; w++) {
+        for(int i = 0; i < NUM_FB_CH; i++) {
+            BSA_STOREDATA(pBsa, p, n_angle(p->ap_wch[w][i].phase + 180./M_PI));   // phase of window average per channel
+            BSA_STOREDATA(pBsa, p, p->ap_wch[w][i].ampl);                         // amplitude of window average per channel
+
         }
     }
 
@@ -1214,11 +1254,12 @@ void llrfHlsAsynDriver::fastPVProcessing(bsa_packet_t *p)
     // todo, update timestamp for asyn Port driver
 
     int t = p->time_slot;
-    double phase;
+    int d = ts2dest_idx(t);
+    double phase = n_angle(p->ap_dest[d].phase_fb * 180./M_PI);
+    double ampl  = p->ap_dest[d].ampl_fb;
 
-    phase = n_angle(p->phase_fb * 180./M_PI);
     setDoubleParam(p_br[t].p_br_pact, phase);                   setDoubleParam(p_brNT.p_br_pact, phase);
-    setDoubleParam(p_br[t].p_br_aact, p->ampl_fb);              setDoubleParam(p_brNT.p_br_aact, p->ampl_fb);
+    setDoubleParam(p_br[t].p_br_aact, ampl);                    setDoubleParam(p_brNT.p_br_aact, ampl);
     setDoubleParam(p_br[t].p_br_bvolt, beam_peak_volt[t].val);  setDoubleParam(p_brNT.p_br_bvolt, beam_peak_volt[t].val);
 
 
@@ -1431,6 +1472,55 @@ extern int ComplexAvgWindow;
 epicsExportAddress(int, ComplexAvgWindow);
 
 
+int llrfHlsAsynDriverBsaAdd(const char *bsa_name)
+{
+    init_bsaList();                                 // make sure the linked list is available
+
+    if(!bsa_name || !strlen(bsa_name)) return 0;    // exception for null string input
+
+    hls_bsa_list_t *p = (hls_bsa_list_t *) mallocMustSucceed(sizeof(hls_bsa_list_t), "llrfHlsAsynDriver(hlsBsaAdd)");
+    strcpy(p->bsa_name, bsa_name);
+
+    ellAdd(pHlsBsaEllList, &p->node);
+
+    
+    return 0;
+}
+
+
+static int _bsaList_all(void)
+{
+
+    init_bsaList();
+
+    hls_bsa_list_t *p = (hls_bsa_list_t *) ellFirst(pHlsBsaEllList);
+    if(!p) {
+        printf("hlsBsaList(): no bsa slot found\n");
+        return 0;
+    }
+
+    printf("hlsBsaList found %d bsa slot(s)\n", ellCount(pHlsBsaEllList));
+
+    while(p) {
+        printf("\t%s\n", p->bsa_name);
+        p = (hls_bsa_list_t *) ellNext(&p->node);
+    }
+    printf("\n");
+
+
+    return 0;
+}
+
+int llrfHlsAsynDriverBsaList(const char *bsa_name)
+{
+    if(1) return _bsaList_all();
+}
+
+
+
+
+
+
 // driver configuration, C wrapper 
 int llrfHlsAsynDriverConfigure(const char *portName, const char *regPathString, const char *hlsStream, const char *bsa_prefix, const char *named_root)
 {
@@ -1480,10 +1570,28 @@ static void  initCallFunc(const iocshArgBuf *args)
                                (args[4].sval && strlen(args[4].sval))?args[4].sval: NULL /* named_root */ );
 }
 
+static const iocshArg bsaAddArg0 = {"bsa name",    iocshArgString};
+static const iocshArg * const bsaAddArgs[] = { &bsaAddArg0 };
+static const iocshFuncDef bsaAddFuncDef = {"llrfHlsAsynDriverBsaAdd", 1, bsaAddArgs};
+static void bsaAddCallFunc(const iocshArgBuf *args)
+{
+    llrfHlsAsynDriverBsaAdd(args[0].sval);
+}
+
+static const iocshArg bsaListArg0 = {"bsa name",   iocshArgString};
+static const iocshArg * const bsaListArgs[] = { &bsaListArg0 };
+static const iocshFuncDef bsaListFuncDef = {"llrfHlsAsynDriverBsaList", 1, bsaListArgs};
+static void bsaListCallFunc(const iocshArgBuf* args)
+{
+    llrfHlsAsynDriverBsaList(args[0].sval);
+}
+
 
 static void llrfHlsAsynDriverRegister(void)
 {
-    iocshRegister(&initFuncDef,  initCallFunc);
+    iocshRegister(&initFuncDef,    initCallFunc);
+    iocshRegister(&bsaAddFuncDef,  bsaAddCallFunc);
+    iocshRegister(&bsaListFuncDef, bsaListCallFunc);
 }
 
 

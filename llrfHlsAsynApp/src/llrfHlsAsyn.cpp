@@ -1572,7 +1572,7 @@ static void  initCallFunc(const iocshArgBuf *args)
 
 static const iocshArg bsaAddArg0 = {"bsa name",    iocshArgString};
 static const iocshArg * const bsaAddArgs[] = { &bsaAddArg0 };
-static const iocshFuncDef bsaAddFuncDef = {"llrfHlsAsynDriverBsaAdd", 1, bsaAddArgs};
+static const iocshFuncDef bsaAddFuncDef = {"hlsBsaAdd", 1, bsaAddArgs};
 static void bsaAddCallFunc(const iocshArgBuf *args)
 {
     llrfHlsAsynDriverBsaAdd(args[0].sval);
@@ -1580,7 +1580,7 @@ static void bsaAddCallFunc(const iocshArgBuf *args)
 
 static const iocshArg bsaListArg0 = {"bsa name",   iocshArgString};
 static const iocshArg * const bsaListArgs[] = { &bsaListArg0 };
-static const iocshFuncDef bsaListFuncDef = {"llrfHlsAsynDriverBsaList", 1, bsaListArgs};
+static const iocshFuncDef bsaListFuncDef = {"hlsBsaList", 1, bsaListArgs};
 static void bsaListCallFunc(const iocshArgBuf* args)
 {
     llrfHlsAsynDriverBsaList(args[0].sval);

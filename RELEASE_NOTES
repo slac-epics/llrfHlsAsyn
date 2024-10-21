@@ -1,8 +1,10 @@
-R4.12.0    09-10-2024    Kukhee Kim (khkim)
+R4.12.0    09-20-2024    Kukhee Kim (khkim)
                          - adjust BSA data channels "per destinaiton"
                          - dropping all of input channel based BSA data channels
                          - add statistics (mean and RMS) "per destination"
                          - using destination prefixes + AC timeslot on PV names, instead of virtual timeslot
+                         - add NC BSA key feature to aovid confliction with the destination-aware BSA
+                         - build against rf/llrHls R4.5.0-1.0 and event R4.5.5-2.0
 
 
 R4.11.0    06-11-2024    Kukhee Kim (khkim)

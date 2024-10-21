@@ -1232,7 +1232,7 @@ void llrfHlsAsynDriver::bsaProcessing(bsa_packet_t *p)
     hls_bsa_list_t *pBsa = (hls_bsa_list_t *) ellFirst(pHlsBsaEllList);
 
     for(int i = 0; i < NUM_DEST; i++) {
-      BSA_STOREDATA(pBsa, p, n_angle(p->ap_dest[i].phase_fb + 180./M_PI));        // PACT for each destination
+      BSA_STOREDATA(pBsa, p, n_angle(p->ap_dest[i].phase_fb * 180./M_PI));        // PACT for each destination
       BSA_STOREDATA(pBsa, p, p->ap_dest[i].ampl_fb);                              // AACT for each destination
     }
 

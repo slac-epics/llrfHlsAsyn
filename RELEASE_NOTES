@@ -5,6 +5,9 @@ R4.12.0    09-20-2024    Kukhee Kim (khkim)
                          - using destination prefixes + AC timeslot on PV names, instead of virtual timeslot
                          - add NC BSA key feature to aovid confliction with the destination-aware BSA
                          - build against rf/llrHls R4.5.0-1.0 and event R4.5.5-2.0
+                         - firmware version
+                           . NC application: LlrfGen2-0x0000000A-20241021150007-khkim-1cd870d.mcs
+                           . SC application: LlrfTCav2-0x00000012-20241021161447-khkim-1e91bda.mcs
 
 
 R4.11.0    06-11-2024    Kukhee Kim (khkim)

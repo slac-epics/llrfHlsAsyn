@@ -1,3 +1,9 @@
+R4.12.1    02-24-2025    Kukhee Kim (khkim)
+                         - build NC mode XTCAV database template with Bsa.db
+                           to align the internal bsa record name to BSSS PV name in SC mode
+                           (allowing use bsa recrod as BSSS equivalent, requested by Tim Maxwell
+                            in an email discussion jan 21, 2025)
+
 R4.12.0    09-20-2024    Kukhee Kim (khkim)
                          - adjust BSA data channels "per destinaiton"
                          - dropping all of input channel based BSA data channels

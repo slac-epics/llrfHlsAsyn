@@ -79,11 +79,11 @@ file config_dest_ch.db
 file config_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,    1, "$(DEVHXR)" }
-            {  4,    4, "$(DEVHXR)" }
+            {  1,  _T1, "$(DEVHXR)" }
+            {  4,  _T4, "$(DEVHXR)" }
 #
-            {  7,    1, "$(DEVSXR)" }
-            { 10,    4, "$(DEVSXR)" }
+            {  7,  _T1, "$(DEVSXR)" }
+            { 10,  _T4, "$(DEVSXR)" }
 }
 
 
@@ -130,11 +130,11 @@ file status_ch.db
 file status_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,    1, "$(DEVHXR)" }
-            {  4,    4, "$(DEVHXR)" }
+            {  1,  _T1, "$(DEVHXR)" }
+            {  4,  _T4, "$(DEVHXR)" }
 #
-            {  7,    1, "$(DEVSXR)" }
-            { 10,    4, "$(DEVSXR)" }
+            {  7,  _T1, "$(DEVSXR)" }
+            { 10,  _T4, "$(DEVSXR)" }
 }
 
 

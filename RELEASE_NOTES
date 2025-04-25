@@ -1,3 +1,9 @@
+R4.12.2    04-24-2025    Kukhee Kim (khkim)
+                         - add _T for timeslot-aware PVs to avoid name confliction
+                           with BSSS-like PVs in NC application.
+                            - format for timeslot-aware PVs     $(prefix):T$(N)_<attribute>
+                            - format for BSSS or BSSS-like PV   $(prefix):attribute<N>, where <N> is EDEF
+
 R4.12.1    02-24-2025    Kukhee Kim (khkim)
                          - build NC mode XTCAV database template with Bsa.db
                            to align the internal bsa record name to BSSS PV name in SC mode

@@ -79,11 +79,11 @@ file config_dest_ch.db
 file config_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,  _T1, "$(DEVHXR)" }
-            {  4,  _T4, "$(DEVHXR)" }
+            {  1,   T1, "$(DEVHXR)" }
+            {  4,   T4, "$(DEVHXR)" }
 #
-            {  7,  _T1, "$(DEVSXR)" }
-            { 10,  _T4, "$(DEVSXR)" }
+            {  7,   T1, "$(DEVSXR)" }
+            { 10,   T4, "$(DEVSXR)" }
 }
 
 
@@ -130,11 +130,11 @@ file status_ch.db
 file status_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  1,  _T1, "$(DEVHXR)" }
-            {  4,  _T4, "$(DEVHXR)" }
+            {  1,   T1, "$(DEVHXR)" }
+            {  4,   T4, "$(DEVHXR)" }
 #
-            {  7,  _T1, "$(DEVSXR)" }
-            { 10,  _T4, "$(DEVSXR)" }
+            {  7,   T1, "$(DEVSXR)" }
+            { 10,   T4, "$(DEVSXR)" }
 }
 
 
@@ -178,27 +178,27 @@ file avg_window.db
 
 file fastPV.db
 {
-    pattern { TS, TS_N, TS_PV, TS_ARG,  DEVICE  }
-            { NT,   NT,    NT,     NT, "$(DEV)" } 
-            {  0,   00,  TS00,     t0, "$(DEV)" }
-            {  1,   01,  TS01,     t1, "$(DEV)" }
-            {  2,   02,  TS02,     t2, "$(DEV)" }
-            {  3,   03,  TS03,     t3, "$(DEV)" }
-            {  4,   04,  TS04,     t4, "$(DEV)" }
-            {  5,   05,  TS05,     t5, "$(DEV)" }
-            {  6,   06,  TS06,     t6, "$(DEV)" }
-            {  7,   07,  TS07,     t7, "$(DEV)" }
-            {  8,   08,  TS08,     t8, "$(DEV)" }
-            {  9,   09,  TS09,     t9, "$(DEV)" }
+    pattern { TS, TS_N,  TS_ARG,  DEVICE  }
+            { NT,   NT,      NT, "$(DEV)" } 
+            {  0,   T0,      t0, "$(DEV)" }
+            {  1,   T1,      t1, "$(DEV)" }
+            {  2,   T2,      t2, "$(DEV)" }
+            {  3,   T3,      t3, "$(DEV)" }
+            {  4,   T4,      t4, "$(DEV)" }
+            {  5,   T5,      t5, "$(DEV)" }
+            {  6,   T6,      t6, "$(DEV)" }
+            {  7,   T7,      t7, "$(DEV)" }
+            {  8,   T8,      t8, "$(DEV)" }
+            {  9,   T9,      t9, "$(DEV)" }
 #
-            { 10,   10,  TS10,    t10, "$(DEV)" }
-            { 11,   11,  TS11,    t11, "$(DEV)" }
-            { 12,   12,  TS12,    t12, "$(DEV)" }
-            { 13,   13,  TS13,    t13, "$(DEV)" }
-            { 14,   14,  TS14,    t14, "$(DEV)" }
-            { 15,   15,  TS15,    t15, "$(DEV)" }
-            { 16,   16,  TS16,    t16, "$(DEV)" }
-            { 17,   17,  TS17,    t17, "$(DEV)" }
+            { 10,  T10,     t10, "$(DEV)" }
+            { 11,  T11,     t11, "$(DEV)" }
+            { 12,  T12,     t12, "$(DEV)" }
+            { 13,  T13,     t13, "$(DEV)" }
+            { 14,  T14,     t14, "$(DEV)" }
+            { 15,  T15,     t15, "$(DEV)" }
+            { 16,  T16,     t16, "$(DEV)" }
+            { 17,  T17,     t17, "$(DEV)" }
 }
 
 
@@ -320,9 +320,9 @@ file bsss.db
 ###########################
 file rfTSmux_dest.db
 {
-    pattern {      DEVICE,     TN0,   TN1,    NN0,  NN1  }
-            { "$(DEVHXR)",    "T4",  "T1",    "4",   "1" }
-            { "$(DEVSXR)",    "T4",  "T1",    "4",   "1" }
+    pattern {      DEVICE,     TN0,   TN1 }
+            { "$(DEVHXR)",    "T4",  "T1" }
+            { "$(DEVSXR)",    "T4",  "T1" }
 }
 
 

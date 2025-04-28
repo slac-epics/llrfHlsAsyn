@@ -1,4 +1,4 @@
-record(ai, "$(DEVICE):PACT$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_PACT")
 {
     field(DESC, "actual phase for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -7,7 +7,7 @@ record(ai, "$(DEVICE):PACT$(TS_N)")
     field(PREC, "3")
 }
 
-record(ai, "$(DEVICE):AACT$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_AACT")
 {
     field(DESC, "actual amplitude for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -16,7 +16,7 @@ record(ai, "$(DEVICE):AACT$(TS_N)")
     field(PREC, "3")
 }
 
-record(ai, "$(DEVICE):PREF$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_PREF")
 {
     field(DESC, "phase reference for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -25,7 +25,7 @@ record(ai, "$(DEVICE):PREF$(TS_N)")
     field(PREC, "3")
 }
 
-record(ai, "$(DEVICE):AREF$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_AREF")
 {
     field(DESC, "amplitude reference for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -34,7 +34,7 @@ record(ai, "$(DEVICE):AREF$(TS_N)")
     field(PREC, "3")
 }
 
-record(ai, "$(DEVICE):PSET$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_PSET")
 {
     field(DESC, "phase set value for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -43,7 +43,7 @@ record(ai, "$(DEVICE):PSET$(TS_N)")
     field(PREC, "3")
 }
 
-record(ai, "$(DEVICE):ASET$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_ASET")
 {
     field(DESC, "amplitude set value for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -54,7 +54,7 @@ record(ai, "$(DEVICE):ASET$(TS_N)")
 
 
 
-record(ai, "$(DEVICE):BVOLT_PK$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_BVOLT_PK")
 {
     field(DESC, "Peak Beam Voltage for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -64,7 +64,7 @@ record(ai, "$(DEVICE):BVOLT_PK$(TS_N)")
     field(EGU,  "kV")
 }
 
-record(ai, "$(DEVICE):BVOLT_PK_SLOW$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_BVOLT_PK_SLOW")
 {
     field(DESC, "Peak Beam Voltage for timeslot $(TS)")
     field(INP,  "$(DEVICE):BVOLT_PK$(TS_N) NPP MS")
@@ -78,7 +78,7 @@ record(ai, "$(DEVICE):BVOLT_PK_SLOW$(TS_N)")
 #  Jitter PVs
 #
 
-record(ai, "$(DEVICE):PACT_JITT$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_PACT_JITT")
 {
     field(DESC, "PACT Jitter for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -88,7 +88,7 @@ record(ai, "$(DEVICE):PACT_JITT$(TS_N)")
     field(EGU,  "degree")
 }
 
-record(ai, "$(DEVICE):AACT_JITT$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_AACT_JITT")
 {
     field(DESC, "AACT Jitter for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -99,7 +99,7 @@ record(ai, "$(DEVICE):AACT_JITT$(TS_N)")
 }
 
 
-record(ai, "$(DEVICE):BVOLT_JITT$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_BVOLT_JITT")
 {
     field(DESC, "Peak Beam Voltage Jitter for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -113,7 +113,7 @@ record(ai, "$(DEVICE):BVOLT_JITT$(TS_N)")
 #  average
 #
 
-record(ai, "$(DEVICE):PACT_AVG$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_PACT_AVG")
 {
     field(DESC, "PACT Avg for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -124,7 +124,7 @@ record(ai, "$(DEVICE):PACT_AVG$(TS_N)")
 
 }
 
-record(ai, "$(DEVICE):AACT_AVG$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_AACT_AVG")
 {
     field(DESC, "AACT Avg for timeslot $(TS)")
     field(DTYP, "asynFloat64")
@@ -135,7 +135,7 @@ record(ai, "$(DEVICE):AACT_AVG$(TS_N)")
 }
 
 
-record(ai, "$(DEVICE):BVOLT_AVG$(TS_N)")
+record(ai, "$(DEVICE):$(TS_N)_BVOLT_AVG")
 {
     field(DESC, "Peak Beam Voltage Avg for timeslot $(TS)")
     field(DTYP, "asynFloat64")

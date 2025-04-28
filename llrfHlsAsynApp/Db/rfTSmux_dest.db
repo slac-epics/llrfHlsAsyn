@@ -70,7 +70,7 @@ record(calcout, "$(DEVICE):$(TN0)_PDES_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PDES")
     field(INPB, "$(DEVICE):$(TN0)_PDES_OFFSET")
-    field(OUT,  "$(DEVICE):PDES$(NN0) PP")
+    field(OUT,  "$(DEVICE):$(TN0)_PDES PP")
     field(ASG,  "Internal")
 }
 
@@ -80,7 +80,7 @@ record(calcout, "$(DEVICE):$(TN1)_PDES_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):PDES")
     field(INPB, "$(DEVICE):$(TN1)_PDES_OFFSET")
-    field(OUT,  "$(DEVICE):PDES$(NN1) PP")
+    field(OUT,  "$(DEVICE):$(TN1)_PDES PP")
     field(ASG,  "Internal")
 }
 
@@ -163,7 +163,7 @@ record(calcout, "$(DEVICE):$(TN0)_ADES_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):ADES")
     field(INPB, "$(DEVICE):$(TN0)_ADES_OFFSET")
-    field(OUT,  "$(DEVICE):ADES$(NN0) PP")
+    field(OUT,  "$(DEVICE):$(TN0)_ADES PP")
     field(ASG,  "Internal")
 }
 
@@ -173,7 +173,7 @@ record(calcout, "$(DEVICE):$(TN1)_ADES_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):ADES")
     field(INPB, "$(DEVICE):$(TN1)_ADES_OFFSET")
-    field(OUT,  "$(DEVICE):ADES$(NN1) PP")
+    field(OUT,  "$(DEVICE):$(TN1)_ADES$ PP")
     field(ASG,  "Internal")
 }
 

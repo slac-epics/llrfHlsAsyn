@@ -1,4 +1,4 @@
-record(ai, "$(DEVICE):$(TS_N)W$(WND)CH$(CH)_PHASE")
+record(ai, "$(DEVICE):$(TS_N)W$(WND)CH$(CH)_PHASE_BR")
 {
     field(DESC, "phase for $(TS_N) wnd $(WND) ch $(CH)")
     field(DTYP, "asynFloat64")
@@ -8,7 +8,7 @@ record(ai, "$(DEVICE):$(TS_N)W$(WND)CH$(CH)_PHASE")
     field(TSE,   "-2")
 }
 
-record(ai, "$(DEVICE):$(TS_N)W$(WND)CH$(CH)_AMPL")
+record(ai, "$(DEVICE):$(TS_N)W$(WND)CH$(CH)_AMPL_BR")
 {
     field(DESC, "ampl for $(TS_N) wnd $(WND) ch $(CH)")
     field(DTYP, "asynFloat64")

@@ -1,6 +1,7 @@
 R4.12.3    05-14-2025    Kukhee Kim (khkim)
                          - clean up un-necessary timeslot-aware PVs for SC STCAV application
                          - add destination aware statistics PVs for SC TCAV application
+                         - add _BR sufix for beam rate PVs
                          - align SC STCAV with recent XTCAV
 
 R4.12.2    04-24-2025    Kukhee Kim (khkim)

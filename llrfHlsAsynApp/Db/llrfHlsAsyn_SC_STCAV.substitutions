@@ -53,25 +53,8 @@ file config_dest_ch.db
 file config_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  0,   T0, "$(DEV)" }
             {  1,   T1, "$(DEV)" }
-            {  2,   T2, "$(DEV)" }
-            {  3,   T3, "$(DEV)" }
             {  4,   T4, "$(DEV)" }
-            {  5,   T5, "$(DEV)" }
-            {  6,   T6, "$(DEV)" }
-            {  7,   T7, "$(DEV)" }
-            {  8,   T8, "$(DEV)" }
-            {  9,   T9, "$(DEV)" }
-#
-            { 10,  T10, "$(DEV)" }
-            { 11,  T11, "$(DEV)" }
-            { 12,  T12, "$(DEV)" }
-            { 13,  T13, "$(DEV)" }
-            { 14,  T14, "$(DEV)" }
-            { 15,  T15, "$(DEV)" }
-            { 16,  T16, "$(DEV)" }
-            { 17,  T17, "$(DEV)" }
 }
 
 
@@ -118,25 +101,15 @@ file status_ch.db
 file status_ts.db
 {
     pattern { TS, TS_N,  DEVICE  }
-            {  0,   T0, "$(DEV)" }
             {  1,   T1, "$(DEV)" }
-            {  2,   T2, "$(DEV)" }
-            {  3,   T3, "$(DEV)" }
             {  4,   T4, "$(DEV)" }
-            {  5,   T5, "$(DEV)" }
-            {  6,   T6, "$(DEV)" }
-            {  7,   T7, "$(DEV)" }
-            {  8,   T8, "$(DEV)" }
-            {  9,   T9, "$(DEV)" }
-#
-            { 10,  T10, "$(DEV)" }
-            { 11,  T11, "$(DEV)" }
-            { 12,  T12, "$(DEV)" }
-            { 13,  T13, "$(DEV)" }
-            { 14,  T14, "$(DEV)" }
-            { 15,  T15, "$(DEV)" }
-            { 16,  T16, "$(DEV)" }
-            { 17,  T17, "$(DEV)" }
+
+}
+
+file status_dest.db
+{
+    pattern {  DEST_IDX,      DEVICE    }
+            {       "0",      "$(DEV)"  }
 }
 
 

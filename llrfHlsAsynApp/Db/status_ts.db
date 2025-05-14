@@ -67,7 +67,7 @@ record(ai, "$(DEVICE):$(TS_N)_BVOLT_PK")
 record(ai, "$(DEVICE):$(TS_N)_BVOLT_PK_SLOW")
 {
     field(DESC, "Peak Beam Voltage for timeslot $(TS)")
-    field(INP,  "$(DEVICE):BVOLT_PK$(TS_N) NPP MS")
+    field(INP,  "$(DEVICE):$(TS_N)_BVOLT_PK NPP MS")
     field(SCAN, "1 second")
     field(PREC, "3")
     field(EGU,  "kV")

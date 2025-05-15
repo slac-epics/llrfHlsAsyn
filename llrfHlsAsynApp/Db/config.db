@@ -1,3 +1,16 @@
+record(bo, "$(DEVICE):SYSMODE")
+{
+    field(PINI, "YES")
+    field(DESC, "AC mode Fixed-Rate mode ")
+#    field(DTYP, "asynInt32")
+#    field(OUT,  "@asyn($(PORT),0) sys_mode")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "AC-Rate OP")
+    field(ONAM, "Fixed-Rate OP")
+    info(autosaveFields, "VAL")
+}
+
 record(bo, "$(DEVICE):OPMODE")
 {
     field(PINI, "YES")

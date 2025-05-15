@@ -3,5 +3,6 @@ alias("$(TPR_NAME):CH$(CH)_ACRATE",   "$(DEVICE):TRG_$(DEST)_$(TRG)_ACRATE")
 alias("$(TPR_NAME):CH$(CH)_TSMASK",   "$(DEVICE):TRG_$(DEST)_$(TRG)_TSMASK")
 alias("$(TPR_NAME):CH$(CH)_DESTMODE", "$(DEVICE):TRG_$(DEST)_$(TRG)_DESTMODE")
 alias("$(TPR_NAME):CH$(CH)_DESTMASK", "$(DEVICE):TRG_$(DEST)_$(TRG)_DESTMASK")
+alias("$(TPR_NAME):CH$(CH)_SEQBIT",   "$(DEVICE):TRG_$(DEST)_$(TRG)_SEQBIT")
 alias("$(TPR_NAME):CH$(CH)_RATE",     "$(DEVICE):TRG_$(DEST)_$(TRG)_RATE")
 

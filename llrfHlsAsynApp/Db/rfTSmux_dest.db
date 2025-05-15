@@ -173,7 +173,7 @@ record(calcout, "$(DEVICE):$(TN1)_ADES_CALC")
     field(CALC, "A+B")
     field(INPA, "$(DEVICE):ADES")
     field(INPB, "$(DEVICE):$(TN1)_ADES_OFFSET")
-    field(OUT,  "$(DEVICE):$(TN1)_ADES$ PP")
+    field(OUT,  "$(DEVICE):$(TN1)_ADES PP")
     field(ASG,  "Internal")
 }
 

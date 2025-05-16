@@ -13,6 +13,7 @@
 #include <llrfFw.h>
 #include <llrfDestnTrig.h>
 #include <dacSigGenFw.h>
+#include <appTimeslotFw.h>
 #include <vector>
 #include <string>
 #include <dlfcn.h>
@@ -133,6 +134,7 @@ class llrfHlsAsynDriver
         llrfFw  llrfHls;
         llrfDestnTrig llrfDestn;
         dacSigGenFw dacSigGen;
+        appTimeslotFw   appTimeslot;
         Stream hls_stream_;
 
         int poll_slowdown;
@@ -388,6 +390,7 @@ class llrfHlsAsynDriver
             int p_a_offset;                                  // amplitude offset
         } p_scBsa_linconv_ch[NUM_FB_CH], p_scBsa_linconv_fb[NUM_DEST];   // dequantization for each channel and PACT and ACT
 
+        int p_sys_mode;
         int p_op_mode;
         int p_p_adaptive_gain;
         int p_a_adaptive_gain;
@@ -538,6 +541,7 @@ class llrfHlsAsynDriver
 #define P_MEAN_WND_CH_STR            "p_mean_w%dch%d"    // mean value of phase per each channel and each window
 #define A_MEAN_WND_CH_STR            "a_mean_w%dch%d"    // mean value of amplitude per each channel and each window
 
+#define SYS_MODE_STR                 "sys_mode"          // AC-Rate, Fixed-Rate mode
 #define OP_MODE_STR                  "op_mode"           // enable adaptive mode
 #define PHASE_ADAPTIVE_GAIN_STR      "p_adaptive_gain"   // phase gain for adaptive mode
 #define AMPL_ADAPTIVE_GAIN_STR       "a_adaptive_gain"   // amplitude gain for adaptive mode

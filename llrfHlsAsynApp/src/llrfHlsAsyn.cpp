@@ -180,6 +180,7 @@ llrfHlsAsynDriver::llrfHlsAsynDriver(void *pDrv, const char *portName, const cha
     llrfHls = IllrfFw::create(p_llrfHls);
     llrfDestn = IllrfDestnTrig::create(p_root->findByName("mmio/AppTop/AppCore"));
     dacSigGen = IdacSigGenFw::create(p_root->findByName("mmio"));
+    appTimeslot = IappTimeslotFw::create(p_root->findByName("mmio/AppTop/AppCore/AppTimeSlot"));
 
 
     convBeamPeakVolt = 1.;
@@ -226,7 +227,10 @@ asynStatus llrfHlsAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     status = (asynStatus) setIntegerParam(function, value);
 
-    if(function == p_op_mode) {  // adaptive mode enable/disable
+    if(function == p_sys_mode) {  // AC-Rate, Fixed-Rate
+        appTimeslot->setMode(value?true:false);
+    }
+    else if(function == p_op_mode) {  // adaptive mode enable/disable
         llrfHls->setOpMode(value?true:false);
     } 
     else if(function == p_stream_enable) { // stream enable/disable congtrol
@@ -1147,7 +1151,7 @@ void llrfHlsAsynDriver::ParameterSetup(void)
     sprintf(param_name, P_BASEBAND_RBV_STR); createParam(param_name, asynParamFloat64Array, &(p_p_baseband_wf_rbv));
 
 
-
+    sprintf(param_name, SYS_MODE_STR);             createParam(param_name, asynParamInt32,   &p_sys_mode);
     sprintf(param_name, OP_MODE_STR);              createParam(param_name, asynParamInt32,   &p_op_mode);
     sprintf(param_name, PHASE_ADAPTIVE_GAIN_STR);  createParam(param_name, asynParamFloat64, &p_p_adaptive_gain);
     sprintf(param_name, AMPL_ADAPTIVE_GAIN_STR);   createParam(param_name, asynParamFloat64, &p_a_adaptive_gain);

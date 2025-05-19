@@ -20,15 +20,17 @@ INC += llrfHlsAsyn.h
 
 DBD += llrfHlsAsynDriver.dbd
 DBD += timeAxisGenerator.dbd
+DBD += fixedRateSupport.dbd
 
 LIBRARY_IOC += llrfHlsAsyn
 
-llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
+#llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_DBD  += timeAxisGenerator.c
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
-llrfHlsAsyn_DBD  += timeAxisGenerator.c
+llrfHlsAsyn_SRCS += sncFixedRateSupport.stt
+#llrfHlsAsyn_DBD  += interlockRtmAsyn.dbd
+#llrfHlsAsyn_DBD  += fixedRateSupport.dbd
 
-llrfHlsAsyn_DBD  += interlockRtmAsyn.dbd
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)

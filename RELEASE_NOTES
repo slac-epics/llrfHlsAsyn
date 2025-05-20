@@ -1,3 +1,8 @@
+R4.13.0    05-19.2025    Kukhee Kim (khkim)
+                         - build against rf/llrfHls R4.5.0-2.0
+                         - support fixed-rate mode improvment
+                         - work with firmware LlrfTCav2-0x00000012-20250519163637-khkim-26696fc.mcs or later
+
 R4.12.3    05-15-2025    Kukhee Kim (khkim)
                          - clean up un-necessary timeslot-aware PVs for SC STCAV application
                          - add destination aware statistics PVs for SC TCAV application

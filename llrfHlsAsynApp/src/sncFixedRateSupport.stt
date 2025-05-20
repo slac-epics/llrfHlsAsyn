@@ -1,0 +1,74 @@
+/*
+ *    sncFixedRateSupport.stt
+ *    Auth: Kukhee Kim
+ *    May 19, 2025
+ *
+ */
+
+program fixedRateSupport
+option +r;
+
+%{
+#define  AC_RATE_MODE      0
+#define  FIXED_RATE_MODE   1
+
+#define  SET_AC_RATE       1
+#define  SET_SEQ_RATE      2
+}%
+
+int     mode;
+assign  mode to "{IOC}:SYSMODE";
+monitor mode;
+
+int     command[8];
+assign  command     to {
+                           "{TPR}:CH00_RATEMODE",
+                           "{TPR}:CH01_RATEMODE",
+                           "{TPR}:CH02_RATEMODE",
+                           "{TPR}:CH03_RATEMODE",
+                           "{TPR}:CH04_RATEMODE",
+                           "{TPR}:CH05_RATEMODE",
+                           "{TPR}:CH06_RATEMODE",
+                           "{TPR}:CH07_RATEMODE"
+                       };
+
+
+int i;
+
+ss monMode
+{
+    state init
+    {
+        when(mode == AC_RATE_MODE) {
+        } state acRateMode
+
+        when(mode == FIXED_RATE_MODE) {
+        } state fixedRateMode
+    }
+
+    state acRateMode
+    {
+       entry {
+           for(i = 0; i<8; i++) {
+               command[i] = SET_AC_RATE;
+               pvPut(command[i]);
+           }
+       }
+
+        when(mode == FIXED_RATE_MODE) {
+        } state fixedRateMode
+    }
+
+    state fixedRateMode
+    {
+        entry {
+            for(i = 0; i < 8; i++) {
+                command[i] = SET_SEQ_RATE;
+                pvPut(command[i]);
+            }
+        }
+
+        when(mode == AC_RATE_MODE) {
+        } state acRateMode
+    }
+} 

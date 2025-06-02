@@ -274,6 +274,12 @@ file rfTSmux.db
             { "$(DEV)" }
 }
 
+file des_to_req.db
+{
+    pattern {  DEVICE  }
+            {  "$(DEV)" }
+}
+
 
 
 file waveformTimeAxis.db

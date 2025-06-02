@@ -1,0 +1,5 @@
+alias("$(DEVICE):PDES",     "$(DEVICE):PREQ")
+alias("$(DEVICE):PDESTS",   "$(DEVICE):PREQTS")
+alias("$(DEVICE):ADES",     "$(DEVICE):AREQ")
+alias("$(DEVICE):ADESTS",   "$(DEVICE):AREQTS")
+

@@ -26,9 +26,11 @@ LIBRARY_IOC += llrfHlsAsyn
 llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_DBD  += timeAxisGenerator.c
 llrfHlsAsyn_SRCS += llrfHlsAsyn.cpp
+llrfHlsAsyn_SRCS += cableCalAsyn.cpp
 llrfHlsAsyn_DBD  += timeAxisGenerator.c
 
 llrfHlsAsyn_DBD  += interlockRtmAsyn.dbd
+llrfHlsAsyn_DBD  += cableCalAsynDriver.dbd
 
 
 cpsw_DIR = $(CPSW_FRAMEWORK_LIB)

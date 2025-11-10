@@ -27,6 +27,8 @@ class cableCalAsynDriver
         asynStatus writeInt32(asynUser   *pasynUser, epicsInt32   value);
         asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
 
+        void poll(void);
+
     private:
         void        *pDrv;
         char        *port;

@@ -40,6 +40,12 @@
 
 #include "cableCalAsyn.h"
 
+#define  POLL_RATE        4
+
+
+static bool         keep_stay_in_loop = true;
+static epicsEventId shutdownEvent;
+
 
 static ELLLIST *pDrvEllList = NULL;
 
@@ -196,6 +202,20 @@ asynStatus cableCalAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 va
     return status;
 }
 
+void cableCalAsynDriver::poll(void)
+{
+    for(int p = 0; p < NUM_CAL_PULSE; p++) {
+        for(int c = 0; c < NUM_CAL_ADC; c++) {
+            double phase, ampl;
+            calDsp->calPhase(p, c, &phase);
+            calDsp->calAmpl(p, c, &ampl);
+            setDoubleParam(p_cal_phase[p][c], phase);
+            setDoubleParam(p_cal_ampl[p][c],  ampl);
+        }
+    }
+    callParamCallbacks();
+}
+
 
 void cableCalAsynDriver::ParameterSetup(void)
 {
@@ -270,6 +290,30 @@ static void cableCalAsynDriverRegister(void)
 
 epicsExportRegistrar(cableCalAsynDriverRegister);
 
+// polling thread function
+static int cableCalAsynDriverPoll(void)
+{
+    while(keep_stay_in_loop) {
+        pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+        while(p) {
+            if(p->pCableCalAsyn) p->pCableCalAsyn->poll();
+            p = (pDrvList_t *) ellNext(&p->node);
+        }
+
+        epicsThreadSleep(1./POLL_RATE);
+    }
+
+    epicsEventSignal(shutdownEvent);
+}
+
+// stopping pulling thread for exit hook
+static void stopPollingThread(void *p)
+{
+    keep_stay_in_loop = false;
+    epicsEventWait(shutdownEvent);
+    epicsPrintf("cableCalAsynDriver: stop polling thread (%s)\n", (char *) p);
+}
+
 
 // EPICS driver support for cableCalAsynDriver
 
@@ -295,7 +339,23 @@ static int cableCalAsynDriverReport(int interest)
 static int cableCalAsynDriverInitialize(void)
 {
 
+    init_drvList();
 
+    if(!pDrvEllList) {
+        printf("cableCalAsynDriver never been configured\n");
+        return 0;
+    }
+
+    keep_stay_in_loop = true;
+    shutdownEvent     = epicsEventMustCreate(epicsEventEmpty);
+    const char *name  = "cableCalAsynPoll";
+
+    epicsThreadCreate(name, epicsThreadPriorityMedium,
+                      epicsThreadGetStackSize(epicsThreadStackMedium),
+                      (EPICSTHREADFUNC) cableCalAsynDriverPoll, 0);
+
+
+    epicsAtExit3((epicsExitFunc) stopPollingThread, (void *) epicsStrDup(name), epicsStrDup(name));
 
     return 0;
 }

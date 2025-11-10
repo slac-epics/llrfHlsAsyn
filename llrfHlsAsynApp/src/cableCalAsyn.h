@@ -24,7 +24,14 @@ class cableCalAsynDriver
     public:
         cableCalAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *named_root = NULL);
         ~cableCalAsynDriver();
+        asynStatus writeInt32(asynUser   *pasynUser, epicsInt32   value);
+        asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
+
     private:
+        void        *pDrv;
+        char        *port;
+        char        *path;
+        calDspFw    calDsp;
         void ParameterSetup(void);
 
 

@@ -43,6 +43,54 @@
 
 static ELLLIST *pDrvEllList = NULL;
 
+typedef struct {
+    ELLNODE                node;
+    char                   *named_root;
+    char                   *port;
+    char                   *regPath;
+    cableCalAsynDriver     *pCableCalAsyn;
+} pDrvList_t;
+
+
+static void init_drvList(void)
+{
+    if(!pDrvEllList) {
+        pDrvEllList = (ELLLIST *) mallocMustSucceed(sizeof(ELLLIST), "cableCalAsyn driver: init_drvList()");
+        ellInit(pDrvEllList);
+    }
+
+    return;
+}
+
+
+static pDrvList_t *find_drvByPort(const char *port)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+      if(p->port && strlen(p->port) && !strcmp(p->port, port)) break;
+      p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+static pDrvList_t *find_drvByNamedRoot(const char *named_root)
+{
+    init_drvList();
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+
+    while(p) {
+        if(p->named_root && strlen(p->named_root) && !strcmp(p->named_root, named_root)) break;
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
+
+    return p;
+}
+
+
+
 cableCalAsynDriver::cableCalAsynDriver(void *pDrv, const char *portName, const char *pathString, const char *named_root)
     : asynPortDriver(portName,
                      1, /* number of elements of this device */
@@ -56,9 +104,98 @@ cableCalAsynDriver::cableCalAsynDriver(void *pDrv, const char *portName, const c
                      0, /* Default priority */
                      0) /* Default stack size*/
 {
+    Path       p_root;
+    Path       p_calDsp;
+    port       = epicsStrDup(portName);
+    path       = epicsStrDup(pathString);
+    this->pDrv = pDrv;
+
+    try {
+        p_root = (named_root && strlen(named_root))? cpswGetNamedRoot(named_root): cpswGetRoot();
+        p_calDsp = p_root->findByName(pathString);
+    } catch (CPSWError &e) {
+        fprintf(stderr, "CPSW Error: %s, file %s, line %d\n", e.getInfo().c_str(), __FILE__, __LINE__);
+        throw e;
+    }
+
+    calDsp = IcalDspFw::create(p_calDsp);
+
+    ParameterSetup();
 }
 
 cableCalAsynDriver::~cableCalAsynDriver() {}
+
+asynStatus cableCalAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+    int        function      = pasynUser->reason;
+    asynStatus status        = asynSuccess;
+    const char *functionName = "writeInt32";
+
+    status = (asynStatus) setIntegerParam(function, value);
+
+    if(function == p_cal_dac_enable) {         // select DAC output {0: conventional (LLRF), 1: calibration pulse
+        calDsp->dacEnable(value?true:false);
+    }
+
+    return  status;
+}
+
+
+asynStatus cableCalAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
+{
+    int        function      = pasynUser->reason;
+    asynStatus status        = asynSuccess;
+    const char *functionName = "wrtieFloat64";
+
+    status = (asynStatus) setDoubleParam(function, value);
+
+    for(int p = 0; p < NUM_CAL_PULSE; p++) {
+        if(function == p_cal_freq_offset[p]) {
+            calDsp->setCalFreqOffset(p, value);
+            break;
+        }
+    }
+
+    for(int c = 0; c < NUM_CAL_ADC; c++) {
+        if(function == p_cal_loop_delay[c]) {
+
+            break;
+        }
+    }
+
+    if(function == p_cal_pulse_start) {
+        double start = value;
+        double end;
+
+        getDoubleParam(p_cal_pulse_end, &end);
+        calDsp->setCalPulse(start, end);
+    } else
+    if(function == p_cal_pulse_end) {
+        double start;
+        double end   = value;
+
+        getDoubleParam(p_cal_pulse_start, &start);
+        calDsp->setCalPulse(start, end);
+    } else
+    if(function == p_cal_window_start) {
+        double start = value;
+        double end;
+
+        getDoubleParam(p_cal_window_end, &end);
+        calDsp->setCalWindow(start, end);
+    } else
+    if(function == p_cal_window_end) {
+        double start;
+        double end   = value;
+
+        getDoubleParam(p_cal_window_start, &start);
+        calDsp->setCalWindow(start, end);
+    }
+
+
+    return status;
+}
+
 
 void cableCalAsynDriver::ParameterSetup(void)
 {
@@ -91,6 +228,22 @@ extern "C" {
 // driver configuration, C wrapper
 int cableCalAsynDriverConfigure(const char *portName, const char *regPathString, const char *named_root)
 {
+
+    init_drvList();
+
+    pDrvList_t *p = find_drvByPort(portName);
+    if(p) {
+        printf("cableCalAsynDriver found that port name (%s) has been used.\n", portName);
+        return 0;
+    }
+
+    p  = (pDrvList_t *) mallocMustSucceed(sizeof(pDrvList_t), "cableCalAsyn driver: cableCalAsynDriverConfigure()");
+    p->named_root = (named_root && strlen(named_root))? epicsStrDup(named_root):cpswGetRootName();
+    p->port       = epicsStrDup(portName);
+    p->regPath    = epicsStrDup(regPathString);
+    p->pCableCalAsyn = new cableCalAsynDriver((void *)p, (const char *) p->port, (const char *) p->regPath, (const char *) p->named_root);
+
+    ellAdd(pDrvEllList, &p->node);
 
     return 0;
 }

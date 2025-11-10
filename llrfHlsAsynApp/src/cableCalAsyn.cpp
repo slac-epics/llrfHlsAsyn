@@ -60,6 +60,31 @@ cableCalAsynDriver::cableCalAsynDriver(void *pDrv, const char *portName, const c
 
 cableCalAsynDriver::~cableCalAsynDriver() {}
 
+void cableCalAsynDriver::ParameterSetup(void)
+{
+    char param_name[80];
+
+    sprintf(param_name, CAL_PULSE_START_STR);   createParam(param_name, asynParamFloat64, &p_cal_pulse_start);
+    sprintf(param_name, CAL_PULSE_END_STR);     createParam(param_name, asynParamFloat64, &p_cal_pulse_end);
+    sprintf(param_name, CAL_WINDOW_START_STR);  createParam(param_name, asynParamFloat64, &p_cal_window_start);
+    sprintf(param_name, CAL_WINDOW_END_STR);    createParam(param_name, asynParamFloat64, &p_cal_window_end);
+    sprintf(param_name, CAL_DAC_ENABLE_STR);    createParam(param_name, asynParamInt32,   &p_cal_dac_enable);
+
+    for(int p = 0; p < NUM_CAL_PULSE; p++) {
+        for(int c = 0; c < NUM_CAL_ADC; c++) {
+            sprintf(param_name, CAL_PHASE_STR, p, c); createParam(param_name, asynParamFloat64, &p_cal_phase[p][c]);
+            sprintf(param_name, CAL_AMPL_STR,  p, c); createParam(param_name, asynParamFloat64, &p_cal_ampl[p][c]);
+        }
+        sprintf(param_name, CAL_FREQ_OFFSET_STR, p);  createParam(param_name, asynParamFloat64, &p_cal_freq_offset[p]);
+    }
+
+    for(int c = 0; c < NUM_CAL_ADC; c++) {
+        sprintf(param_name, CAL_LOOP_DELAY_STR, c);   createParam(param_name, asynParamFloat64, &p_cal_loop_delay[c]);
+    }
+
+
+}
+
 
 extern "C" {
 

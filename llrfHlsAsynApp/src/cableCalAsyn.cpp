@@ -169,6 +169,9 @@ asynStatus cableCalAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 va
         }
     }
 
+    if(function == p_cal_pulse_seq_delay) {
+        calDsp->setPulseSequenceDelay(value);
+    } else
     if(function == p_cal_pulse_start) {
         double start = value;
         double end;
@@ -226,6 +229,7 @@ void cableCalAsynDriver::ParameterSetup(void)
     sprintf(param_name, CAL_WINDOW_START_STR);  createParam(param_name, asynParamFloat64, &p_cal_window_start);
     sprintf(param_name, CAL_WINDOW_END_STR);    createParam(param_name, asynParamFloat64, &p_cal_window_end);
     sprintf(param_name, CAL_DAC_ENABLE_STR);    createParam(param_name, asynParamInt32,   &p_cal_dac_enable);
+    sprintf(param_name, CAL_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamFloat64, &p_cal_pulse_seq_delay);
 
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         for(int c = 0; c < NUM_CAL_ADC; c++) {

@@ -164,7 +164,7 @@ asynStatus cableCalAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 va
 
     for(int c = 0; c < NUM_CAL_ADC; c++) {
         if(function == p_cal_loop_delay[c]) {
-
+            calDsp->setLoopDelay(c, value);
             break;
         }
     }

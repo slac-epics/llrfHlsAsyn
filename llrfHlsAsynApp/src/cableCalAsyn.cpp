@@ -219,6 +219,13 @@ void cableCalAsynDriver::poll(void)
     callParamCallbacks();
 }
 
+void cableCalAsynDriver::report(int interest)
+{
+    printf("cableCalAsynDriver: port (%s), register path (%s), driver instance (%p)\n", port, path, pDrv);
+
+    calDsp->report(interest);
+}
+
 
 void cableCalAsynDriver::ParameterSetup(void)
 {
@@ -308,6 +315,8 @@ static int cableCalAsynDriverPoll(void)
     }
 
     epicsEventSignal(shutdownEvent);
+
+    return 0;
 }
 
 // stopping pulling thread for exit hook
@@ -335,6 +344,12 @@ epicsExportAddress(drvet, cableCalAsynDriver);
 
 static int cableCalAsynDriverReport(int interest)
 {
+
+    pDrvList_t *p = (pDrvList_t *) ellFirst(pDrvEllList);
+    while(p) {
+        if(p->pCableCalAsyn) p->pCableCalAsyn->report(interest);
+        p = (pDrvList_t *) ellNext(&p->node);
+    }
 
 
    return 0;

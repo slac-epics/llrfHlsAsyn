@@ -44,6 +44,7 @@ class cableCalAsynDriver
 #define FIRST_CABLECAL_PARAM   firstCableCalParam
 #endif /* ASYN VERSION CHECK under 4.32 */
 
+// PV parameters for engineering values
         int p_cal_pulse_start;
         int p_cal_pulse_end;
         int p_cal_window_start;
@@ -55,7 +56,18 @@ class cableCalAsynDriver
         int p_cal_phase[NUM_CAL_PULSE][NUM_CAL_ADC];
         int p_cal_ampl[NUM_CAL_PULSE][NUM_CAL_ADC];
         int p_cal_freq_offset[NUM_CAL_PULSE];
-        
+
+// PV parameters for raw values        
+        int p_raw_pulse_start;
+        int p_raw_pulse_end;
+        int p_raw_window_start;
+        int p_raw_window_end;
+        int p_raw_pulse_seq_delay;
+
+        int p_raw_loop_delay[NUM_CAL_ADC];
+        int p_raw_phase[NUM_CAL_PULSE][NUM_CAL_ADC];
+        int p_raw_ampl[NUM_CAL_PULSE][NUM_CAL_ADC];
+        int p_raw_freq[NUM_CAL_PULSE];
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
         int lastCableCalParam;
@@ -68,7 +80,7 @@ class cableCalAsynDriver
 #define NUM_CABLECAL_DET_PARAMS ((int)(&LAST_CABLECAL_PARAM - &FIRST_CABLECAL_PARAM-1))
 #endif /* asyn version check, under 4.32 */
 
-
+// enginerring values
 // single instance
 #define CAL_PULSE_START_STR        "calPulse_start"
 #define CAL_PULSE_END_STR          "calPulse_end"
@@ -83,6 +95,21 @@ class cableCalAsynDriver
 #define CAL_AMPL_STR               "calAmpl_P%dC%d"
 // per pulse interface
 #define CAL_FREQ_OFFSET_STR        "calFreqOffset_P%d"
+
+// raw values
+// single instace
+#define RAW_PULSE_START_STR        "rawPulse_start"
+#define RAW_PULSE_END_STR          "rawPulse_end"
+#define RAW_WINDOW_START_STR       "rawWindow_start"
+#define RAW_WINDOW_END_STR         "rawWindow_end"
+#define RAW_PULSE_SEQ_DELAY_STR    "rawPulseSeqDelay"
+// per ADC channel instace
+#define RAW_LOOP_DELAY_STR         "rawLoopDelay_C%d"
+// per pulse and per ADC instance
+#define RAW_PHASE_STR              "rawPhase_P%dC%d"
+#define RAW_AMPL_STR               "rawAmpl_P%dC%d"
+// per pulse instance
+#define RAW_FREQ_STR               "rawFreq_P%d"
 
 
 #endif   /* _CABLECALASYN_H    */

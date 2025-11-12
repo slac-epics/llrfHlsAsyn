@@ -157,50 +157,76 @@ asynStatus cableCalAsynDriver::writeFloat64(asynUser *pasynUser, epicsFloat64 va
 
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         if(function == p_cal_freq_offset[p]) {
-            calDsp->setCalFreqOffset(p, value);
+            uint32_t raw_freq;
+            calDsp->setCalFreqOffset(p, value, &raw_freq);
+
+            setIntegerParam(p_raw_freq[p], raw_freq);
             break;
         }
     }
 
     for(int c = 0; c < NUM_CAL_ADC; c++) {
         if(function == p_cal_loop_delay[c]) {
-            calDsp->setLoopDelay(c, value);
+            uint16_t delay_tick;
+            calDsp->setLoopDelay(c, value, &delay_tick);
+
+            setIntegerParam(p_raw_loop_delay[c], delay_tick);
             break;
         }
     }
 
     if(function == p_cal_pulse_seq_delay) {
-        calDsp->setPulseSequenceDelay(value);
+        uint16_t pulse_delay_tick;
+        calDsp->setPulseSequenceDelay(value, &pulse_delay_tick);
+
+        setIntegerParam(p_raw_pulse_seq_delay, pulse_delay_tick);
     } else
     if(function == p_cal_pulse_start) {
         double start = value;
         double end;
+        uint16_t  start_tick, end_tick;
 
         getDoubleParam(p_cal_pulse_end, &end);
-        calDsp->setCalPulse(start, end);
+        calDsp->setCalPulse(start, end, &start_tick, &end_tick);
+
+        setIntegerParam(p_raw_pulse_start, start_tick);
+        setIntegerParam(p_raw_pulse_end, end_tick);
     } else
     if(function == p_cal_pulse_end) {
         double start;
         double end   = value;
+        uint16_t start_tick, end_tick;
 
         getDoubleParam(p_cal_pulse_start, &start);
-        calDsp->setCalPulse(start, end);
+        calDsp->setCalPulse(start, end, &start_tick, &end_tick);
+
+        setIntegerParam(p_raw_pulse_start, start_tick);
+        setIntegerParam(p_raw_pulse_end, end_tick);
     } else
     if(function == p_cal_window_start) {
         double start = value;
         double end;
+        uint16_t start_tick, end_tick;
 
         getDoubleParam(p_cal_window_end, &end);
-        calDsp->setCalWindow(start, end);
+        calDsp->setCalWindow(start, end, &start_tick, &end_tick);
+
+        setIntegerParam(p_raw_window_start, start_tick);
+        setIntegerParam(p_raw_window_end,   end_tick);
     } else
     if(function == p_cal_window_end) {
         double start;
         double end   = value;
+        uint16_t start_tick, end_tick;
 
         getDoubleParam(p_cal_window_start, &start);
-        calDsp->setCalWindow(start, end);
+        calDsp->setCalWindow(start, end, &start_tick, &end_tick);
+
+        setIntegerParam(p_raw_window_start, start_tick);
+        setIntegerParam(p_raw_window_end,   end_tick);
     }
 
+    callParamCallbacks();
 
     return status;
 }
@@ -210,10 +236,15 @@ void cableCalAsynDriver::poll(void)
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         for(int c = 0; c < NUM_CAL_ADC; c++) {
             double phase, ampl;
-            calDsp->calPhase(p, c, &phase);
-            calDsp->calAmpl(p, c, &ampl);
+            int32_t  raw_phase, raw_ampl;
+            calDsp->calPhase(p, c, &phase, &raw_phase);
+            calDsp->calAmpl(p, c, &ampl, &raw_ampl);
+
             setDoubleParam(p_cal_phase[p][c], phase);
             setDoubleParam(p_cal_ampl[p][c],  ampl);
+
+            setIntegerParam(p_raw_phase[p][c], raw_phase);
+            setIntegerParam(p_raw_ampl[p][c],  raw_ampl);
         }
     }
     callParamCallbacks();
@@ -230,24 +261,40 @@ void cableCalAsynDriver::report(int interest)
 void cableCalAsynDriver::ParameterSetup(void)
 {
     char param_name[80];
-
+    // parameters for engineering values
     sprintf(param_name, CAL_PULSE_START_STR);   createParam(param_name, asynParamFloat64, &p_cal_pulse_start);
     sprintf(param_name, CAL_PULSE_END_STR);     createParam(param_name, asynParamFloat64, &p_cal_pulse_end);
     sprintf(param_name, CAL_WINDOW_START_STR);  createParam(param_name, asynParamFloat64, &p_cal_window_start);
     sprintf(param_name, CAL_WINDOW_END_STR);    createParam(param_name, asynParamFloat64, &p_cal_window_end);
     sprintf(param_name, CAL_DAC_ENABLE_STR);    createParam(param_name, asynParamInt32,   &p_cal_dac_enable);
     sprintf(param_name, CAL_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamFloat64, &p_cal_pulse_seq_delay);
+    // parameters for raw values
+    sprintf(param_name, RAW_PULSE_START_STR);   createParam(param_name, asynParamInt32,   &p_raw_pulse_start);
+    sprintf(param_name, RAW_PULSE_END_STR);     createParam(param_name, asynParamInt32,   &p_raw_pulse_end);
+    sprintf(param_name, RAW_WINDOW_START_STR);  createParam(param_name, asynParamInt32,   &p_raw_window_start);
+    sprintf(param_name, RAW_WINDOW_END_STR);    createParam(param_name, asynParamInt32,   &p_raw_window_end);
+    sprintf(param_name, RAW_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamInt32,  &p_raw_pulse_seq_delay);
 
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         for(int c = 0; c < NUM_CAL_ADC; c++) {
+            // parameters for engineering values
             sprintf(param_name, CAL_PHASE_STR, p, c); createParam(param_name, asynParamFloat64, &p_cal_phase[p][c]);
             sprintf(param_name, CAL_AMPL_STR,  p, c); createParam(param_name, asynParamFloat64, &p_cal_ampl[p][c]);
+            // parameters for raw values
+            sprintf(param_name, RAW_PHASE_STR, p, c); createParam(param_name, asynParamInt32,   &p_raw_phase[p][c]);
+            sprintf(param_name, RAW_AMPL_STR,  p, c); createParam(param_name, asynParamInt32,   &p_raw_ampl[p][c]);
         }
+        // parameters for engineering values
         sprintf(param_name, CAL_FREQ_OFFSET_STR, p);  createParam(param_name, asynParamFloat64, &p_cal_freq_offset[p]);
+        // parameters for raw vlaues
+        sprintf(param_name, RAW_FREQ_STR,        p);  createParam(param_name, asynParamInt32,   &p_raw_freq[p]);
     }
 
     for(int c = 0; c < NUM_CAL_ADC; c++) {
+        // parameters for engineering values
         sprintf(param_name, CAL_LOOP_DELAY_STR, c);   createParam(param_name, asynParamFloat64, &p_cal_loop_delay[c]);
+        // parameters for raw values
+        sprintf(param_name, RAW_LOOP_DELAY_STR, c);   createParam(param_name, asynParamInt32,   &p_raw_loop_delay[c]);
     }
 
 

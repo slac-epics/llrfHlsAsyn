@@ -1,0 +1,106 @@
+record(longin, "$(DEVICE):CALPULSE_START_RAW")
+{
+    field(DESC, "calibration pulse start (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawPulse_start")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALPULSE_END_RAW")
+{
+    field(DESC, "calibration pulse end (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawPulse_end")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALWINDOW_START_RAW")
+{
+    field(DESC, "Detection Window Start (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawWindow_start")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALWINDOW_END_RAW")
+{
+    field(DESC, "Detection Window End (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawWindow_end")
+    field(SCAN, "I/O Intr")
+}
+
+
+record(longin, "$(DEVICE):CALPULSE_DELAY_RAW")
+{
+    field(DESC, "Calibration Pulse Delay (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawPulseSeqDelay")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALLOOP_DELAY0_RAW")
+{
+    field(DESC, "Cal loop delay for Ch0 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawLoopDelay_C0")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALLOOP_DELAY1_RAW")
+{
+    field(DESC, "Cal loop delay for Ch1 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawLoopDelay_C1")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALLOOP_DELAY2_RAW")
+{
+    field(DESC, "Cal loop delay for Ch2 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawLoopDelay_C2")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALLOOP_DELAY3_RAW")
+{
+    field(DESC, "Cal loop delay for Ch3 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawLoopDelay_C3")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALFREQ0_RAW")
+{
+    field(DESC, "Calibration Frequency for Pulse0 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawFreq_P0")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALFREQ1_RAW")
+{
+    field(DESC, "Calibration Frequency for Pulse1 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawFreq_P1")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALFREQ2_RAW")
+{
+    field(DESC, "Calibration Frequency for Pulse2 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawFreq_P2")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CALFREQ3_RAW")
+{
+    field(DESC, "Calibration Frequency for Pulse3 (raw)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) rawFreq_P3")
+    field(SCAN, "I/O Intr")
+}
+
+

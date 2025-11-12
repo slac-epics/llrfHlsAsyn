@@ -1,0 +1,184 @@
+record(bo, "$(DEVICE):CALDAC")
+{
+    field(PINI, "YES")
+    field(DESC, "DAC mode for Calibration")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) calDac_enable")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "BKWD_CMPTB")
+    field(ONAM, "Calibration")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALPULSE_START")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Pulse Start in ns")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calPulse_start")
+    field(OMSL, "supervistory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALPULSE_END")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Pulse End in ns")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calPulse_end")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALWINDOW_START")
+{
+    field(PINI, "YES")
+    field(DESC, "Detection Window Start in ns")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calWindow_start")
+    field(OMSL, "supervistory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALWINDOW_END")
+{
+    field(PINI, "YES")
+    field(DESC, "Detection Window End in ns")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calWindow_end")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+
+record(ao, "$(DEVICE):CALPULSE_DELAY")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Pulse Delay in ns")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calPulseSeqDelay")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALLOOP_DELAY0")
+{
+    field(PINI, "YES")
+    field(DESC, "Cal loop delay for Ch0")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calLoopDelay_C0")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALLOOP_DELAY1")
+{
+    field(PINI, "YES")
+    field(DESC, "Cal loop delay for Ch1")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calLoopDelay_C1")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALLOOP_DELAY2")
+{
+    field(PINI, "YES")
+    field(DESC, "Cal loop delay for Ch2")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calLoopDelay_C2")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALLOOP_DELAY3")
+{
+    field(PINI, "YES")
+    field(DESC, "Cal loop delay for Ch3")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calLoopDelay_C3")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALFREQ_OFFSET0")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Frequency offset for Pulse0")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calFreqOffset_P0")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALFREQ_OFFSET1")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Frequency offset for Pulse1")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calFreqOffset_P1")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALFREQ_OFFSET2")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Frequency offset for Pulse2")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calFreqOffset_P2")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+record(ao, "$(DEVICE):CALFREQ_OFFSET3")
+{
+    field(PINI, "YES")
+    field(DESC, "Calibration Frequency offset for Pulse3")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),0) calFreqOffset_P3")
+    field(OMSL, "supervisory")
+    field(SCAN, "Passive")
+    field(PREC, "3")
+    field(EGU,  "ns")
+    field(autosaveFields, "VAL")
+}
+
+

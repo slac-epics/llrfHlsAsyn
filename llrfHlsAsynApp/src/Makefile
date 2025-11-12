@@ -20,6 +20,7 @@ INC += llrfHlsAsyn.h
 
 DBD += llrfHlsAsynDriver.dbd
 DBD += timeAxisGenerator.dbd
+DBD += cableCalAsynDriver.dbd
 
 LIBRARY_IOC += llrfHlsAsyn
 

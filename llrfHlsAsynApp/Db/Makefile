@@ -16,6 +16,7 @@ include $(TOP)/configure/CONFIG
 DB += fastPV.db
 DB += llrfHlsAsyn.db
 DB += ued_llrfHlsAsyn.db
+DB += cableCal.db
 
 
 # =======================================================================

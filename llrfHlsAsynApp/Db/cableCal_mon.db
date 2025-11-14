@@ -1,7 +1,7 @@
 record(ai, "$(DEVICE):CALPHASE_P$(P)C$(C)")
 {
-    field(DESC, "calibration phase for pulse $(P) ch $(C)")
-    field(DTYP, "asynFlot64")
+    field(DESC, "phase for pulse $(P) ch $(C)")
+    field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) calPhase_P$(P)C$(C)")
     field(SCAN, "I/O Intr")
     field(PREC, "3")
@@ -10,7 +10,7 @@ record(ai, "$(DEVICE):CALPHASE_P$(P)C$(C)")
 
 record(ai, "$(DEVICE):CALAMPL_P$(P)C$(C)")
 {
-    field(DESC, "calibration amplitude for pulse $(P) ch $(C)")
+    field(DESC, "amplitude for pulse $(P) ch $(C)")
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),0) calAmpl_P$(P)C$(C)")
     field(SCAN, "I/O Intr")
@@ -20,7 +20,7 @@ record(ai, "$(DEVICE):CALAMPL_P$(P)C$(C)")
 
 record(longin, "$(DEVICE):CALPHASE_P$(P)C$(C)_RAW")
 {
-    field(DESC, "calibration phase (raw) for pulse $(P) ch $(C)")
+    field(DESC, "phase (raw) for pulse $(P) ch $(C)")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),0) rawPhase_P$(P)C$(C)")
     field(SCAN, "I/O Intr")
@@ -28,7 +28,7 @@ record(longin, "$(DEVICE):CALPHASE_P$(P)C$(C)_RAW")
 
 record(longin, "$(DEVICE):CALAMPL_P$(P)C$(C)_RAW")
 {
-    field(DESC, "calibration amplitude (raw) for pulse $(P) ch $(C)")
+    field(DESC, "amplitude (raw) for pulse $(P) ch $(C)")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),0) rawAmpl_P$(P)C$(C)")
     field(SCAN, "I/O Intr")

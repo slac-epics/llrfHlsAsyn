@@ -333,7 +333,7 @@ static const iocshArg initArg2 = {"named root",        iocshArgString};
 static const iocshArg * const initArgs[] = { &initArg0,
                                              &initArg1,
                                              &initArg2 };
-static const iocshFuncDef initFuncDef = {"cableCalAsynDriverConfigure", sizeof(initArgs) / sizeof(iocshArg), initArgs};
+static const iocshFuncDef initFuncDef = {"cableCalAsynDriverConfigure", 3, initArgs};
 static void initCallFunc(const iocshArgBuf *args)
 {
     cableCalAsynDriverConfigure(args[0].sval,     /* port name     */

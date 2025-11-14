@@ -17,7 +17,7 @@ record(ao, "$(DEVICE):CALPULSE_START")
     field(DESC, "Calibration Pulse Start in ns")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),0) calPulse_start")
-    field(OMSL, "supervistory")
+    field(OMSL, "supervisory")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
@@ -34,7 +34,7 @@ record(ao, "$(DEVICE):CALPULSE_END")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALWINDOW_START")
@@ -43,7 +43,7 @@ record(ao, "$(DEVICE):CALWINDOW_START")
     field(DESC, "Detection Window Start in ns")
     field(DTYP, "asynFloat64")
     field(OUT,  "@asyn($(PORT),0) calWindow_start")
-    field(OMSL, "supervistory")
+    field(OMSL, "supervisory")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
@@ -60,7 +60,7 @@ record(ao, "$(DEVICE):CALWINDOW_END")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 
@@ -74,7 +74,7 @@ record(ao, "$(DEVICE):CALPULSE_DELAY")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALLOOP_DELAY0")
@@ -87,7 +87,7 @@ record(ao, "$(DEVICE):CALLOOP_DELAY0")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALLOOP_DELAY1")
@@ -100,7 +100,7 @@ record(ao, "$(DEVICE):CALLOOP_DELAY1")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALLOOP_DELAY2")
@@ -113,7 +113,7 @@ record(ao, "$(DEVICE):CALLOOP_DELAY2")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALLOOP_DELAY3")
@@ -126,7 +126,7 @@ record(ao, "$(DEVICE):CALLOOP_DELAY3")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALFREQ_OFFSET0")
@@ -139,7 +139,7 @@ record(ao, "$(DEVICE):CALFREQ_OFFSET0")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALFREQ_OFFSET1")
@@ -152,7 +152,7 @@ record(ao, "$(DEVICE):CALFREQ_OFFSET1")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALFREQ_OFFSET2")
@@ -165,7 +165,7 @@ record(ao, "$(DEVICE):CALFREQ_OFFSET2")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 record(ao, "$(DEVICE):CALFREQ_OFFSET3")
@@ -178,7 +178,7 @@ record(ao, "$(DEVICE):CALFREQ_OFFSET3")
     field(SCAN, "Passive")
     field(PREC, "3")
     field(EGU,  "ns")
-    field(autosaveFields, "VAL")
+    info(autosaveFields, "VAL")
 }
 
 

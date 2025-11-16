@@ -40,7 +40,7 @@
 
 #include "cableCalAsyn.h"
 
-#define  POLL_RATE        4
+#define  POLL_RATE        10
 
 
 static bool         keep_stay_in_loop = true;
@@ -358,7 +358,7 @@ static int cableCalAsynDriverPoll(void)
             p = (pDrvList_t *) ellNext(&p->node);
         }
 
-        epicsThreadSleep(1./POLL_RATE);
+        epicsThreadSleep(1./double(POLL_RATE));
     }
 
     epicsEventSignal(shutdownEvent);

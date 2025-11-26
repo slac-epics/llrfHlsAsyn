@@ -35,6 +35,7 @@ class cableCalAsynDriver
         char        *port;
         char        *path;
         calDspFw    calDsp;
+        char        slowDac_string[128];
         void ParameterSetup(void);
 
 
@@ -50,6 +51,8 @@ class cableCalAsynDriver
         int p_cal_window_start;
         int p_cal_window_end;
         int p_cal_dac_enable;
+        int p_slow_dac_select;
+        int p_slow_dac_string;
         int p_cal_pulse_seq_delay;
 
         int p_cal_loop_delay[NUM_CAL_ADC];
@@ -87,6 +90,8 @@ class cableCalAsynDriver
 #define CAL_WINDOW_START_STR       "calWindow_start"
 #define CAL_WINDOW_END_STR         "calWindow_end"
 #define CAL_DAC_ENABLE_STR         "calDac_enable"
+#define SLOWDAC_SEL_STR            "slowDac_select"
+#define SLOWDAC_STRING_STR         "slowDac_string"
 #define CAL_PULSE_SEQ_DELAY_STR    "calPulseSeqDelay"
 // per ADC cannel instance
 #define CAL_LOOP_DELAY_STR         "calLoopDelay_C%d"

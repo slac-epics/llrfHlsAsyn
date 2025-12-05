@@ -36,4 +36,9 @@ file cableCal_mon.db
              {  "$(DEV)",      "3",     "3" }
 }
 
-
+file cableCal_cordicMon.db
+{
+#
+    pattern {    DEVICE    }
+            {  "$(DEV)"    }
+}

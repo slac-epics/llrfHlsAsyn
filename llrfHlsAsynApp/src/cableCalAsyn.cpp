@@ -240,15 +240,28 @@ void cableCalAsynDriver::poll(void)
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         for(int c = 0; c < NUM_CAL_ADC; c++) {
             double phase, ampl;
+	    double cordic_phase, cordic_ampl;
+
             int32_t  raw_phase, raw_ampl;
+	    int32_t  raw_cordic_phase, raw_cordic_ampl;
+
             calDsp->calPhase(p, c, &phase, &raw_phase);
             calDsp->calAmpl(p, c, &ampl, &raw_ampl);
+
+	    calDsp->cordicPhase(&cordic_phase, &raw_cordic_phase);
+	    calDsp->cordicAmpl(&cordic_ampl, &raw_cordic_ampl);
 
             setDoubleParam(p_cal_phase[p][c], phase);
             setDoubleParam(p_cal_ampl[p][c],  ampl);
 
             setIntegerParam(p_raw_phase[p][c], raw_phase);
             setIntegerParam(p_raw_ampl[p][c],  raw_ampl);
+            
+            setDoubleParam(p_cordic_phase, cordic_phase);
+            setDoubleParam(p_cordic_ampl,  cordic_ampl);
+            
+            setIntegerParam(p_raw_cordic_phase,  raw_cordic_phase);
+            setIntegerParam(p_raw_cordic_ampl,   raw_cordic_ampl);
         }
     }
     callParamCallbacks();
@@ -282,6 +295,11 @@ void cableCalAsynDriver::ParameterSetup(void)
     sprintf(param_name, RAW_WINDOW_START_STR);  createParam(param_name, asynParamInt32,   &p_raw_window_start);
     sprintf(param_name, RAW_WINDOW_END_STR);    createParam(param_name, asynParamInt32,   &p_raw_window_end);
     sprintf(param_name, RAW_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamInt32,  &p_raw_pulse_seq_delay);
+    
+    sprintf(param_name, CORDIC_PHASE_STR);      createParam(param_name, asynParamFloat64, &p_cordic_phase);
+    sprintf(param_name, CORDIC_AMPL_STR);       createParam(param_name, asynParamFloat64, &p_cordic_ampl);
+    sprintf(param_name, RAW_CORDIC_PHASE_STR);  createParam(param_name, asynParamInt32,   &p_raw_cordic_phase);
+    sprintf(param_name, RAW_CORDIC_AMPL_STR);   createParam(param_name, asynParamInt32,   &p_raw_cordic_ampl);
 
     for(int p = 0; p < NUM_CAL_PULSE; p++) {
         for(int c = 0; c < NUM_CAL_ADC; c++) {

@@ -1,0 +1,35 @@
+record(ai, "$(DEVICE):CORDICPHASE")
+{
+    field(DESC, "cordic phase")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) cordicPhase")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "degree")
+}
+
+record(ai, "$(DEVICE):CORDICAMPL")
+{
+    field(DESC, "cordic amplitude")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),0) cordicAmpl")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+    field(EGU,  "Normalized")
+}
+
+record(longin, "$(DEVICE):CORDICPHASE_RAW")
+{
+    field(DESC, "raw cordic phase")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) rawCordicPhase")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(DEVICE):CORDICAMPL_RAW")
+{
+    field(DESC, "raw cordic amplitude")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),0) rawCordicAmpl")
+    field(SCAN, "I/O Intr")
+}

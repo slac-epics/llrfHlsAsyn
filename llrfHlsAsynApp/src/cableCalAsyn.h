@@ -58,6 +58,8 @@ class cableCalAsynDriver
         int p_cal_loop_delay[NUM_CAL_ADC];
         int p_cal_phase[NUM_CAL_PULSE][NUM_CAL_ADC];
         int p_cal_ampl[NUM_CAL_PULSE][NUM_CAL_ADC];
+        int p_cordic_phase;
+        int p_cordic_ampl;
         int p_cal_freq_offset[NUM_CAL_PULSE];
 
 // PV parameters for raw values        
@@ -70,6 +72,8 @@ class cableCalAsynDriver
         int p_raw_loop_delay[NUM_CAL_ADC];
         int p_raw_phase[NUM_CAL_PULSE][NUM_CAL_ADC];
         int p_raw_ampl[NUM_CAL_PULSE][NUM_CAL_ADC];
+        int p_raw_cordic_phase;
+        int p_raw_cordic_ampl;
         int p_raw_freq[NUM_CAL_PULSE];
 
 #if (ASYN_VERSION <<8 | ASYN_REVISION) < (4<<8 | 32)      
@@ -116,5 +120,9 @@ class cableCalAsynDriver
 // per pulse instance
 #define RAW_FREQ_STR               "rawFreq_P%d"
 
+#define CORDIC_PHASE_STR           "cordicPhase"
+#define CORDIC_AMPL_STR            "cordicAmpl"
+#define RAW_CORDIC_PHASE_STR       "rawCordicPhase"
+#define RAW_CORDIC_AMPL_STR        "rawCordicAmpl"
 
 #endif   /* _CABLECALASYN_H    */

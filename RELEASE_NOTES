@@ -1,3 +1,7 @@
+R4.0.1-cable_calibration-1.1   12-05-2025    Kukhee Kim (khkim)
+                          - build against rf/llrfHls   R4.3.0-cable_calibration-1.1
+                          - add cordic phase reading and cordic amplitude reading
+
 R4.0.1-cable_calibration-1.0   11-26-2025    Kukhee Kim (khkim)
                           - build against rf/llrfHls   R4.3.0-cable_calibration-1.0
                           - first release of cable calibration

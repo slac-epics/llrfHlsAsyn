@@ -1,5 +1,7 @@
 R4.0.1-cable_calibration-1.2   01-10-2026    Kukhee Kim (khkim)
                           - deprecation of slowDacSel for cable calibration
+                          - add DBG port enable/disable for DaqMux
+                          - build against rf/llHls R4.3.0-cable_calibration-1.2
 
 R4.0.1-cable_calibration-1.1   12-05-2025    Kukhee Kim (khkim)
                           - build against rf/llrfHls   R4.3.0-cable_calibration-1.1

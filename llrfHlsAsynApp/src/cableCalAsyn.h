@@ -50,6 +50,7 @@ class cableCalAsynDriver
         int p_cal_window_start;
         int p_cal_window_end;
         int p_cal_dac_enable;
+        int p_cal_dbg_enable[NUM_AMC];
         int p_cal_pulse_seq_delay;
 
         int p_cal_loop_delay[NUM_CAL_ADC];
@@ -91,6 +92,7 @@ class cableCalAsynDriver
 #define CAL_WINDOW_START_STR       "calWindow_start"
 #define CAL_WINDOW_END_STR         "calWindow_end"
 #define CAL_DAC_ENABLE_STR         "calDac_enable"
+#define CAL_DBG_ENABLE_STR         "calDbg_enable_A%d"
 #define CAL_PULSE_SEQ_DELAY_STR    "calPulseSeqDelay"
 // per ADC cannel instance
 #define CAL_LOOP_DELAY_STR         "calLoopDelay_C%d"

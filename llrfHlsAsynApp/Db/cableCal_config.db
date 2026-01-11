@@ -11,6 +11,32 @@ record(bo, "$(DEVICE):CALDAC")
     info(autosaveFields, "VAL")
 }
 
+record(bo, "$(DEVICE):CALDBG0")
+{
+    field(PINI, "YES")
+    field(DESC, "DBG enable AMC0")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) calDbg_enable_A0")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    info(autosaveFields, "VAL")
+}
+
+record(bo, "$(DEVICE):CALDBG1")
+{
+    field(PINI, "YES")
+    field(DESC, "DBG enable AMC1")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),0) calDbg_enable_A1")
+    field(SCAN, "Passive")
+    field(OMSL, "supervisory")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    info(autosaveFields, "VAL")
+}
+
 record(ao, "$(DEVICE):CALPULSE_START")
 {
     field(PINI, "YES")

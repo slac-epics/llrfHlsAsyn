@@ -142,6 +142,10 @@ asynStatus cableCalAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     if(function == p_cal_dac_enable) {         // select DAC output {0: conventional (LLRF), 1: calibration pulse
         calDsp->dacEnable(value?true:false);
     }
+    
+    for(int a = 0; a < NUM_AMC; a++) {
+        calDsp->dbgEnable(a, value?true:false);
+    }
 
     return  status;
 }
@@ -280,6 +284,10 @@ void cableCalAsynDriver::ParameterSetup(void)
     sprintf(param_name, CAL_WINDOW_START_STR);  createParam(param_name, asynParamFloat64, &p_cal_window_start);
     sprintf(param_name, CAL_WINDOW_END_STR);    createParam(param_name, asynParamFloat64, &p_cal_window_end);
     sprintf(param_name, CAL_DAC_ENABLE_STR);    createParam(param_name, asynParamInt32,   &p_cal_dac_enable);
+    
+    for(int a = 0; a < NUM_AMC; a++) {
+        sprintf(param_name, CAL_DBG_ENABLE_STR, a); createParam(param_name, asynParamInt32, &p_cal_dbg_enable[a]);
+    }
     sprintf(param_name, CAL_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamFloat64, &p_cal_pulse_seq_delay);
     // parameters for raw values
     sprintf(param_name, RAW_PULSE_START_STR);   createParam(param_name, asynParamInt32,   &p_raw_pulse_start);

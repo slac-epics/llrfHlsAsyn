@@ -144,7 +144,8 @@ asynStatus cableCalAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     }
     
     for(int a = 0; a < NUM_AMC; a++) {
-        calDsp->dbgEnable(a, value?true:false);
+        if(function == p_cal_dbg_enable[a]) 
+            calDsp->dbgEnable(a, value?true:false);
     }
 
     return  status;

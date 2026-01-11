@@ -141,10 +141,6 @@ asynStatus cableCalAsynDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
     if(function == p_cal_dac_enable) {         // select DAC output {0: conventional (LLRF), 1: calibration pulse
         calDsp->dacEnable(value?true:false);
-    } else
-    if(function == p_slow_dac_select) {
-        calDsp->setSlowDACSel((unsigned) value, slowDac_string);
-        setStringParam(p_slow_dac_string, slowDac_string);
     }
 
     return  status;
@@ -285,10 +281,6 @@ void cableCalAsynDriver::ParameterSetup(void)
     sprintf(param_name, CAL_WINDOW_END_STR);    createParam(param_name, asynParamFloat64, &p_cal_window_end);
     sprintf(param_name, CAL_DAC_ENABLE_STR);    createParam(param_name, asynParamInt32,   &p_cal_dac_enable);
     sprintf(param_name, CAL_PULSE_SEQ_DELAY_STR); createParam(param_name, asynParamFloat64, &p_cal_pulse_seq_delay);
-
-    sprintf(param_name, SLOWDAC_SEL_STR);       createParam(param_name, asynParamInt32,   &p_slow_dac_select);
-    sprintf(param_name, SLOWDAC_STRING_STR);    createParam(param_name, asynParamOctet,   &p_slow_dac_string);
-
     // parameters for raw values
     sprintf(param_name, RAW_PULSE_START_STR);   createParam(param_name, asynParamInt32,   &p_raw_pulse_start);
     sprintf(param_name, RAW_PULSE_END_STR);     createParam(param_name, asynParamInt32,   &p_raw_pulse_end);

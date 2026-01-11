@@ -1,26 +1,3 @@
-record(longout, "$(DEVICE):SLOWDACSEL")
-{
-    field(PINI, "YES")
-    field(DESC, "Slow DAC Selector")
-    field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),0) slowDac_select")
-    field(SCAN, "Passive")
-    field(OMSL, "supervisory")
-    field(FLNK, "$(DEVICE):SLOWDACSTR PP")
-    info(autosaveFields, "VAL")
-}
-
-record(waveform, "$(DEVICE):SLOWDACSTR")
-{
-    field(DESC, "Slow Selector Status")
-    field(DTYP, "asynOctetRead")
-    field(INP,  "@asyn($(PORT),0) slowDac_string")
-    field(FTVL, "CHAR")
-    field(NELM, "128")
-    field(SCAN, "Passive")
-    field(PINI, "YES")
-}
-
 record(bo, "$(DEVICE):CALDAC")
 {
     field(PINI, "YES")

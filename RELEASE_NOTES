@@ -1,3 +1,6 @@
+R4.12.3-1.0 06-18-2026   Garth Brown (gwbrown)
+                         - Change dependency versions for a consistent llrf_hls release R4.2.1-1.0. Do not merge this to pre-release or main.
+
 R4.12.3    05-15-2025    Kukhee Kim (khkim)
                          - clean up un-necessary timeslot-aware PVs for SC STCAV application
                          - add destination aware statistics PVs for SC TCAV application
@@ -89,7 +92,7 @@ R4.1.5-2.0            Kukhee Kim (khkim)
 
 R4.1.5-destination-aware     Kukhee Kim
                               - merge R4.1.5-1.1 to pick up 4 colon PV name
-                              - revert back CONFIG_SITE to the before merge to keep working for the permuation window, 
+                              - revert back CONFIG_SITE to the before merge to keep working for the permuation window,
                                 commit 098b6587f0ffd1480b58e187b770a4974e560d63
                               - build against ATCACommon R1.6.2-1.0 for using 4 colons pv names for crossbar control
 
@@ -189,10 +192,10 @@ R3.5.0      10-15-2020    Kukhee Kim (khkim)
                           - implement a periodic udpate for measure I/Q/A/P waveforms
 
 R3.4.0      10-14-2020    Jesus Vasquez (jvasquez)
-                          - Add power PVs for each channel and windows. Also, add an extra scale factor for the 
+                          - Add power PVs for each channel and windows. Also, add an extra scale factor for the
                             power calculation, for each channel. The power is calculated as (coef) * (amplitude)^2.
                           - Set phase measurenment PV's EGU filed to 'deg'.
-                          - Add phase, amplitude, and power measurement and scale PV's EGU and PREC fields to autosave. 
+                          - Add phase, amplitude, and power measurement and scale PV's EGU and PREC fields to autosave.
 
 R3.3.3      10-10-2020    Kukhee Kim (khkim)
                           - add phase and amplitude waveform for IQ measurement
@@ -230,7 +233,7 @@ R2.10.0     09-22-2020    Jesus Vasquez (jvasquez)
 
 R2.9.0      09-20-2020    Kukhee Kim (khkim)
                           - build with llrfHls R3.1.0, support firmware based jitter calculation and amplitude conversion
-                           
+
 R2.8.0      08-25.2020    Kukhee Kim (khkim)
                           - build with llrfHls R3.0.0
 
@@ -290,7 +293,7 @@ R2.0.0      06-28-2020    Kukhee Kim (khkim)
 R1.0.0      06-04-2020    Kukhee Kim (khkim)
                         - first working version release
                         - build with llrfHls R1.0.0
-                         
+
 
 R0.0.0      05-18-2020    Kukhee Kim (khkim)
                         - Initial release for llrfHlsAsyn epics driver

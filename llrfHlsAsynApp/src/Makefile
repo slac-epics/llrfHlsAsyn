@@ -21,7 +21,9 @@ INC += llrfHlsAsyn.h
 DBD += llrfHlsAsynDriver.dbd
 DBD += timeAxisGenerator.dbd
 
-LIBRARY_IOC += llrfHlsAsyn
+ifeq ($(T_A),linuxRT-x86_64)
+        LIBRARY_IOC += llrfHlsAsyn
+endif
 
 llrfHlsAsyn_DBD  += llrfHlsAsynDriver.dbd
 llrfHlsAsyn_DBD  += timeAxisGenerator.c
